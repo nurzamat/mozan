@@ -90,13 +90,13 @@ public class PostsFragment extends Fragment {
 
                                 JSONObject obj = response.getJSONObject(i);
                                 Post movie = new Post();
-                                movie.setTitle("title");
+                                movie.setContent("title");
+                                movie.setCategory("title");
                                 movie.setThumbnailUrl("https://mozan.market/media/post_images/Beauty-of-nature-random-4884759-1280-800.jpg");
-                                movie.setRating(8.3);
-                                movie.setYear("1222");
+                                movie.setUsername("username");
+                                movie.setPrice("12 som");
 
                                 // Genre is json array
-
                                 ArrayList<String> genre = new ArrayList<String>();
                                 genre.add("title");
                                 movie.setGenre(genre);

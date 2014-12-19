@@ -6,29 +6,38 @@ import java.util.ArrayList;
  * Created by User on 16.12.2014.
  */
 public class Post{
-    private String title, thumbnailUrl;
-    private String year;
-    private double rating;
+    private String content, category, thumbnailUrl;
+    private String username;
+    private String price = "";
     private ArrayList<String> genre;
 
     public Post() {
     }
 
-    public Post(String name, String thumbnailUrl, String year, double rating,
+    public Post(String content, String category, String thumbnailUrl, String price, String username,
                  ArrayList<String> genre) {
-        this.title = name;
+        this.content = content;
+        this.category = category;
         this.thumbnailUrl = thumbnailUrl;
-        this.year = year;
-        this.rating = rating;
+        this.price = price;
+        this.username = username;
         this.genre = genre;
     }
 
-    public String getTitle() {
-        return title;
+    public String getContent() {
+        return content;
     }
 
-    public void setTitle(String name) {
-        this.title = name;
+    public void setContent(String name) {
+        this.content = name;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String name) {
+        this.category = name;
     }
 
     public String getThumbnailUrl() {
@@ -39,20 +48,20 @@ public class Post{
         this.thumbnailUrl = thumbnailUrl;
     }
 
-    public String getYear() {
-        return year;
+    public String getPrice() {
+        return price;
     }
 
-    public void setYear(String year) {
-        this.year = year;
+    public void setPrice(String price) {
+        this.price = price;
     }
 
-    public double getRating() {
-        return rating;
+    public String getUsername() {
+        return username;
     }
 
-    public void setRating(double rating) {
-        this.rating = rating;
+    public void setUsername(String name) {
+        this.username = name;
     }
 
     public ArrayList<String> getGenre() {
