@@ -24,6 +24,13 @@
         <item>Category 5</item>
     </string-array>
 
+    <string name="house_holder">House holder</string>
+    <string name="realty">Realty</string>
+    <string name="rent">Rent</string>
+    <string name="transport">Transport</string>
+    <string name="car">Car</string>
+    <string name="service">Service</string>
+
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_icons">

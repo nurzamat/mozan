@@ -39,10 +39,8 @@ public class PostsFragment extends Fragment {
     // Movies json url
     // private static final String url = "http://api.androidhive.info/json/movies.json";
     private static final String url = "https://mozan.market/api/post/list/";
-    private static final String imagesUrl = ApiHelper.IMAGES_URL;
     private ProgressDialog pDialog;
     private List<Post> postList = new ArrayList<Post>();
-    Map<String , String> images = new HashMap<String, String>();
     private ListView listView;
     private CustomListAdapter adapter;
 
@@ -108,7 +106,6 @@ public class PostsFragment extends Fragment {
                                 e.printStackTrace();
                             }
                         }
-
                         // notifying list adapter about data changes
                         // so that it renders the list view with updated data
                         adapter.notifyDataSetChanged();
