@@ -89,19 +89,20 @@ public class PostsFragment extends Fragment {
                             try {
 
                                 JSONObject obj = response.getJSONObject(i);
-                                Post movie = new Post();
-                                movie.setContent("title");
-                                movie.setCategory("title");
-                                movie.setThumbnailUrl("https://mozan.market/media/post_images/Beauty-of-nature-random-4884759-1280-800.jpg");
-                                movie.setUsername("username");
-                                movie.setPrice("12 som");
+                                Post post = new Post();
+                                post.setContent("title");
+                                post.setCategory("title");
+                                post.setThumbnailUrl("https://mozan.market/media/post_images/Beauty-of-nature-random-4884759-1280-800.jpg");
+                                post.setUsername("username");
+                                post.setPrice("12 som");
 
                                 // Genre is json array
                                 ArrayList<String> genre = new ArrayList<String>();
-                                genre.add("title");
-                                movie.setGenre(genre);
+                                genre.add(post.getUsername());
+
+                                post.setGenre(genre);
                                 // adding movie to movies array
-                                postList.add(movie);
+                                postList.add(post);
 
                             } catch (JSONException e) {
                                 e.printStackTrace();

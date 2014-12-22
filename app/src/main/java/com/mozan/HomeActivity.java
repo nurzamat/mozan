@@ -185,23 +185,53 @@ public class HomeActivity extends Activity {
 		Fragment fragment = null;
 		switch (position) {
 		case 0:
-			fragment = new HomeFragment();
-			break;
+             {
+                 fragment = new HomeFragment();
+                 Bundle args = new Bundle();
+                 args.putInt("position", 0);
+                 fragment.setArguments(args);
+                 break;
+             }
 		case 1:
-			fragment = new PostsFragment();
-			break;
+             {
+                 fragment = new PostsFragment();
+                 Bundle args = new Bundle();
+                 args.putInt("position", 1);
+                 fragment.setArguments(args);
+                 break;
+             }
 		case 2:
-			fragment = new PhotosFragment();
-			break;
+             {
+                fragment = new PhotosFragment();
+                Bundle args = new Bundle();
+                args.putInt("position", 2);
+                fragment.setArguments(args);
+                break;
+             }
 		case 3:
-			fragment = new CommunityFragment();
-			break;
+             {
+                 fragment = new CommunityFragment();
+                 Bundle args = new Bundle();
+                 args.putInt("position", 3);
+                 fragment.setArguments(args);
+                 break;
+             }
 		case 4:
-			fragment = new PagesFragment();
-			break;
+             {
+                 fragment = new PagesFragment();
+                 Bundle args = new Bundle();
+                 args.putInt("position", 4);
+                 fragment.setArguments(args);
+                 break;
+             }
 		case 5:
-			fragment = new WhatsHotFragment();
-			break;
+             {
+                 fragment = new WhatsHotFragment();
+                 Bundle args = new Bundle();
+                 args.putInt("position", 5);
+                 fragment.setArguments(args);
+                 break;
+             }
 
 		default:
 			break;

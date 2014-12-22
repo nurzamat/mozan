@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by User on 16.12.2014.
  */
 public class Post{
-    private String content, category, thumbnailUrl;
+    private String id, content, category, thumbnailUrl;
     private String username;
     private String price = "";
     private ArrayList<String> genre;
@@ -14,14 +14,23 @@ public class Post{
     public Post() {
     }
 
-    public Post(String content, String category, String thumbnailUrl, String price, String username,
+    public Post(String id, String content, String category, String thumbnailUrl, String price, String username,
                  ArrayList<String> genre) {
+        this.id = id;
         this.content = content;
         this.category = category;
         this.thumbnailUrl = thumbnailUrl;
         this.price = price;
         this.username = username;
         this.genre = genre;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getContent() {
