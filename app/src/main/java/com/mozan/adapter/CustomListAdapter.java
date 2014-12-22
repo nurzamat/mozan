@@ -59,10 +59,10 @@ public class CustomListAdapter extends BaseAdapter {
             imageLoader = AppController.getInstance().getImageLoader();
         NetworkImageView thumbNail = (NetworkImageView) convertView
                 .findViewById(R.id.thumbnail);
-        TextView title = (TextView) convertView.findViewById(R.id.title);
-        TextView rating = (TextView) convertView.findViewById(R.id.rating);
+        TextView content = (TextView) convertView.findViewById(R.id.content);
+        TextView username = (TextView) convertView.findViewById(R.id.username);
         TextView genre = (TextView) convertView.findViewById(R.id.genre);
-        TextView year = (TextView) convertView.findViewById(R.id.releaseYear);
+        TextView price = (TextView) convertView.findViewById(R.id.price);
 
         // getting movie data for the row
         Post m = postItems.get(position);
@@ -71,10 +71,10 @@ public class CustomListAdapter extends BaseAdapter {
         thumbNail.setImageUrl(m.getThumbnailUrl(), imageLoader);
 
         // title
-        title.setText(m.getTitle());
+        content.setText(m.getContent());
 
-        // rating
-        rating.setText("Rating: " + String.valueOf(m.getRating()));
+        // username
+        username.setText("Rating: " + String.valueOf(m.getUsername()));
 
         // genre
         String genreStr = "";
@@ -85,8 +85,8 @@ public class CustomListAdapter extends BaseAdapter {
                 genreStr.length() - 2) : genreStr;
         genre.setText(genreStr);
 
-        // release year
-        year.setText(String.valueOf(m.getYear()));
+        // price
+        price.setText(String.valueOf(m.getPrice()));
 
         return convertView;
     }

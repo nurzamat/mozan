@@ -82,10 +82,7 @@ public class CodeActivity extends Activity {
            try
            {
                ApiHelper api = new ApiHelper();
-               //result = api.getCode(phone).getString("code"); //will be chaned if the key value is not "code" (SMS logic)
-
-               result = "test"; //for testing
-
+               result = api.getCode(phone).getString("sms_code");
                if(!result.equals(""))
                {
                    //defining global variables

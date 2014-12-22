@@ -28,24 +28,25 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.KeyStore;
 
-
 /**
  * Created by User on 12.12.2014.
  */
 public class ApiHelper {
 
     public static final String TAG = "[API]";
-    public static final String CODE_URL = "https://mozan.market"; // will be changed
-    public static final String TOKEN_URL = "https://mozan.market/api/auth/token/";
+    public static final String CODE_URL = "https://mozan.market/api/auth/registration/";
+    public static final String TOKEN_URL = "https://mozan.market/api/auth/registration/";
     public static final String POSTS_URL = "https://mozan.market/api/post/list/";
     public static final String IMAGES_URL = "https://mozan.market/api/image/list/";
     public static final String MEDIA_URL = "https://mozan.market/media/";
+    public static final String API_KEY = "7dbe69719ab6a99e677f4a1948b6c5b82162c40c";
 
     public JSONObject getCode(String phone) throws ApiException, IOException,
             JSONException {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("phone", phone);
+        jsonObject.put("api_key", API_KEY);
 
         Log.i(TAG, "Sending request to: " + CODE_URL);
         //String response = POST(CODE_URL, jsonObject); //for http request
@@ -60,8 +61,9 @@ public class ApiHelper {
             throws ApiException, IOException, JSONException {
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("username", phone);
-        jsonObject.put("password", code);
+        jsonObject.put("phone", phone);
+        jsonObject.put("sms_code", code);
+        jsonObject.put("api_key", API_KEY);
 
         Log.i(TAG, "Sending request to: " + TOKEN_URL);
         HttpResponse response = request(TOKEN_URL, jsonObject);
@@ -178,7 +180,6 @@ public class ApiHelper {
         HttpResponse response = client.execute(post);
         return response;
     }
-
 }
 
 
