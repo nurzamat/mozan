@@ -10,5 +10,4 @@ public class GlobalVar {
     public static final String MOZAN_TOKEN = "mozan_token";
     public static String Phone = "";
     public static String Token = "";
-    public static String Code = "";
 }

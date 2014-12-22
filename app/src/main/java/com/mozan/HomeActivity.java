@@ -143,24 +143,6 @@ public class HomeActivity extends Activity {
 		switch (item.getItemId()) {
 		case R.id.action_settings:
 			return true;
-        case R.id.action_logout:
-        {
-            try
-            {
-                SharedPreferences sp = this.getSharedPreferences(GlobalVar.MOZAN,0);
-                SharedPreferences.Editor Ed = sp.edit();
-                Ed.putString(GlobalVar.MOZAN_PHONE, "");
-                Ed.putString(GlobalVar.MOZAN_TOKEN, "");
-                Ed.commit();
-                Intent in = new Intent(HomeActivity.this, CodeActivity.class);
-                startActivity(in);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
 		default:
 			return super.onOptionsItemSelected(item);
 		}

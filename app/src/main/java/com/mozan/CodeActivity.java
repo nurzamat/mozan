@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,6 +54,11 @@ public class CodeActivity extends Activity {
     }
 
     public void clickButton(View view){
+
+        if(!isConnected()){
+            Toast.makeText(getBaseContext(), "No Internet connection!", Toast.LENGTH_LONG).show();
+            return;
+        }
         if(!validate())
         {
             Toast.makeText(this, "Enter some data!", Toast.LENGTH_LONG).show();
@@ -78,22 +84,24 @@ public class CodeActivity extends Activity {
         @Override
         protected String doInBackground(String... urls) {
 
-            String result = "";
+            String result;
            try
            {
                ApiHelper api = new ApiHelper();
-               result = api.getCode(phone).getString("sms_code");
-               if(!result.equals(""))
+               phone = phone.replace("+", "");
+               result = api.getCode(phone).getString("response");
+               Log.d("code activity", "result: " + result);
+               if(result.equals("Code sent."))
                {
                    //defining global variables
                    GlobalVar.Phone = phone;
-                   GlobalVar.Code = result;
-               }
+                  // GlobalVar.Code = result;
+               } else result = "";
            }
            catch (Exception ex)
            {
+               Log.d("code activity", "Exeption: " + ex.getMessage());
                return "";
-              // Toast.makeText(CodeActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
            }
 
             return result;
@@ -103,8 +111,14 @@ public class CodeActivity extends Activity {
         protected void onPostExecute(String result)
         {
             dialog.dismiss();
-            Intent in = new Intent(CodeActivity.this, RegisterActivity.class);
-            startActivity(in);
+            if(result.equals(""))
+            {
+               Toast.makeText(CodeActivity.this, "Some error happened", Toast.LENGTH_SHORT).show();
+            }else
+            {
+                Intent in = new Intent(CodeActivity.this, RegisterActivity.class);
+                startActivity(in);
+            }
         }
     }
 

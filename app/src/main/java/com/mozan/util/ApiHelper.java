@@ -46,14 +46,15 @@ public class ApiHelper {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("phone", phone);
+        jsonObject.put("sms_code", "");
         jsonObject.put("api_key", API_KEY);
 
         Log.i(TAG, "Sending request to: " + CODE_URL);
         //String response = POST(CODE_URL, jsonObject); //for http request
         HttpResponse response = request(CODE_URL, jsonObject); //for https request
-
+        Log.i(TAG, "Response: " + response);
         String responseStr = responseToStr(response);
-        Log.i(TAG, "Response: " + responseStr);
+        Log.i(TAG, "ResponseStr: " + responseStr);
         return new JSONObject(responseStr);
     }
 

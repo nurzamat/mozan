@@ -251,7 +251,7 @@ public class NavigationDrawerFragment extends Fragment {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-
+/*
         if (item.getItemId() == R.id.action_logout) {
             try
             {
@@ -274,7 +274,7 @@ public class NavigationDrawerFragment extends Fragment {
                 return false;
             }
         }
-
+*/
         return super.onOptionsItemSelected(item);
     }
 
