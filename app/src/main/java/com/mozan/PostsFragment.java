@@ -90,10 +90,10 @@ public class PostsFragment extends Fragment {
 
                                 JSONObject obj = response.getJSONObject(i);
                                 Post post = new Post();
-                                post.setContent("title");
-                                post.setCategory("title");
-                                post.setThumbnailUrl("https://mozan.market/media/post_images/Beauty-of-nature-random-4884759-1280-800.jpg");
-                                post.setUsername("username");
+                                post.setContent(obj.getString("content"));
+                                post.setCategory(obj.getJSONObject("category").getString("name"));
+                                post.setThumbnailUrl(ApiHelper.MEDIA_URL + obj.getJSONArray("images").getJSONObject(0).getString("original_image"));
+                                post.setUsername(obj.getJSONObject("owner").getString("username"));
                                 post.setPrice("12 som");
 
                                 // Genre is json array
@@ -107,7 +107,6 @@ public class PostsFragment extends Fragment {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-
                         }
 
                         // notifying list adapter about data changes

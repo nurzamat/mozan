@@ -6,9 +6,9 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="navigation_drawer_width">240dp</dimen>
 
-    <dimen name="title">17dp</dimen>
-    <dimen name="rating">15dip</dimen>
-    <dimen name="genre">13dip</dimen>
-    <dimen name="year">12dip</dimen>
+    <dimen name="content">12dp</dimen>
+    <dimen name="username">12dip</dimen>
+    <dimen name="genre">12dip</dimen>
+    <dimen name="price">12dip</dimen>
 
 </resources>

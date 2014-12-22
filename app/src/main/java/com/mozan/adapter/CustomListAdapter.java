@@ -74,7 +74,7 @@ public class CustomListAdapter extends BaseAdapter {
         content.setText(m.getContent());
 
         // username
-        username.setText("Rating: " + String.valueOf(m.getUsername()));
+        username.setText("Username: " + String.valueOf(m.getUsername()));
 
         // genre
         String genreStr = "";
