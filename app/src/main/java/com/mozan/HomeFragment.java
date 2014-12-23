@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.mozan.adapter.GridviewAdapter;
 
@@ -52,7 +53,7 @@ public class HomeFragment extends Fragment {
                 switch (position) {
                     case 0:
                     {
-                        fragment = new CarPosts();
+                        fragment = new HouseHolderPosts();
                         break;
                     }
                     case 1:
@@ -72,7 +73,7 @@ public class HomeFragment extends Fragment {
                     }
                     case 4:
                     {
-                        fragment = new HouseHolderPosts();
+                        fragment = new CarPosts();
                         break;
                     }
                     case 5:
