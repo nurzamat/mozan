@@ -39,6 +39,7 @@ public class StartActivity extends Activity {
             in = new Intent(StartActivity.this, CodeActivity.class);
             startActivity(in);
         }
+        finish();
     }
 
 

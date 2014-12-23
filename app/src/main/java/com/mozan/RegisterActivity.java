@@ -95,6 +95,7 @@ public class RegisterActivity extends Activity {
                 Log.i("[RegisterActivity]", "Ending sp: ");
                 Intent in = new Intent(RegisterActivity.this, HomeActivity.class);
                 startActivity(in);
+                finish();
             }
         }
     }
