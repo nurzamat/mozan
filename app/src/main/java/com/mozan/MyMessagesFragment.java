@@ -6,9 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class CommunityFragment extends Fragment {
+public class MyMessagesFragment extends Fragment {
 	
-	public CommunityFragment(){}
+	public MyMessagesFragment(){}
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

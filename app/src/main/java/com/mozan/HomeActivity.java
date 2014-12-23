@@ -3,8 +3,6 @@ package com.mozan;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -19,7 +17,6 @@ import android.widget.ListView;
 
 import com.mozan.adapter.NavDrawerListAdapter;
 import com.mozan.model.NavDrawerItem;
-import com.mozan.util.GlobalVar;
 
 import java.util.ArrayList;
 
@@ -72,7 +69,7 @@ public class HomeActivity extends Activity {
 		// Pages
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
 		// What's hot, We  will add a counter here
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
 		
 
 		// Recycle the typed array
@@ -169,49 +166,34 @@ public class HomeActivity extends Activity {
 		case 0:
              {
                  fragment = new HomeFragment();
-                 Bundle args = new Bundle();
-                 args.putInt("position", 0);
-                 fragment.setArguments(args);
+                //Bundle args = new Bundle();
+                // args.putInt("position", 0);
+                // fragment.setArguments(args);
                  break;
              }
 		case 1:
              {
-                 fragment = new PostsFragment();
-                 Bundle args = new Bundle();
-                 args.putInt("position", 1);
-                 fragment.setArguments(args);
+                 fragment = new MyAdvertsFragment();
                  break;
              }
 		case 2:
              {
-                fragment = new PhotosFragment();
-                Bundle args = new Bundle();
-                args.putInt("position", 2);
-                fragment.setArguments(args);
+                fragment = new MyAcountFragment();
                 break;
              }
 		case 3:
              {
-                 fragment = new CommunityFragment();
-                 Bundle args = new Bundle();
-                 args.putInt("position", 3);
-                 fragment.setArguments(args);
+                 fragment = new MyMessagesFragment();
                  break;
              }
 		case 4:
              {
-                 fragment = new PagesFragment();
-                 Bundle args = new Bundle();
-                 args.putInt("position", 4);
-                 fragment.setArguments(args);
+                 fragment = new MyClientsFragment();
                  break;
              }
 		case 5:
              {
-                 fragment = new WhatsHotFragment();
-                 Bundle args = new Bundle();
-                 args.putInt("position", 5);
-                 fragment.setArguments(args);
+                 fragment = new SettingsFragment();
                  break;
              }
 

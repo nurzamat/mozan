@@ -6,9 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class PhotosFragment extends Fragment {
+public class MyAcountFragment extends Fragment {
 	
-	public PhotosFragment(){}
+	public MyAcountFragment(){}
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

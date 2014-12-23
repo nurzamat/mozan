@@ -24,12 +24,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
-public class PostsFragment extends Fragment {
+public class ServicePosts extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
@@ -37,15 +35,14 @@ public class PostsFragment extends Fragment {
     private static final String TAG =  "[posts response]";
 
     // Movies json url
-    // private static final String url = "http://api.androidhive.info/json/movies.json";
-    private static final String url = "https://mozan.market/api/post/list/";
+    private static final String url = ApiHelper.SERVICE_URL;
     private ProgressDialog pDialog;
     private List<Post> postList = new ArrayList<Post>();
     private ListView listView;
     private CustomListAdapter adapter;
 
 
-    public PostsFragment() {
+    public ServicePosts() {
         // Required empty public constructor
     }
 
@@ -53,7 +50,7 @@ public class PostsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_posts, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_service_posts, container, false);
 
         try
         {
