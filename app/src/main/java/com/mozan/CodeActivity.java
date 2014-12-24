@@ -16,6 +16,9 @@ import android.widget.Toast;
 import com.mozan.util.ApiHelper;
 import com.mozan.util.GlobalVar;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class CodeActivity extends Activity {
 
     EditText etPhone;
@@ -41,10 +44,7 @@ public class CodeActivity extends Activity {
     public boolean isConnected(){
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected())
-            return true;
-        else
-            return false;
+        return networkInfo != null && networkInfo.isConnected();
     }
 
     private boolean validate()
@@ -59,9 +59,13 @@ public class CodeActivity extends Activity {
             Toast.makeText(getBaseContext(), "No Internet connection!", Toast.LENGTH_LONG).show();
             return;
         }
-        if(!validate())
+        else if(!validate())
         {
             Toast.makeText(this, "Enter some data!", Toast.LENGTH_LONG).show();
+        }
+        else if(!isPhoneNumberValid(phone))
+        {
+            Toast.makeText(this, "Not Valid Number!", Toast.LENGTH_LONG).show();
         }
         else
         {
@@ -88,7 +92,6 @@ public class CodeActivity extends Activity {
            try
            {
                ApiHelper api = new ApiHelper();
-               phone = phone.replace("+", "");
                result = api.getCode(phone).getString("response");
                Log.d("code activity", "result: " + result);
                if(result.equals("Code sent."))
@@ -122,4 +125,34 @@ public class CodeActivity extends Activity {
         }
     }
 
+    public  boolean isPhoneNumberValid(String phoneNumber){
+        boolean isValid = false;
+/* Phone Number formats: (nnn)nnn-nnnn; nnnnnnnnnn; nnn-nnn-nnnn
+    ^\\(? : May start with an option "(" .
+    (\\d{3}): Followed by 3 digits.
+    \\)? : May have an optional ")"
+    [- ]? : May have an optional "-" after the first 3 digits or after optional ) character.
+    (\\d{3}) : Followed by 3 digits.
+     [- ]? : May have another optional "-" after numeric digits.
+     (\\d{4})$ : ends with four digits.
+
+         Examples: Matches following phone numbers:
+         (123)456-7890, 123-456-7890, 1234567890, (123)-456-7890
+
+*/
+//Initialize reg ex for phone number.
+        String expression = "^[+]?\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$";
+        Pattern pattern = Pattern.compile(expression);
+        Matcher matcher = pattern.matcher(phoneNumber);
+        if(matcher.matches()){
+            isValid = true;
+        }
+
+        phone = phone.replace("+", "").replace("(", "").replace(")", "").replace("-", "");
+        if(phone.length() < 9 || phone.length() > 15)
+        {
+            isValid = false;
+        }
+        return isValid;
+    }
 }
