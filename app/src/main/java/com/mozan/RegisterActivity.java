@@ -86,13 +86,11 @@ public class RegisterActivity extends Activity {
             dialog.dismiss();
             if(!result.equals(""))
             {
-                Log.i("[RegisterActivity]", "Starting sp: ");
                 SharedPreferences sp = getSharedPreferences(GlobalVar.MOZAN, 0);
                 SharedPreferences.Editor Ed=sp.edit();
                 Ed.putString(GlobalVar.MOZAN_PHONE, GlobalVar.Phone);
                 Ed.putString(GlobalVar.MOZAN_TOKEN,GlobalVar.Token);
                 Ed.commit();
-                Log.i("[RegisterActivity]", "Ending sp: ");
                 Intent in = new Intent(RegisterActivity.this, HomeActivity.class);
                 startActivity(in);
                 finish();

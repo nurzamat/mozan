@@ -87,7 +87,7 @@ public class TransportPosts extends Fragment {
                                 Post post = new Post();
                                 post.setContent(obj.getString("content"));
                                 post.setCategory(obj.getJSONObject("category").getString("name"));
-                                post.setThumbnailUrl(ApiHelper.MEDIA_URL + obj.getJSONArray("images").getJSONObject(0).getString("original_image"));
+                                post.setThumbnailUrl(ApiHelper.MEDIA_URL + obj.getJSONArray("images").getJSONObject(0).getString("image"));
                                 post.setUsername(obj.getJSONObject("owner").getString("username"));
                                 post.setPrice("12 som");
 
