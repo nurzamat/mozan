@@ -14,10 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
 import com.mozan.adapter.NavDrawerListAdapter;
 import com.mozan.model.NavDrawerItem;
-
 import java.util.ArrayList;
 
 public class HomeActivity extends Activity {
@@ -37,6 +35,8 @@ public class HomeActivity extends Activity {
 
 	private ArrayList<NavDrawerItem> navDrawerItems;
 	private NavDrawerListAdapter adapter;
+    public static boolean isHomeFragment;
+    FragmentManager fragmentManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -202,7 +202,12 @@ public class HomeActivity extends Activity {
 		}
 
 		if (fragment != null) {
-			FragmentManager fragmentManager = getFragmentManager();
+
+            if(position == 0)
+               isHomeFragment = true;
+            else isHomeFragment = false;
+
+			fragmentManager = getFragmentManager();
 			fragmentManager.beginTransaction()
 					.replace(R.id.frame_container, fragment).commit();
 
@@ -242,4 +247,10 @@ public class HomeActivity extends Activity {
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 
+    @Override
+    public void onBackPressed() {
+        if(!isHomeFragment)
+        displayView(0);
+        else super.onBackPressed();
+    }
 }

@@ -91,6 +91,8 @@ public class HomeFragment extends Fragment {
                     fragmentManager.beginTransaction()
                             .replace(R.id.frame_container, fragment).commit();
 
+                    HomeActivity.isHomeFragment = false;
+
                 } else {
                     // error in creating fragment
                     Log.e("HomeActivity", "Error in creating fragment");
