@@ -22,11 +22,15 @@
 		  		android:textColor="#372c24"
 		  		android:text="Phone"/>
 		  <EditText android:id="@+id/phone"
-				  android:layout_width="fill_parent"
+				android:layout_width="wrap_content"
 		  		android:layout_height="wrap_content"
 		  		android:layout_marginTop="5dip"
 		  		android:layout_marginBottom="20dip"
 		  		android:singleLine="false"
+                android:inputType="number"
+                android:maxLength="15"
+                android:hint="@string/phone_hint"
+                android:textColorHint="#ffffff"
               style="@style/AppTheme" />
 		  <!-- Login button -->
 		  <Button android:id="@+id/btnCode"
