@@ -28,7 +28,7 @@
 					  android:layout_marginBottom="20dip"
                       android:singleLine="false"
                       android:inputType="number"
-                      android:maxLength="8"
+                      android:maxLength="6"
                       android:hint="@string/code_hint"
                       android:textColorHint="#ffffff"/>
 			<!-- Login button -->
