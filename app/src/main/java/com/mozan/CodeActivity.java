@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.mozan.util.ApiHelper;
 import com.mozan.util.GlobalVar;
 
+import org.json.JSONObject;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,6 +26,8 @@ public class CodeActivity extends Activity {
     EditText etPhone;
     Button btnPost;
     String phone;
+    String result;
+    String status;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,23 +92,26 @@ public class CodeActivity extends Activity {
         @Override
         protected String doInBackground(String... urls) {
 
-            String result;
            try
            {
                ApiHelper api = new ApiHelper();
-               result = api.getCode(phone).getString("response");
+               JSONObject obj = api.getCode(phone);
+               result = obj.getString("response");
+               status = obj.getString("status");
                Log.d("code activity", "result: " + result);
-               if(result.equals("Code sent."))
+               Log.d("code activity", "status: " + status);
+               if(status.equals("ACTIVATION_CODE_SENT"))
                {
                    //defining global variables
                    GlobalVar.Phone = phone;
                   // GlobalVar.Code = result;
-               } else result = "";
+               }
            }
            catch (Exception ex)
            {
-               Log.d("code activity", "Exeption: " + ex.getMessage());
-               return "";
+               String exText = ex.getMessage();
+               Log.d("code activity", "Exeption: " + exText);
+               return exText;
            }
 
             return result;
@@ -114,10 +121,9 @@ public class CodeActivity extends Activity {
         protected void onPostExecute(String result)
         {
             dialog.dismiss();
-            if(result.equals(""))
-            {
-               Toast.makeText(CodeActivity.this, "Some error happened", Toast.LENGTH_SHORT).show();
-            }else
+            Toast.makeText(CodeActivity.this, result, Toast.LENGTH_SHORT).show();
+
+            if(!GlobalVar.Phone.equals(""))
             {
                 Intent in = new Intent(CodeActivity.this, RegisterActivity.class);
                 startActivity(in);

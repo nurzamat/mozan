@@ -15,11 +15,14 @@ import android.widget.Toast;
 import com.mozan.util.ApiHelper;
 import com.mozan.util.GlobalVar;
 
+import org.json.JSONObject;
+
 public class RegisterActivity extends Activity {
 
     EditText etCode;
     Button btnPost;
     String code;
+    String result;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,20 +64,23 @@ public class RegisterActivity extends Activity {
         @Override
         protected String doInBackground(String... urls) {
 
-            String result = "";
             try
             {
                 ApiHelper api = new ApiHelper();
-                result = api.getToken(GlobalVar.Phone, code).getString("token");
-                Log.d("[RegisterActivity]", "Result: " + result);
+                JSONObject obj = api.getToken(GlobalVar.Phone, code);
+                result = obj.getString("token");
+                Log.d("[RegisterActivity]", "Token: " + result);
                 if(result != ""){
                     GlobalVar.Token = result;
+                }
+                else
+                {
+                    result = obj.getString("response");
                 }
             }
             catch (Exception ex)
             {
-                return "";
-               // Toast.makeText(RegisterActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                return ex.getMessage();
             }
 
             return result;
@@ -84,7 +90,8 @@ public class RegisterActivity extends Activity {
         protected void onPostExecute(String result)
         {
             dialog.dismiss();
-            if(!result.equals(""))
+
+            if(!GlobalVar.Token.equals(""))
             {
                 SharedPreferences sp = getSharedPreferences(GlobalVar.MOZAN, 0);
                 SharedPreferences.Editor Ed=sp.edit();
@@ -95,6 +102,7 @@ public class RegisterActivity extends Activity {
                 startActivity(in);
                 finish();
             }
+            else Toast.makeText(RegisterActivity.this, result, Toast.LENGTH_SHORT).show();
         }
     }
 
