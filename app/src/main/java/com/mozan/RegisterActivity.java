@@ -75,7 +75,8 @@ public class RegisterActivity extends Activity {
                 }
                 else
                 {
-                    result = obj.getString("response");
+                    result = api.responseText(obj.getString("status"));
+                    //result = obj.getString("response");  //problems with utf
                 }
             }
             catch (Exception ex)

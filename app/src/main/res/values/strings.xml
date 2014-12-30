@@ -48,4 +48,15 @@
     <string name="desc_list_item_icon">Item Icon</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- Response Text -->
+    <string name="ACTIVATION_CODE_SENT">Вам отправлен SMS с Вашим кодом.</string>
+    <string name="CODE_IS_USED">Активация c этим кодом уже производилась.</string>
+    <string name="WRONG_ACTIVATION_CODE">Неверный код активации.</string>
+    <string name="WRONG_API_KEY">Неверный ключ API.</string>
+    <string name="ACTIVATION_PERIOD_EXPIRED">Истек период активации.</string>
+    <string name="LOGIN_ERROR">При входе возникла ошибка.</string>
+    <string name="USER_ALREADY_EXISTS">Пользователь с таким номером телефона уже зарегистрирован.</string>
+    <string name="SEND_MESSAGE_ERROR">Ошибка при попытке отправки сообщения.</string>
+    <string name="ACCOUNT_ACTIVATED">Ваш аккаунт был активирован. Спасибо, за регистрацию.</string>
+
 </resources>

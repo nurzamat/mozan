@@ -96,8 +96,9 @@ public class CodeActivity extends Activity {
            {
                ApiHelper api = new ApiHelper();
                JSONObject obj = api.getCode(phone);
-               result = obj.getString("response");
+               //result = obj.getString("response");
                status = obj.getString("status");
+               result = api.responseText(status);
                Log.d("code activity", "result: " + result);
                Log.d("code activity", "status: " + status);
                if(status.equals("ACTIVATION_CODE_SENT"))

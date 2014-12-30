@@ -2,6 +2,8 @@ package com.mozan.util;
 
 import android.util.Log;
 
+import com.mozan.R;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
@@ -36,8 +38,6 @@ public class ApiHelper {
     public static final String TAG = "[API]";
     public static final String CODE_URL = "https://mozan.market/api/auth/registration/";
     public static final String TOKEN_URL = "https://mozan.market/api/auth/registration/";
-    public static final String POSTS_URL = "https://mozan.market/api/post/list/";
-    public static final String IMAGES_URL = "https://mozan.market/api/image/list/";
     public static final String MEDIA_URL = "https://mozan.market/media/";
     public static final String API_KEY = "7dbe69719ab6a99e677f4a1948b6c5b82162c40c";
     public static final String HOUSE_HOLDER_URL = "https://mozan.market/api/category/4/";
@@ -186,6 +186,30 @@ public class ApiHelper {
 
         HttpResponse response = client.execute(post);
         return response;
+    }
+
+    public String responseText(String status)
+    {
+        if(status.equals("ACTIVATION_CODE_SENT"))
+            return "Вам отправлен SMS с Вашим кодом.";
+        if(status.equals("CODE_IS_USED"))
+            return "Активация c этим кодом уже производилась.";
+        if(status.equals("WRONG_ACTIVATION_CODE"))
+            return "Неверный код активации.";
+        if(status.equals("WRONG_API_KEY"))
+            return "Неверный ключ API.";
+        if(status.equals("ACTIVATION_PERIOD_EXPIRED"))
+            return "Истек период активации.";
+        if(status.equals("LOGIN_ERROR"))
+            return "При входе возникла ошибка.";
+        if(status.equals("USER_ALREADY_EXISTS"))
+            return "Пользователь с таким номером телефона уже зарегистрирован.";
+        if(status.equals("SEND_MESSAGE_ERROR"))
+            return "Ошибка при попытке отправки сообщения.";
+        if(status.equals("ACCOUNT_ACTIVATED"))
+            return "Ваш аккаунт был активирован. Спасибо, за регистрацию.";
+
+        return "";
     }
 }
 
