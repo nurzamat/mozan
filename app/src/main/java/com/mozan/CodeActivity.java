@@ -126,29 +126,16 @@ public class CodeActivity extends Activity {
     }
 
     public  boolean isPhoneNumberValid(String phoneNumber){
-        boolean isValid = false;
-/* Phone Number formats: (nnn)nnn-nnnn; nnnnnnnnnn; nnn-nnn-nnnn
-    ^\\(? : May start with an option "(" .
-    (\\d{3}): Followed by 3 digits.
-    \\)? : May have an optional ")"
-    [- ]? : May have an optional "-" after the first 3 digits or after optional ) character.
-    (\\d{3}) : Followed by 3 digits.
-     [- ]? : May have another optional "-" after numeric digits.
-     (\\d{4})$ : ends with four digits.
-
-         Examples: Matches following phone numbers:
-         (123)456-7890, 123-456-7890, 1234567890, (123)-456-7890
-
-*/
+        boolean isValid = true;
 //Initialize reg ex for phone number.
-        String expression = "^[+]?\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$";
-        Pattern pattern = Pattern.compile(expression);
-        Matcher matcher = pattern.matcher(phoneNumber);
-        if(matcher.matches()){
-            isValid = true;
-        }
+  //      String expression = "^[+]?\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$";
+  //      Pattern pattern = Pattern.compile(expression);
+  //      Matcher matcher = pattern.matcher(phoneNumber);
+  //      if(matcher.matches()){
+  //          isValid = true;
+  //      }
 
-        phone = phone.replace("+", "").replace("(", "").replace(")", "").replace("-", "");
+  //      phone = phone.replace("+", "").replace("(", "").replace(")", "").replace("-", "");
         if(phone.length() < 9 || phone.length() > 15)
         {
             isValid = false;
