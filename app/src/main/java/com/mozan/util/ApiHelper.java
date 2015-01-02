@@ -36,16 +36,16 @@ import java.security.KeyStore;
 public class ApiHelper {
 
     public static final String TAG = "[API]";
-    public static final String CODE_URL = "https://mozan.market/api/auth/registration/";
-    public static final String TOKEN_URL = "https://mozan.market/api/auth/registration/";
-    public static final String MEDIA_URL = "https://mozan.market/media/";
+    public static final String CODE_URL = "https://mozan.trade/api/auth/registration/";
+    public static final String TOKEN_URL = "https://mozan.trade/api/auth/registration/";
+    public static final String MEDIA_URL = "https://mozan.trade/media/";
     public static final String API_KEY = "7dbe69719ab6a99e677f4a1948b6c5b82162c40c";
-    public static final String HOUSE_HOLDER_URL = "https://mozan.market/api/category/4/";
-    public static final String CARS_URL = "https://mozan.market/api/category/5/";
-    public static final String REALTY_URL = "https://mozan.market/api/category/1/";
-    public static final String RENT_URL = "https://mozan.market/api/category/3/";
-    public static final String TRANSPORT_URL = "https://mozan.market/api/category/2/";
-    public static final String SERVICE_URL = "https://mozan.market/api/category/2/";
+    public static final String HOUSE_HOLDER_URL = "https://mozan.trade/api/category/4/";
+    public static final String CARS_URL = "https://mozan.trade/api/category/5/";
+    public static final String REALTY_URL = "https://mozan.trade/api/category/1/";
+    public static final String RENT_URL = "https://mozan.trade/api/category/3/";
+    public static final String TRANSPORT_URL = "https://mozan.trade/api/category/2/";
+    public static final String SERVICE_URL = "https://mozan.trade/api/category/2/";
 
     public JSONObject getCode(String phone) throws ApiException, IOException,
             JSONException {
