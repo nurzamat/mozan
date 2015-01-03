@@ -1,8 +1,8 @@
 package com.mozan;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.mozan.adapter.GridviewAdapter;
 
@@ -21,6 +20,7 @@ public class HomeFragment extends Fragment {
     private GridviewAdapter mAdapter;
     private ArrayList<String> listCategory;
     private ArrayList<Integer> listFlag;
+    Fragment fragment = null;
     private View rootView;
 
     private GridView gridView;
@@ -51,7 +51,6 @@ public class HomeFragment extends Fragment {
             public void onItemClick(AdapterView<?> arg0, View arg1, int position,
                                     long arg3) {
 
-                Fragment fragment = null;
                 switch (position) {
                     case 0:
                     {
@@ -88,24 +87,42 @@ public class HomeFragment extends Fragment {
                         break;
                 }
 
-                if (fragment != null) {
-                    FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.frame_container, fragment).commit();
-
-                    HomeActivity.isHomeFragment = false;
-
-                } else {
-                    // error in creating fragment
-                    Log.e("HomeActivity", "Error in creating fragment");
-                }
-                //Toast.makeText(getActivity(), mAdapter.getItem(position), Toast.LENGTH_SHORT).show();
+                createFragment(fragment);
             }
         });
 
         configureImageButton();
 
         return rootView;
+    }
+/*  // for native fragment
+    private void createFragment_nativ(Fragment fragment) {
+        if (fragment != null) {
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.frame_container, fragment).commit();
+
+            HomeActivity.isHomeFragment = false;
+
+        } else {
+            // error in creating fragment
+            Log.e("HomeActivity", "Error in creating fragment");
+        }
+    }
+*/
+
+    private void createFragment(Fragment fragment) {
+        if (fragment != null) {
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.frame_container, fragment).commit();
+
+            HomeActivity.isHomeFragment = false;
+
+        } else {
+            // error in creating fragment
+            Log.e("HomeActivity", "Error in creating fragment");
+        }
     }
 
     public void prepareList()
@@ -136,7 +153,9 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "You Clicked the button!", Toast.LENGTH_LONG).show();
+
+             fragment = new AddAdFragment();
+             createFragment(fragment);
 
             }
         });

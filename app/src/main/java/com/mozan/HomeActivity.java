@@ -1,12 +1,12 @@
 package com.mozan;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
@@ -18,7 +18,7 @@ import com.mozan.adapter.NavDrawerListAdapter;
 import com.mozan.model.NavDrawerItem;
 import java.util.ArrayList;
 
-public class HomeActivity extends Activity {
+public class HomeActivity extends FragmentActivity {
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
@@ -207,7 +207,7 @@ public class HomeActivity extends Activity {
                isHomeFragment = true;
             else isHomeFragment = false;
 
-			fragmentManager = getFragmentManager();
+		 	fragmentManager = getSupportFragmentManager();
 			fragmentManager.beginTransaction()
 					.replace(R.id.frame_container, fragment).commit();
 
