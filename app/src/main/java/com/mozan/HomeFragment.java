@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.mozan.adapter.GridviewAdapter;
@@ -20,6 +21,7 @@ public class HomeFragment extends Fragment {
     private GridviewAdapter mAdapter;
     private ArrayList<String> listCategory;
     private ArrayList<Integer> listFlag;
+    private View rootView;
 
     private GridView gridView;
 
@@ -32,7 +34,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
  
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        rootView = inflater.inflate(R.layout.fragment_home, container, false);
         prepareList();
 
         // prepared arraylist and passed it to the Adapter class
@@ -100,6 +102,9 @@ public class HomeFragment extends Fragment {
                 //Toast.makeText(getActivity(), mAdapter.getItem(position), Toast.LENGTH_SHORT).show();
             }
         });
+
+        configureImageButton();
+
         return rootView;
     }
 
@@ -122,4 +127,21 @@ public class HomeFragment extends Fragment {
         listFlag.add(R.drawable.car);
         listFlag.add(R.drawable.service);
     }
+
+    private void configureImageButton() {
+        // TODO Auto-generated method stub
+        ImageButton btn = (ImageButton) rootView.findViewById(R.id.btnAdd);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "You Clicked the button!", Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+
+    }
+
 }
