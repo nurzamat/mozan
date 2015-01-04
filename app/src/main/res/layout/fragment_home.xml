@@ -27,6 +27,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/btnAdd"
             android:background="@drawable/add_adv"/>
-        </LinearLayout>
 
+        </LinearLayout>
 </RelativeLayout>

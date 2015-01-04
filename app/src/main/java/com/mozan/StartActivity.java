@@ -27,18 +27,20 @@ public class StartActivity extends Activity {
         token = sp.getString(GlobalVar.MOZAN_TOKEN, "");
 
         Log.d("StartActivity", "Phone/token: " + phone + " / " + token);
+        /*
         if (!phone.equals("") && !token.equals(""))
         {
             GlobalVar.Phone = phone;
             GlobalVar.Token = token;
             in = new Intent(StartActivity.this, HomeActivity.class);
-            startActivity(in);
         }
         else
         {
             in = new Intent(StartActivity.this, CodeActivity.class);
-            startActivity(in);
         }
+        */
+        in = new Intent(StartActivity.this, HomeActivity.class);
+        startActivity(in);
         finish();
     }
 

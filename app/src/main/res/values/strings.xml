@@ -58,5 +58,6 @@
     <string name="USER_ALREADY_EXISTS">Пользователь с таким номером телефона уже зарегистрирован.</string>
     <string name="SEND_MESSAGE_ERROR">Ошибка при попытке отправки сообщения.</string>
     <string name="ACCOUNT_ACTIVATED">Ваш аккаунт был активирован. Спасибо, за регистрацию.</string>
+    <string name="title_activity_custom_gallery">CustomGalleryActivity</string>
 
 </resources>

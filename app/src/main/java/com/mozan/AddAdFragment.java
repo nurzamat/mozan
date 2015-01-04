@@ -1,22 +1,28 @@
 package com.mozan;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import com.mozan.adapter.PlaceSlidesFragmentAdapter;
 import com.mozan.lib.CirclePageIndicator;
-import com.mozan.lib.PageIndicator;
 
 public class AddAdFragment extends Fragment {
 
-    PlaceSlidesFragmentAdapter mAdapter;
+    // Declare Variables
     ViewPager mPager;
-    PageIndicator mIndicator;
-    public static final String TAG = "detailsFragment";
+    PagerAdapter mAdapter;
+    View rootView;
+    int[] flag;
+    CirclePageIndicator mIndicator;
 
     public AddAdFragment()
     {
@@ -27,16 +33,27 @@ public class AddAdFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_add_ad, container, false);
+        int id_resource =  getArguments().getInt("id");
+        String path = getArguments().getString("path");
+        rootView = inflater.inflate(R.layout.viewpager_main, container, false);
 
-        mAdapter = new PlaceSlidesFragmentAdapter(getActivity().getSupportFragmentManager());
+        Bitmap bitmap = null;
+        if(!path.equals(""))
+        bitmap = BitmapFactory.decodeFile(path);
+        //rootView.findViewById(R.id.)
+        //image.setImageBitmap(bitmap);
+
+        flag = new int[] { R.drawable.car, R.drawable.car,
+                R.drawable.car, R.drawable.car};
+
+        mAdapter = new PlaceSlidesFragmentAdapter(getActivity(), flag, bitmap);
 
         mPager = (ViewPager) rootView.findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
 
         mIndicator = (CirclePageIndicator) rootView.findViewById(R.id.indicator);
         mIndicator.setViewPager(mPager);
-        ((CirclePageIndicator) mIndicator).setSnap(true);
+        mIndicator.setSnap(true);
 
         mIndicator
                 .setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -57,6 +74,23 @@ public class AddAdFragment extends Fragment {
                     }
                 });
 
+
+        cameraButton();
+
         return rootView;
+    }
+
+    private void cameraButton() {
+        // TODO Auto-generated method stub
+        ImageButton btn = (ImageButton) rootView.findViewById(R.id.btnCamera);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(getActivity(), CustomGalleryActivity.class);
+                startActivity(in);
+            }
+        });
     }
 }

@@ -153,14 +153,15 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-
-             fragment = new AddAdFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("id",  R.drawable.camera);
+                bundle.putString("path", "");
+                fragment = new AddAdFragment();
+                fragment.setArguments(bundle);
              createFragment(fragment);
 
             }
         });
-
-
     }
 
 }

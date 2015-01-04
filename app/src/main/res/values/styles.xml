@@ -10,7 +10,7 @@
         <!-- Put whatever other styles you want to define in your custom theme -->
     </style>
     <style name="myCirclePageIndicator" parent="Widget">
-        <item name="fillColor">@color/default_circle_indicator_fill_color</item>
+        <item name="fillColor">@color/default_circle_indicator_stroke_color</item>
     </style>
     <!--
     Base application theme, dependent on API level. This theme is replaced
