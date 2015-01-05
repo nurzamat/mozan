@@ -3,79 +3,39 @@ package com.mozan.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
+import com.android.volley.toolbox.NetworkImageView;
 import com.mozan.R;
-
-/*
-public class PlaceSlidesFragmentAdapter extends FragmentPagerAdapter implements
-        IconPagerAdapter {
-
-    private int[] Images = new int[] { R.drawable.rent, R.drawable.house_holder,
-            R.drawable.realty, R.drawable.car
-
-    };
-
-    protected static final int[] ICONS = new int[] { R.drawable.add_adv,
-            R.drawable.add_adv, R.drawable.add_adv, R.drawable.add_adv };
-
-    private int mCount = Images.length;
-
-    public PlaceSlidesFragmentAdapter(FragmentManager fm) {
-        super(fm);
-    }
-
-    @Override
-    public Fragment getItem(int position) {
-
-        Bundle bundle= new Bundle();
-        bundle.putInt("i", Images[position]);
-        //set Fragmentclass Arguments
-        PlaceSlideFragment fragobj = new PlaceSlideFragment();
-        fragobj.setArguments(bundle);
-        return fragobj;
-    }
-
-    @Override
-    public int getCount() {
-        return mCount;
-    }
-
-    @Override
-    public int getIconResId(int index) {
-        return ICONS[index % ICONS.length];
-    }
-
-    public void setCount(int count) {
-        if (count > 0 && count <= 10) {
-            mCount = count;
-            notifyDataSetChanged();
-        }
-    }
-}
-*/
+import com.mozan.util.GlobalVar;
 
 public class PlaceSlidesFragmentAdapter extends PagerAdapter {
     // Declare Variables
     Context context;
-    int[] flag;
     LayoutInflater inflater;
-    Bitmap bitmap;
+    String[] paths;
+    int size;
 
-    public PlaceSlidesFragmentAdapter(Context context, int[] flag, Bitmap bitmap) {
+    public PlaceSlidesFragmentAdapter(Context context, String[] paths) {
         this.context = context;
-        this.flag = flag;
-        this.bitmap = bitmap;
+        this.paths = paths;
+        this.size = GlobalVar._bitmaps.size();
     }
 
     @Override
-    public int getCount() {
-        return flag.length;
+    public int getCount()
+    {
+        if(size > 0)
+        return size;
+        else return 1;
     }
 
     @Override
@@ -97,11 +57,17 @@ public class PlaceSlidesFragmentAdapter extends PagerAdapter {
         imgflag = (ImageView) itemView.findViewById(R.id.flag);
         // Capture position and set to the ImageView
 
-        imgflag.setImageResource(flag[position]);
-
-        if(bitmap != null)
+        try
         {
-            imgflag.setImageBitmap(bitmap);
+            if(size > 0)
+            imgflag.setImageBitmap(GlobalVar._bitmaps.get(position));
+            else {
+            imgflag.setImageResource(R.drawable.car);
+            }
+        }
+        catch (IndexOutOfBoundsException ex)
+        {
+            Log.d("PlaceSlidesFragmentAdapter exeption:", ex.getMessage());
         }
 
         // Add viewpager_item.xml to ViewPager

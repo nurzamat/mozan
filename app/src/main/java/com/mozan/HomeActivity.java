@@ -14,6 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.mozan.adapter.NavDrawerListAdapter;
 import com.mozan.model.NavDrawerItem;
 import java.util.ArrayList;
@@ -108,6 +110,34 @@ public class HomeActivity extends FragmentActivity {
 		if (savedInstanceState == null) {
 			// on first time display view for first nav item
 			displayView(0);
+
+
+            Bundle extras = getIntent().getExtras();
+            if(extras != null)
+            {
+                String paths = extras.getString("paths");
+                int id_resource = extras.getInt("id_resource");
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("id_resource", id_resource);
+                bundle.putString("paths", paths);
+                AddAdFragment frag = new AddAdFragment();
+                frag.setArguments(bundle);
+                if (frag != null) {
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+
+
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.frame_container, frag).commit();
+
+                    HomeActivity.isHomeFragment = false;
+
+                } else {
+                    // error in creating fragment
+                    Log.e("HomeActivity", "Error in creating fragment");
+                }
+
+            }
 		}
 	}
 

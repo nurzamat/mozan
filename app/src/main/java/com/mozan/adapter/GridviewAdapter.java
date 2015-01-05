@@ -13,28 +13,28 @@ import com.mozan.R;
 
 public class GridviewAdapter extends BaseAdapter
 {
-	private ArrayList<String> listCountry;
+	private ArrayList<String> listCategory;
 
-	private ArrayList<Integer> listFlag;
+	private ArrayList<Integer> listCategoryImage;
 	private Activity activity;
 	
-	public GridviewAdapter(Activity activity,ArrayList<String> listCountry, ArrayList<Integer> listFlag) {
+	public GridviewAdapter(Activity activity,ArrayList<String> listCategory, ArrayList<Integer> listCategoryImage) {
 		super();
-		this.listCountry = listCountry;
-		this.listFlag = listFlag;
+		this.listCategory = listCategory;
+		this.listCategoryImage = listCategoryImage;
 		this.activity = activity;
 	}
 	
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return listCountry.size();
+		return listCategory.size();
 	}
 
 	@Override
 	public String getItem(int position) {
 		// TODO Auto-generated method stub
-		return listCountry.get(position);
+		return listCategory.get(position);
 	}
 
 	@Override
@@ -70,8 +70,8 @@ public class GridviewAdapter extends BaseAdapter
 			view = (ViewHolder) convertView.getTag();
 		}
 		
-		view.txtViewTitle.setText(listCountry.get(position));
-		view.imgViewFlag.setImageResource(listFlag.get(position));
+		view.txtViewTitle.setText(listCategory.get(position));
+		view.imgViewFlag.setImageResource(listCategoryImage.get(position));
 		
 		return convertView;
 	}

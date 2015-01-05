@@ -1,18 +1,57 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="com.mozan.AddAdFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/frame_add_adv"
+    tools:context="com.mozan.AddAdFragment">
 
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <com.mozan.lib.CirclePageIndicator
-        android:id="@+id/indicator"
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dip"/>
+        android:padding="10dip"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:layout_weight="1" />
+
+        <com.mozan.lib.CirclePageIndicator
+            android:id="@+id/indicator"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnCamera"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dip"
+            android:background="@drawable/camera"/>
+
+        <EditText android:id="@+id/code"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dip"
+            android:layout_marginBottom="20dip"
+            android:singleLine="false"
+            android:hint="
+
+            CONTENT TEXT
+
+            "
+            android:textColorHint="#ffffff" />
+
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit now"
+            android:id="@+id/button"
+            android:layout_marginBottom="10dp" />
+    </LinearLayout>
 
 </FrameLayout>

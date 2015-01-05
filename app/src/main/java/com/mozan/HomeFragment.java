@@ -19,7 +19,7 @@ public class HomeFragment extends Fragment {
 
     private GridviewAdapter mAdapter;
     private ArrayList<String> listCategory;
-    private ArrayList<Integer> listFlag;
+    private ArrayList<Integer> listCategoryImage;
     Fragment fragment = null;
     private View rootView;
 
@@ -38,7 +38,7 @@ public class HomeFragment extends Fragment {
         prepareList();
 
         // prepared arraylist and passed it to the Adapter class
-        mAdapter = new GridviewAdapter(getActivity(), listCategory, listFlag);
+        mAdapter = new GridviewAdapter(getActivity(), listCategory, listCategoryImage);
 
         // Set custom adapter to gridview
         gridView = (GridView) rootView.findViewById(R.id.gridView1);
@@ -95,21 +95,6 @@ public class HomeFragment extends Fragment {
 
         return rootView;
     }
-/*  // for native fragment
-    private void createFragment_nativ(Fragment fragment) {
-        if (fragment != null) {
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.frame_container, fragment).commit();
-
-            HomeActivity.isHomeFragment = false;
-
-        } else {
-            // error in creating fragment
-            Log.e("HomeActivity", "Error in creating fragment");
-        }
-    }
-*/
 
     private void createFragment(Fragment fragment) {
         if (fragment != null) {
@@ -136,13 +121,13 @@ public class HomeFragment extends Fragment {
         listCategory.add("Car");
         listCategory.add("Service");
 
-        listFlag = new ArrayList<Integer>();
-        listFlag.add(R.drawable.house_holder);
-        listFlag.add(R.drawable.realty);
-        listFlag.add(R.drawable.rent);
-        listFlag.add(R.drawable.transport);
-        listFlag.add(R.drawable.car);
-        listFlag.add(R.drawable.service);
+        listCategoryImage = new ArrayList<Integer>();
+        listCategoryImage.add(R.drawable.house_holder);
+        listCategoryImage.add(R.drawable.realty);
+        listCategoryImage.add(R.drawable.rent);
+        listCategoryImage.add(R.drawable.transport);
+        listCategoryImage.add(R.drawable.car);
+        listCategoryImage.add(R.drawable.service);
     }
 
     private void configureImageButton() {
@@ -155,7 +140,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("id",  R.drawable.camera);
-                bundle.putString("path", "");
+                bundle.putString("paths", "");
                 fragment = new AddAdFragment();
                 fragment.setArguments(bundle);
              createFragment(fragment);

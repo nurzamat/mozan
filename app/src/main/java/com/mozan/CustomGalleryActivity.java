@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +19,8 @@ import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.mozan.util.GlobalVar;
 
 public class CustomGalleryActivity extends FragmentActivity {
     private int count;
@@ -50,7 +51,7 @@ public class CustomGalleryActivity extends FragmentActivity {
             int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);
             thumbnails[i] = MediaStore.Images.Thumbnails.getThumbnail(
                     getApplicationContext().getContentResolver(), id,
-                    MediaStore.Images.Thumbnails.MICRO_KIND, null);
+                    MediaStore.Images.Thumbnails.MINI_KIND, null);
             arrPath[i]= imagecursor.getString(dataColumnIndex);
         }
         GridView imagegrid = (GridView) findViewById(R.id.PhoneImageGrid);
@@ -66,11 +67,13 @@ public class CustomGalleryActivity extends FragmentActivity {
                 final int len = thumbnailsselection.length;
                 int cnt = 0;
                 String selectImages = "";
+                GlobalVar._bitmaps.clear();
                 for (int i =0; i<len; i++)
                 {
                     if (thumbnailsselection[i]){
                         cnt++;
                         selectImages = selectImages + arrPath[i] + "|";
+                        GlobalVar._bitmaps.add(thumbnails[i]);
                     }
                 }
                 if (cnt == 0){
@@ -78,6 +81,7 @@ public class CustomGalleryActivity extends FragmentActivity {
                             "Please select at least one image",
                             Toast.LENGTH_LONG).show();
                 } else {
+                    /*
                     Toast.makeText(getApplicationContext(),
                             "You've selected Total " + cnt + " image(s).",
                             Toast.LENGTH_LONG).show();
@@ -85,28 +89,13 @@ public class CustomGalleryActivity extends FragmentActivity {
                     Toast.makeText(getApplicationContext(),
                             "Paths: " + selectImages,
                             Toast.LENGTH_LONG).show();
-
+                     */
                     Log.d("SelectedImages", selectImages);
 
-
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("id", 0);
-                    bundle.putString("path", selectImages.split("|")[0]);
-                    AddAdFragment frag = new AddAdFragment();
-                    frag.setArguments(bundle);
-                    if (frag != null) {
-                        FragmentManager fragmentManager = getSupportFragmentManager();
-
-
-                        fragmentManager.beginTransaction()
-                                .replace(R.id.frame_container, frag).commit();
-
-                        HomeActivity.isHomeFragment = false;
-
-                    } else {
-                        // error in creating fragment
-                        Log.e("HomeActivity", "Error in creating fragment");
-                    }
+                    Intent in = new Intent(CustomGalleryActivity.this, HomeActivity.class);
+                    in.putExtra("id_resource", 0);
+                    in.putExtra("paths", selectImages);
+                    startActivity(in);
                 }
             }
         });
