@@ -62,7 +62,7 @@ public class PlaceSlidesFragmentAdapter extends PagerAdapter {
             if(size > 0)
             imgflag.setImageBitmap(GlobalVar._bitmaps.get(position));
             else {
-            imgflag.setImageResource(R.drawable.car);
+            imgflag.setImageResource(R.drawable.default_img);
             }
         }
         catch (IndexOutOfBoundsException ex)

@@ -46,6 +46,8 @@ public class ApiHelper {
     public static final String RENT_URL = "https://mozan.trade/api/category/3/";
     public static final String TRANSPORT_URL = "https://mozan.trade/api/category/2/";
     public static final String SERVICE_URL = "https://mozan.trade/api/category/2/";
+    public static final String POST_URL = "https://mozan.trade/api/post/";
+    public static final String SEND_POST_URL = "https://mozan.trade/api/post/create/";
 
     public JSONObject getCode(String phone) throws ApiException, IOException,
             JSONException {
@@ -74,6 +76,23 @@ public class ApiHelper {
 
         Log.i(TAG, "Sending request to: " + TOKEN_URL);
         HttpResponse response = request(TOKEN_URL, jsonObject);
+
+        String responseStr = responseToStr(response);
+
+        Log.i(TAG, "Response: " + responseStr);
+        return new JSONObject(responseStr);
+    }
+
+    public  JSONObject sendPost(String category, String content)
+            throws ApiException, IOException, JSONException {
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("category", category);
+        jsonObject.put("content", content);
+        jsonObject.put("api_key", API_KEY);
+
+        Log.i(TAG, "Sending request to: " + SEND_POST_URL);
+        HttpResponse response = request(SEND_POST_URL, jsonObject);
 
         String responseStr = responseToStr(response);
 
@@ -182,7 +201,7 @@ public class ApiHelper {
         post.setEntity(se);
         post.setHeader("Accept", "application/json");
         post.setHeader("Content-type", "application/json");
-
+        post.setHeader("Authorization", "Token " + GlobalVar.Token);
 
         HttpResponse response = client.execute(post);
         return response;

@@ -1,5 +1,6 @@
 package com.mozan;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +13,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 
 import com.mozan.adapter.GridviewAdapter;
+import com.mozan.util.GlobalVar;
 
 import java.util.ArrayList;
 
@@ -138,14 +140,22 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("id",  R.drawable.camera);
-                bundle.putString("paths", "");
-                fragment = new AddAdFragment();
-                fragment.setArguments(bundle);
-             createFragment(fragment);
 
-            }
+          if (!GlobalVar.Phone.equals("") && !GlobalVar.Token.equals(""))
+          {
+            Bundle bundle = new Bundle();
+            bundle.putInt("id",  R.drawable.camera);
+            bundle.putString("paths", "");
+            fragment = new AddAdFragment();
+            fragment.setArguments(bundle);
+            createFragment(fragment);
+          }
+          else
+          {
+            Intent in = new Intent(getActivity(), CodeActivity.class);
+            startActivity(in);
+          }
+        }
         });
     }
 

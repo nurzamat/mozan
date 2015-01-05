@@ -134,15 +134,7 @@ public class CodeActivity extends Activity {
 
     public  boolean isPhoneNumberValid(String phoneNumber){
         boolean isValid = true;
-//Initialize reg ex for phone number.
-  //      String expression = "^[+]?\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$";
-  //      Pattern pattern = Pattern.compile(expression);
-  //      Matcher matcher = pattern.matcher(phoneNumber);
-  //      if(matcher.matches()){
-  //          isValid = true;
-  //      }
 
-  //      phone = phone.replace("+", "").replace("(", "").replace(")", "").replace("-", "");
         if(phone.length() < 9 || phone.length() > 15)
         {
             isValid = false;

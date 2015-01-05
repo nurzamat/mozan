@@ -10,36 +10,20 @@ import android.view.MenuItem;
 
 import com.mozan.util.GlobalVar;
 
-
 public class StartActivity extends Activity {
-
-    SharedPreferences sp;
-    String phone;
-    String token;
-    Intent in;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        sp = this.getSharedPreferences(GlobalVar.MOZAN,0);
-        phone = sp.getString(GlobalVar.MOZAN_PHONE, "");
-        token = sp.getString(GlobalVar.MOZAN_TOKEN, "");
 
-        Log.d("StartActivity", "Phone/token: " + phone + " / " + token);
-        /*
-        if (!phone.equals("") && !token.equals(""))
-        {
-            GlobalVar.Phone = phone;
-            GlobalVar.Token = token;
-            in = new Intent(StartActivity.this, HomeActivity.class);
-        }
-        else
-        {
-            in = new Intent(StartActivity.this, CodeActivity.class);
-        }
-        */
-        in = new Intent(StartActivity.this, HomeActivity.class);
+        SharedPreferences sp = this.getSharedPreferences(GlobalVar.MOZAN,0);
+        GlobalVar.Phone = sp.getString(GlobalVar.MOZAN_PHONE, "");
+        GlobalVar.Token = sp.getString(GlobalVar.MOZAN_TOKEN, "");
+
+        Log.d("StartActivity", "Phone/token: " + GlobalVar.Phone  + " / " + GlobalVar.Token);
+
+        Intent in = new Intent(StartActivity.this, HomeActivity.class);
         startActivity(in);
         finish();
     }
