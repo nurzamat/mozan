@@ -28,6 +28,8 @@ public class CodeActivity extends Activity {
     String phone;
     String result;
     String status;
+    public static Activity fa;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class CodeActivity extends Activity {
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();
         }
+        fa = this;
         setContentView(R.layout.code);
         etPhone = (EditText) findViewById(R.id.phone);
         btnPost = (Button) findViewById(R.id.btnCode);
@@ -69,7 +72,7 @@ public class CodeActivity extends Activity {
         }
         else if(!isPhoneNumberValid(phone))
         {
-            Toast.makeText(this, "Not Valid Number!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Введите пожалуйста Ваш номер телефона в международном формате.", Toast.LENGTH_LONG).show();
         }
         else
         {

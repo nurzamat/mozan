@@ -13,7 +13,7 @@
     <string name="action_example">Example action</string>
     <string name="drawer_open">Slider Menu Opened</string>
     <string name="drawer_close">Slider Menu Closed</string>
-    <string name="phone_hint">1111111111111111</string>
+    <string name="phone_hint">111111111111111</string>
     <string name="code_hint">111111</string>
 
     <!-- Nav Drawer Menu Items -->

@@ -31,7 +31,8 @@
         </activity>
         <activity
             android:name=".CodeActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:launchMode="singleInstance"/>
         <activity
             android:name=".RegisterActivity"
             android:theme="@style/AppTheme" />

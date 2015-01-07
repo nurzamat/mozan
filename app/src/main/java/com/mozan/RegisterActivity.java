@@ -101,6 +101,10 @@ public class RegisterActivity extends Activity {
                 Ed.commit();
                 Intent in = new Intent(RegisterActivity.this, HomeActivity.class);
                 startActivity(in);
+                //Intent in2 = new Intent(RegisterActivity.this, CodeActivity.class);
+                //in.putExtra("EXIT", true);
+                //startActivity(in2);
+                CodeActivity.fa.finish();
                 finish();
             }
             else Toast.makeText(RegisterActivity.this, result, Toast.LENGTH_SHORT).show();
