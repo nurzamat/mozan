@@ -68,10 +68,9 @@ public class RegisterActivity extends Activity {
             {
                 ApiHelper api = new ApiHelper();
                 JSONObject obj = api.getToken(GlobalVar.Phone, code);
-                result = obj.getString("token");
-                Log.d("[RegisterActivity]", "Token: " + result);
-                if(result != ""){
-                    GlobalVar.Token = result;
+                result = "";
+                if(obj.has("token")) {
+                    GlobalVar.Token = obj.getString("token");
                 }
                 else
                 {
@@ -107,7 +106,11 @@ public class RegisterActivity extends Activity {
                 CodeActivity.fa.finish();
                 finish();
             }
-            else Toast.makeText(RegisterActivity.this, result, Toast.LENGTH_SHORT).show();
+            else
+            {
+                if(!result.equals(""))
+                Toast.makeText(RegisterActivity.this, result, Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
