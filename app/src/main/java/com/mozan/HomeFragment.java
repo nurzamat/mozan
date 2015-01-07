@@ -115,18 +115,25 @@ public class HomeFragment extends Fragment {
     public void prepareList()
     {
         listCategory = new ArrayList<String>();
-
+/*
         listCategory.add("House holder");
         listCategory.add("Realty");
         listCategory.add("Rent");
         listCategory.add("Transport");
         listCategory.add("Car");
         listCategory.add("Service");
+*/
+        listCategory.add("ЭЛЕКТРОНИКА И ТЕХНИКА");
+        listCategory.add("СТРОИТЕЛЬСТВО И РЕМОНТ");
+        listCategory.add("НЕДВИЖИМОСТЬ");
+        listCategory.add("ЗАПЧАСТИ");
+        listCategory.add("АВТО");
+        listCategory.add("ЗАВЕДЕНИЯ, ОТДЫХ");
 
         listCategoryImage = new ArrayList<Integer>();
         listCategoryImage.add(R.drawable.house_holder);
-        listCategoryImage.add(R.drawable.realty);
         listCategoryImage.add(R.drawable.rent);
+        listCategoryImage.add(R.drawable.realty);
         listCategoryImage.add(R.drawable.transport);
         listCategoryImage.add(R.drawable.car);
         listCategoryImage.add(R.drawable.service);
