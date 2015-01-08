@@ -95,7 +95,8 @@ public class AddAdFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(getActivity(), CustomGalleryActivity.class);
+                //Intent in = new Intent(getActivity(), CustomGalleryActivity.class);
+                Intent in = new Intent(getActivity(), GalleryActivity.class);
                 startActivity(in);
             }
         });

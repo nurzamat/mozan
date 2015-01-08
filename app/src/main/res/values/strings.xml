@@ -59,5 +59,15 @@
     <string name="SEND_MESSAGE_ERROR">Ошибка при попытке отправки сообщения.</string>
     <string name="ACCOUNT_ACTIVATED">Ваш аккаунт был активирован. Спасибо, за регистрацию.</string>
     <string name="title_activity_custom_gallery">CustomGalleryActivity</string>
+    <string name="title_activity_gallery">GalleryActivity</string>
 
+    <string-array name="image_ids">
+        <item>@drawable/car</item>
+        <item>@drawable/camera</item>
+        <item>@drawable/realty</item>
+        <item>@drawable/rent</item>
+        <item>@drawable/house_holder</item>
+        <item>@drawable/transport</item>
+        <item>@drawable/car</item>
+    </string-array>
 </resources>

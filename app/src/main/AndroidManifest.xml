@@ -31,8 +31,8 @@
         </activity>
         <activity
             android:name=".CodeActivity"
-            android:theme="@style/AppTheme"
-            android:launchMode="singleInstance"/>
+            android:launchMode="singleInstance"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".RegisterActivity"
             android:theme="@style/AppTheme" />
@@ -42,6 +42,10 @@
         <activity
             android:name=".CustomGalleryActivity"
             android:label="@string/title_activity_custom_gallery" >
+        </activity>
+        <activity
+            android:name=".GalleryActivity"
+            android:label="@string/title_activity_gallery" >
         </activity>
     </application>
 
