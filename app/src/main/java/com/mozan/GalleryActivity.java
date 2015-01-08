@@ -81,8 +81,8 @@ public class GalleryActivity extends FragmentActivity {
 
         final String orderBy = MediaStore.Images.Media.DATE_TAKEN;
         Cursor imagecursor = managedQuery(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null,
-        null, orderBy);
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null, null, orderBy);
+        int image_column_index = imagecursor.getColumnIndex(MediaStore.Images.Media._ID);
         this.count = imagecursor.getCount();
         this.thumbnails = new Bitmap[this.count];
         this.thumbnailsselection = new boolean[this.count];
@@ -91,12 +91,14 @@ public class GalleryActivity extends FragmentActivity {
         for (int i = 0; i < count; i++) {
             imagecursor.moveToPosition(i);
             int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);
-
+            int id = imagecursor.getInt(image_column_index);
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = false;
             options.inPreferredConfig = Bitmap.Config.RGB_565;
             options.inDither = true;
-            thumbnails[i] = BitmapFactory.decodeFile(imagecursor.getString(dataColumnIndex), options);
+            //thumbnails[i] = BitmapFactory.decodeFile(imagecursor.getString(dataColumnIndex), options);
+            thumbnails[i] = MediaStore.Images.Thumbnails.getThumbnail(getApplicationContext().getContentResolver(), id,
+                    MediaStore.Images.Thumbnails.MINI_KIND, null);
             arrPath[i]= imagecursor.getString(dataColumnIndex);
         }
         imagecursor.close();
