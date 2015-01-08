@@ -4,54 +4,49 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/list_row_selector"
                 android:padding="8dp" >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
 
-    <!-- Thumbnail Image --> 
+    <!-- Thumbnail Image -->
     <com.android.volley.toolbox.NetworkImageView
-            android:id="@+id/thumbnail"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginRight="8dp" />
+        android:id="@+id/thumbnail"
+        android:layout_width="150dp"
+        android:layout_height="150dp"/>
 
     <!-- Content -->
     <TextView
-            android:id="@+id/content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/thumbnail"
-            android:layout_toRightOf="@+id/thumbnail"
-            android:textSize="@dimen/content"
-            android:textStyle="bold" />
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/content"
+        android:gravity="center"
+        android:textStyle="bold" />
 
     <!-- Username -->
     <TextView
-            android:id="@+id/username"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/content"
-            android:layout_marginTop="1dip"
-            android:layout_toRightOf="@+id/thumbnail"
-            android:textSize="@dimen/username" />
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/username" />
 
     <!-- Genre -->
     <TextView
-            android:id="@+id/genre"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/username"
-            android:layout_marginTop="5dp"
-            android:layout_toRightOf="@+id/thumbnail"
-            android:textColor="@color/genre"
-            android:textSize="@dimen/genre" />
+        android:id="@+id/genre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/genre"
+        android:textSize="@dimen/genre" />
 
     <!-- Price -->
     <TextView
-            android:id="@+id/price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:textColor="@color/price"
-            android:textSize="@dimen/price" />
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/price"
+        android:textSize="@dimen/price" />
 
+</LinearLayout>
 </RelativeLayout>
