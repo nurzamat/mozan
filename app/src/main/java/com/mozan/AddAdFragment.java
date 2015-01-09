@@ -97,6 +97,7 @@ public class AddAdFragment extends Fragment {
             public void onClick(View v) {
                 //Intent in = new Intent(getActivity(), CustomGalleryActivity.class);
                 Intent in = new Intent(getActivity(), GalleryActivity.class);
+               // Intent in = new Intent(getActivity(), GridViewActivity.class); //Ravi solution
                 startActivity(in);
             }
         });

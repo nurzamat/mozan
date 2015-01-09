@@ -15,5 +15,6 @@
     <color name="list_row_hover_end_color">#ebeef0</color>
     <color name="list_divider2">#272727</color>
     <color name="blue">#00abea</color>
-    <color name="white">#ffffff</color>
+    <color name="blue_light">#a1d4e9</color>
+    <color name="blue_dark">#62b7da</color>
 </resources>

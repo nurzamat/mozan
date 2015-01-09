@@ -7,8 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.mozan.HomeFragment;
 import com.mozan.R;
 
 public class GridviewAdapter extends BaseAdapter
@@ -47,6 +52,7 @@ public class GridviewAdapter extends BaseAdapter
 	{
 		public ImageView imgViewFlag;
 		public TextView txtViewTitle;
+        public LinearLayout layout;
 	}
 	
 	@Override
@@ -62,8 +68,11 @@ public class GridviewAdapter extends BaseAdapter
 			
 			view.txtViewTitle = (TextView) convertView.findViewById(R.id.textView1);
 			view.imgViewFlag = (ImageView) convertView.findViewById(R.id.imageView1);
-			
-			convertView.setTag(view);
+            view.layout = (LinearLayout) convertView.findViewById(R.id.layout_id);
+            //view.imgViewFlag.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 180)); //for image
+           // view.layout.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, HomeFragment.height));
+            convertView.setMinimumHeight(HomeFragment.height/3);
+            convertView.setTag(view);
 		}
 		else
 		{

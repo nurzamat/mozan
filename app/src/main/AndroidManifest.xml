@@ -47,6 +47,10 @@
             android:name=".GalleryActivity"
             android:label="@string/title_activity_gallery" >
         </activity>
+        <activity
+            android:name=".GridViewActivity"
+            android:label="@string/title_activity_grid_view" >
+        </activity>
     </application>
 
 </manifest>

@@ -1,16 +1,24 @@
 package com.mozan;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.mozan.adapter.GridviewAdapter;
 import com.mozan.util.GlobalVar;
@@ -24,8 +32,9 @@ public class HomeFragment extends Fragment {
     private ArrayList<Integer> listCategoryImage;
     Fragment fragment = null;
     private View rootView;
-
     private GridView gridView;
+    public static int height;
+    public static final int const_height = 165;
 
 	public HomeFragment()
     {
@@ -35,12 +44,34 @@ public class HomeFragment extends Fragment {
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
- 
+
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
         prepareList();
 
+       /*
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+        this.height = height/4;
+       */
+        Activity context = getActivity();
+        DisplayMetrics metrics = new DisplayMetrics();
+        context.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        int width = metrics.widthPixels;
+        height = metrics.heightPixels;
+        height = height - const_height;
+/*
+        TypedValue tv = new TypedValue();
+        context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
+        int actionBarHeight = getResources().getDimensionPixelSize(tv.resourceId);
+
+        height = height - actionBarHeight;
+*/
         // prepared arraylist and passed it to the Adapter class
-        mAdapter = new GridviewAdapter(getActivity(), listCategory, listCategoryImage);
+        mAdapter = new GridviewAdapter(context, listCategory, listCategoryImage);
 
         // Set custom adapter to gridview
         gridView = (GridView) rootView.findViewById(R.id.gridView1);
@@ -141,29 +172,26 @@ public class HomeFragment extends Fragment {
 
     private void configureImageButton() {
         // TODO Auto-generated method stub
-        ImageButton btn = (ImageButton) rootView.findViewById(R.id.btnAdd);
+        final ImageButton btn = (ImageButton) rootView.findViewById(R.id.btnAdd);
 
         btn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
-          if (!GlobalVar.Phone.equals("") && !GlobalVar.Token.equals(""))
-          {
-            Bundle bundle = new Bundle();
-            bundle.putInt("id",  R.drawable.camera);
-            bundle.putString("paths", "");
-            fragment = new AddAdFragment();
-            fragment.setArguments(bundle);
-            createFragment(fragment);
-          }
-          else
-          {
-            Intent in = new Intent(getActivity(), CodeActivity.class);
-            startActivity(in);
-          }
-        }
+                if (!GlobalVar.Phone.equals("") && !GlobalVar.Token.equals("")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("id", R.drawable.camera);
+                    bundle.putString("paths", "");
+                    fragment = new AddAdFragment();
+                    fragment.setArguments(bundle);
+                    createFragment(fragment);
+                } else {
+                    Intent in = new Intent(getActivity(), CodeActivity.class);
+                    startActivity(in);
+                }
+            }
         });
+
     }
 
 }

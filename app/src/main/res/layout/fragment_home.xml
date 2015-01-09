@@ -1,33 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@android:color/white">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:gravity="center">
+    <GridView
+        android:layout_height="match_parent"
+        android:id="@+id/gridView1"
+        android:layout_width="match_parent"
+        android:numColumns="auto_fit"
+        android:gravity="center"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"
+        android:paddingBottom="5dp">
+    </GridView>
 
-        <GridView
-            android:layout_height="wrap_content"
-            android:id="@+id/gridView1"
-            android:layout_width="match_parent"
-            android:numColumns="auto_fit"
-            android:horizontalSpacing="10dp"
-            android:verticalSpacing="10dp">
-        </GridView>
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:id="@+id/btnAdd"
-            android:background="@drawable/add_adv"/>
-
-        </LinearLayout>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/btnAdd"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@id/gridView1"
+        android:background="@drawable/add_adv"/>
 </RelativeLayout>
