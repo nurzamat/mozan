@@ -1,6 +1,8 @@
 package com.mozan;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,9 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.mozan.adapter.PlaceSlidesFragmentAdapter;
@@ -34,6 +39,7 @@ public class AddAdFragment extends Fragment {
     String paths = "";
     String content;
     String result;
+    Activity context;
 
     public AddAdFragment()
     {
@@ -52,7 +58,8 @@ public class AddAdFragment extends Fragment {
         }
         rootView = inflater.inflate(R.layout.fragment_add_ad, container, false);
 
-        mAdapter = new PlaceSlidesFragmentAdapter(getActivity(), paths.split("|"));
+        context = getActivity();
+        mAdapter = new PlaceSlidesFragmentAdapter(context, paths.split("|"));
 
         mPager = (ViewPager) rootView.findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
@@ -81,6 +88,58 @@ public class AddAdFragment extends Fragment {
                 });
 
         */
+
+        //spinner job
+
+        Spinner spinner = (Spinner) rootView.findViewById(R.id.spinner);
+        Spinner spinner_category = (Spinner) rootView.findViewById(R.id.spinner_category);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,
+                R.array.price_currencies, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter_category = ArrayAdapter.createFromResource(context,
+                R.array.categories_ru, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter_category.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+        spinner_category.setAdapter(adapter_category);
+
+        spinner.setOnItemSelectedListener(
+                new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view,
+                                               int pos, long id) {
+                        // On selecting a spinner item
+                        String item = parent.getItemAtPosition(pos).toString();
+
+                        // Showing selected spinner item
+                        //Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> arg0) {
+                        // TODO Auto-generated method stub
+                    }
+                }
+        );
+        spinner_category.setOnItemSelectedListener(
+                new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view,
+                                               int pos, long id) {
+                        // On selecting a spinner item
+                        String item = parent.getItemAtPosition(pos).toString();
+
+                        // Showing selected spinner item
+                        //Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> arg0) {
+                        // TODO Auto-generated method stub
+                    }
+                }
+        );
+
         cameraButton();
         categoryButton();
         postButton();
@@ -95,9 +154,9 @@ public class AddAdFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                //Intent in = new Intent(getActivity(), CustomGalleryActivity.class);
-                Intent in = new Intent(getActivity(), GalleryActivity.class);
-               // Intent in = new Intent(getActivity(), GridViewActivity.class); //Ravi solution
+                //Intent in = new Intent(context, CustomGalleryActivity.class);
+                Intent in = new Intent(context, GalleryActivity.class);
+               // Intent in = new Intent(context, GridViewActivity.class); //Ravi solution
                 startActivity(in);
             }
         });
@@ -116,7 +175,7 @@ public class AddAdFragment extends Fragment {
 
                 if(!validate())
                 {
-                    Toast.makeText(getActivity(), "Empty content text!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Empty content text!", Toast.LENGTH_LONG).show();
                 }
                 else
                 {
@@ -140,7 +199,7 @@ public class AddAdFragment extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            dialog = ProgressDialog.show(getActivity(), "",
+            dialog = ProgressDialog.show(context, "",
                     "Posting...", true);
         }
 
@@ -170,7 +229,7 @@ public class AddAdFragment extends Fragment {
         protected void onPostExecute(String result)
         {
             dialog.dismiss();
-            Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
 
         }
     }

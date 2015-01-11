@@ -1,8 +1,7 @@
 package com.mozan.util;
 
+import android.graphics.Bitmap;
 import android.util.Log;
-
-import com.mozan.R;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
@@ -14,6 +13,11 @@ import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.ByteArrayBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.BasicHttpParams;
@@ -25,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -89,10 +94,12 @@ public class ApiHelper {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("category", category);
         jsonObject.put("content", content);
+        jsonObject.put("price_currency", "USD");
         jsonObject.put("api_key", API_KEY);
 
         Log.i(TAG, "Sending request to: " + SEND_POST_URL);
-        HttpResponse response = request(SEND_POST_URL, jsonObject);
+        //HttpResponse response = request(SEND_POST_URL, jsonObject);
+       HttpResponse response = multipart_request(SEND_POST_URL);
 
         String responseStr = responseToStr(response);
 
@@ -206,6 +213,44 @@ public class ApiHelper {
         HttpResponse response = client.execute(post);
         return response;
     }
+
+    public HttpResponse multipart_request(String url)
+            throws IOException, IllegalStateException,
+            JSONException {
+
+        Bitmap bm = null;
+        if(GlobalVar._bitmaps.size() > 0)
+        bm = GlobalVar._bitmaps.get(0);
+
+        DefaultHttpClient client = (DefaultHttpClient) getNewHttpClient();
+        HttpPost post = new HttpPost(url);
+
+        MultipartEntityBuilder reqEntity = MultipartEntityBuilder.create();
+        /* example for setting a HttpMultipartMode */
+        reqEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+        reqEntity.addPart("content", new StringBody("test", ContentType.TEXT_PLAIN));
+        reqEntity.addPart("category", new StringBody("1", ContentType.TEXT_PLAIN));
+        reqEntity.addPart("price", new StringBody("12", ContentType.TEXT_PLAIN));
+        reqEntity.addPart("price_currency", new StringBody("USD", ContentType.TEXT_PLAIN));
+        try{
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.JPEG, 75, bos);
+            byte[] data = bos.toByteArray();
+            ByteArrayBody bab = new ByteArrayBody(data, "forest.jpg");
+            reqEntity.addPart("picture", bab);
+        }
+        catch(Exception e){
+            //Log.v("Exception in Image", ""+e);
+            reqEntity.addPart("picture", new StringBody(""));
+        }
+        post.setEntity(reqEntity.build());
+        post.setHeader("Content-type", "multipart/form-data");
+        post.setHeader("Authorization", "Token " + GlobalVar.Token);
+        HttpResponse response = client.execute(post);
+        return response;
+    }
+
 
     public String responseText(String status)
     {

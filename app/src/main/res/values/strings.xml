@@ -63,4 +63,23 @@
 
     <string name="title_activity_grid_view">GridViewActivity</string>
 
+    <string-array name="price_currencies">
+        <item>USD</item>
+        <item>EUR</item>
+        <item>RUB</item>
+        <item>KGS</item>
+        <item>KZT</item>
+        <item>BYR</item>
+        <item>UAH</item>
+        <item>TJS</item>
+        <item>AZN</item>
+    </string-array>
+    <string-array name="categories_ru">
+        <item>Электроника и техника</item>
+        <item>Строительство и ремонт</item>
+        <item>Недвижимость</item>
+        <item>Запчасти</item>
+        <item>Авто</item>
+        <item>Заведения, отдых</item>
+    </string-array>
 </resources>
