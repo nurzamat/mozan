@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.mozan.adapter.NavDrawerListAdapter;
 import com.mozan.model.NavDrawerItem;
+import com.mozan.util.GlobalVar;
+
 import java.util.ArrayList;
 
 public class HomeActivity extends FragmentActivity {
@@ -109,8 +111,9 @@ public class HomeActivity extends FragmentActivity {
 
 		if (savedInstanceState == null) {
 			// on first time display view for first nav item
-			displayView(0);
-
+			if(GlobalVar.adv_position)
+            displayView(6);
+            else displayView(0);
 
             Bundle extras = getIntent().getExtras();
             if(extras != null)
@@ -189,7 +192,7 @@ public class HomeActivity extends FragmentActivity {
 	/**
 	 * Diplaying fragment view for selected nav drawer list item
 	 * */
-	private void displayView(int position) {
+	public void displayView(int position) {
 		// update the main content by replacing fragments
 		Fragment fragment = null;
 		switch (position) {
@@ -227,6 +230,12 @@ public class HomeActivity extends FragmentActivity {
                  break;
              }
 
+      // conditional fragments
+        case 6:
+            {
+                fragment = new AddAdFragment();
+                break;
+            }
 		default:
 			break;
 		}

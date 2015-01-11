@@ -64,7 +64,7 @@ public class ApiHelper {
 
         Log.i(TAG, "Sending request to: " + CODE_URL);
         //String response = POST(CODE_URL, jsonObject); //for http request
-        HttpResponse response = request(CODE_URL, jsonObject); //for https request
+        HttpResponse response = request(CODE_URL, jsonObject, false); //for https request
         Log.i(TAG, "Response: " + response);
         String responseStr = responseToStr(response);
         Log.i(TAG, "ResponseStr: " + responseStr);
@@ -80,7 +80,7 @@ public class ApiHelper {
         jsonObject.put("api_key", API_KEY);
 
         Log.i(TAG, "Sending request to: " + TOKEN_URL);
-        HttpResponse response = request(TOKEN_URL, jsonObject);
+        HttpResponse response = request(TOKEN_URL, jsonObject, false);
 
         String responseStr = responseToStr(response);
 
@@ -197,7 +197,7 @@ public class ApiHelper {
         }
     }
 
-    public HttpResponse request(String url, JSONObject request)
+    public HttpResponse request(String url, JSONObject request, boolean token_auth)
             throws IOException, IllegalStateException,
             JSONException {
 
@@ -208,6 +208,7 @@ public class ApiHelper {
         post.setEntity(se);
         post.setHeader("Accept", "application/json");
         post.setHeader("Content-type", "application/json");
+        if(token_auth)
         post.setHeader("Authorization", "Token " + GlobalVar.Token);
 
         HttpResponse response = client.execute(post);

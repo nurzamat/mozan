@@ -186,6 +186,8 @@ public class HomeFragment extends Fragment {
                     fragment.setArguments(bundle);
                     createFragment(fragment);
                 } else {
+
+                    GlobalVar.adv_position = true;
                     Intent in = new Intent(getActivity(), CodeActivity.class);
                     startActivity(in);
                 }

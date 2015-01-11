@@ -24,6 +24,7 @@
         <item>Мои сообщения</item>
         <item>Мои клиенты</item>
         <item>Настройки</item>
+        <item>Добавить обьявление</item>
     </string-array>
 
     <string name="house_holder">House holder</string>
