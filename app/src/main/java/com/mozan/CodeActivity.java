@@ -115,7 +115,7 @@ public class CodeActivity extends Activity {
            {
                String exText = ex.getMessage();
                Log.d("code activity", "Exeption: " + exText);
-               return exText;
+               return "Ошибка";
            }
 
             return result;
