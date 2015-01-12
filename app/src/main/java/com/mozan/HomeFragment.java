@@ -1,20 +1,15 @@
 package com.mozan;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -87,32 +82,32 @@ public class HomeFragment extends Fragment {
                 switch (position) {
                     case 0:
                     {
-                        fragment = new HouseHolderPosts();
+                        fragment = new ElectronicsPosts();
                         break;
                     }
                     case 1:
                     {
-                        fragment = new RealtyPosts();
+                        fragment = new BuildingsPosts();
                         break;
                     }
                     case 2:
                     {
-                        fragment = new RentPosts();
+                        fragment = new RealtyPosts();
                         break;
                     }
                     case 3:
                     {
-                        fragment = new TransportPosts();
+                        fragment = new ServicePartsPosts();
                         break;
                     }
                     case 4:
                     {
-                        fragment = new CarPosts();
+                        fragment = new AvtoPosts();
                         break;
                     }
                     case 5:
                     {
-                        fragment = new ServicePosts();
+                        fragment = new RestPosts();
                         break;
                     }
 

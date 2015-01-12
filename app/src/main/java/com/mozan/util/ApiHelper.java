@@ -2,7 +2,6 @@ package com.mozan.util;
 
 import android.graphics.Bitmap;
 import android.util.Log;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
@@ -27,7 +26,6 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -45,14 +43,17 @@ public class ApiHelper {
     public static final String TOKEN_URL = "https://mozan.trade/api/auth/registration/";
     public static final String MEDIA_URL = "https://mozan.trade/media/";
     public static final String API_KEY = "7dbe69719ab6a99e677f4a1948b6c5b82162c40c";
+    public static final String SEND_POST_URL = "https://mozan.trade/api/post/create/";
+    //Categories
+    public static final String REALTY_URL = "https://mozan.trade/api/category/1/";
+    public static final String AVTO_URL = "https://mozan.trade/api/category/2/";
+    public static final String RENT_URL = "https://mozan.trade/api/category/3/";
     public static final String HOUSE_HOLDER_URL = "https://mozan.trade/api/category/4/";
     public static final String CARS_URL = "https://mozan.trade/api/category/5/";
-    public static final String REALTY_URL = "https://mozan.trade/api/category/1/";
-    public static final String RENT_URL = "https://mozan.trade/api/category/3/";
-    public static final String TRANSPORT_URL = "https://mozan.trade/api/category/2/";
-    public static final String SERVICE_URL = "https://mozan.trade/api/category/2/";
-    public static final String POST_URL = "https://mozan.trade/api/post/";
-    public static final String SEND_POST_URL = "https://mozan.trade/api/post/create/";
+    public static final String ELECTRONICS_URL = "https://mozan.trade/api/category/6/";
+    public static final String BUILDING_URL = "https://mozan.trade/api/category/7/";
+    public static final String SERVICE_PARTS_URL = "https://mozan.trade/api/category/8/";
+    public static final String REST_URL = "https://mozan.trade/api/category/9/";
 
     public JSONObject getCode(String phone) throws ApiException, IOException,
             JSONException {
@@ -88,18 +89,12 @@ public class ApiHelper {
         return new JSONObject(responseStr);
     }
 
-    public  JSONObject sendPost(String category, String content)
+    public JSONObject sendPost(JSONObject jsonObject)
             throws ApiException, IOException, JSONException {
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("category", category);
-        jsonObject.put("content", content);
-        jsonObject.put("price_currency", "USD");
-        jsonObject.put("api_key", API_KEY);
-
         Log.i(TAG, "Sending request to: " + SEND_POST_URL);
-        //HttpResponse response = request(SEND_POST_URL, jsonObject);
-       HttpResponse response = multipart_request(SEND_POST_URL);
+        HttpResponse response = request(SEND_POST_URL, jsonObject, true);
+       //HttpResponse response = multipart_request(SEND_POST_URL);
 
         String responseStr = responseToStr(response);
 

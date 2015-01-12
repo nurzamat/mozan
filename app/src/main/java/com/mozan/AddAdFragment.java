@@ -38,6 +38,10 @@ public class AddAdFragment extends Fragment {
     int id_resource = 0;
     String paths = "";
     String content;
+    int category_id;
+    String category;
+    String price;
+    String price_currency;
     String result;
     Activity context;
 
@@ -111,7 +115,7 @@ public class AddAdFragment extends Fragment {
                     public void onItemSelected(AdapterView<?> parent, View view,
                                                int pos, long id) {
                         // On selecting a spinner item
-                        String item = parent.getItemAtPosition(pos).toString();
+                        price_currency = parent.getItemAtPosition(pos).toString();
 
                         // Showing selected spinner item
                         //Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
@@ -127,11 +131,13 @@ public class AddAdFragment extends Fragment {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view,
                                                int pos, long id) {
-                        // On selecting a spinner item
-                        String item = parent.getItemAtPosition(pos).toString();
 
+                        category_id = pos;
+                        category = parent.getItemAtPosition(pos).toString();
+                        // On selecting a spinner item
+                       // String item = parent.getItemAtPosition(pos).toString();
                         // Showing selected spinner item
-                        //Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+                       // Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
                     }
                     @Override
                     public void onNothingSelected(AdapterView<?> arg0) {
@@ -175,7 +181,7 @@ public class AddAdFragment extends Fragment {
 
                 if(!validate())
                 {
-                    Toast.makeText(context, "Empty content text!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Заполните все поля", Toast.LENGTH_LONG).show();
                 }
                 else
                 {
@@ -189,7 +195,11 @@ public class AddAdFragment extends Fragment {
     private boolean validate(){
         EditText etContent = (EditText) rootView.findViewById(R.id.content);
         content = etContent.getText().toString().trim();
-        return !content.equals("");
+
+        EditText etPrice = (EditText) rootView.findViewById(R.id.price);
+        price = etPrice.getText().toString().trim();
+
+        return (!content.equals("") && !price.equals("") && !category.equals("") && !price_currency.equals(""));
     }
 
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {
@@ -211,7 +221,15 @@ public class AddAdFragment extends Fragment {
                 String category = "1";
                 result = "";
                 ApiHelper api = new ApiHelper();
-                JSONObject obj = api.sendPost(category, content);
+
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("category", category_id);
+                jsonObject.put("content", content);
+                jsonObject.put("price", price);
+                jsonObject.put("price_currency", price_currency);
+                jsonObject.put("api_key", api.API_KEY);
+
+                JSONObject obj = api.sendPost(jsonObject);
 
                 Log.d("AddAdFragment", "Token: " + GlobalVar.Token);
             }

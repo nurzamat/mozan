@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class RentPosts extends Fragment {
+public class RestPosts extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
@@ -35,14 +35,14 @@ public class RentPosts extends Fragment {
     private static final String TAG =  "[posts response]";
 
     // Movies json url
-    private static final String url = ApiHelper.RENT_URL;
+    private static final String url = ApiHelper.REST_URL;
     private ProgressDialog pDialog;
     private List<Post> postList = new ArrayList<Post>();
     private ListView listView;
     private CustomListAdapter adapter;
 
 
-    public RentPosts() {
+    public RestPosts() {
         // Required empty public constructor
     }
 

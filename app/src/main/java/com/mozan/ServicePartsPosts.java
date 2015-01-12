@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class HouseHolderPosts extends Fragment {
+public class ServicePartsPosts extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
@@ -35,14 +35,14 @@ public class HouseHolderPosts extends Fragment {
     private static final String TAG =  "[posts response]";
 
     // Movies json url
-    private static final String url = ApiHelper.HOUSE_HOLDER_URL;
+    private static final String url = ApiHelper.SERVICE_PARTS_URL;
     private ProgressDialog pDialog;
     private List<Post> postList = new ArrayList<Post>();
     private ListView listView;
     private CustomListAdapter adapter;
 
 
-    public HouseHolderPosts() {
+    public ServicePartsPosts() {
         // Required empty public constructor
     }
 
@@ -50,7 +50,7 @@ public class HouseHolderPosts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_house_holder_posts, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_service_posts, container, false);
 
         try
         {
