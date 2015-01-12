@@ -132,7 +132,7 @@ public class AddAdFragment extends Fragment {
                     public void onItemSelected(AdapterView<?> parent, View view,
                                                int pos, long id) {
 
-                        category_id = pos;
+                        category_id = pos + 1;
                         category = parent.getItemAtPosition(pos).toString();
                         // On selecting a spinner item
                        // String item = parent.getItemAtPosition(pos).toString();

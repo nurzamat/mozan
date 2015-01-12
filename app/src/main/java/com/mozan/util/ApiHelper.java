@@ -93,8 +93,8 @@ public class ApiHelper {
             throws ApiException, IOException, JSONException {
 
         Log.i(TAG, "Sending request to: " + SEND_POST_URL);
-        HttpResponse response = request(SEND_POST_URL, jsonObject, true);
-       //HttpResponse response = multipart_request(SEND_POST_URL);
+       // HttpResponse response = request(SEND_POST_URL, jsonObject, true);
+       HttpResponse response = multipart_request(SEND_POST_URL);
 
         String responseStr = responseToStr(response);
 
@@ -225,10 +225,11 @@ public class ApiHelper {
         /* example for setting a HttpMultipartMode */
         reqEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
-        reqEntity.addPart("content", new StringBody("test", ContentType.TEXT_PLAIN));
+        reqEntity.addPart("content", new StringBody("test_nur", ContentType.TEXT_PLAIN));
         reqEntity.addPart("category", new StringBody("1", ContentType.TEXT_PLAIN));
         reqEntity.addPart("price", new StringBody("12", ContentType.TEXT_PLAIN));
         reqEntity.addPart("price_currency", new StringBody("USD", ContentType.TEXT_PLAIN));
+        /*
         try{
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             bm.compress(Bitmap.CompressFormat.JPEG, 75, bos);
@@ -240,10 +241,12 @@ public class ApiHelper {
             //Log.v("Exception in Image", ""+e);
             reqEntity.addPart("picture", new StringBody(""));
         }
+        */
         post.setEntity(reqEntity.build());
         post.setHeader("Content-type", "multipart/form-data");
         post.setHeader("Authorization", "Token " + GlobalVar.Token);
         HttpResponse response = client.execute(post);
+        Log.d("response status", response.getStatusLine().toString());
         return response;
     }
 
