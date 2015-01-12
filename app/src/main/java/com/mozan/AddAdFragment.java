@@ -2,7 +2,6 @@ package com.mozan;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -38,7 +37,7 @@ public class AddAdFragment extends Fragment {
     int id_resource = 0;
     String paths = "";
     String content;
-    int category_id;
+    int position;
     String category;
     String price;
     String price_currency;
@@ -132,7 +131,7 @@ public class AddAdFragment extends Fragment {
                     public void onItemSelected(AdapterView<?> parent, View view,
                                                int pos, long id) {
 
-                        category_id = pos + 1;
+                        position = pos;
                         category = parent.getItemAtPosition(pos).toString();
                         // On selecting a spinner item
                        // String item = parent.getItemAtPosition(pos).toString();
@@ -218,18 +217,23 @@ public class AddAdFragment extends Fragment {
 
             try
             {
-                String category = "1";
                 result = "";
                 ApiHelper api = new ApiHelper();
 
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("category", category_id);
+                jsonObject.put("category", api.getCategoryId(position));
                 jsonObject.put("content", content);
                 jsonObject.put("price", price);
                 jsonObject.put("price_currency", price_currency);
                 jsonObject.put("api_key", api.API_KEY);
 
                 JSONObject obj = api.sendPost(jsonObject);
+                if(obj.has("id"))
+                {
+                    result = "Добавлено";
+
+                }
+                else result = "Ошибка";
 
                 Log.d("AddAdFragment", "Token: " + GlobalVar.Token);
             }

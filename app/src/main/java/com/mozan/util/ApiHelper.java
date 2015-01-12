@@ -2,6 +2,9 @@ package com.mozan.util;
 
 import android.graphics.Bitmap;
 import android.util.Log;
+
+import com.mozan.R;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
@@ -14,7 +17,6 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.ByteArrayBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -27,7 +29,6 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -93,8 +94,8 @@ public class ApiHelper {
             throws ApiException, IOException, JSONException {
 
         Log.i(TAG, "Sending request to: " + SEND_POST_URL);
-       // HttpResponse response = request(SEND_POST_URL, jsonObject, true);
-       HttpResponse response = multipart_request(SEND_POST_URL);
+        HttpResponse response = request(SEND_POST_URL, jsonObject, true);
+       //HttpResponse response = multipart_request(SEND_POST_URL);
 
         String responseStr = responseToStr(response);
 
@@ -192,14 +193,14 @@ public class ApiHelper {
         }
     }
 
-    public HttpResponse request(String url, JSONObject request, boolean token_auth)
+    public HttpResponse request(String url, JSONObject json, boolean token_auth)
             throws IOException, IllegalStateException,
             JSONException {
 
         DefaultHttpClient client = (DefaultHttpClient) getNewHttpClient();
 
         HttpPost post = new HttpPost(url);
-        StringEntity se = new StringEntity(request.toString());
+        StringEntity se = new StringEntity(json.toString(), HTTP.UTF_8);
         post.setEntity(se);
         post.setHeader("Accept", "application/json");
         post.setHeader("Content-type", "application/json");
@@ -271,6 +272,24 @@ public class ApiHelper {
             return "Ошибка при попытке отправки сообщения.";
         if(status.equals("ACCOUNT_ACTIVATED"))
             return "Ваш аккаунт был активирован. Спасибо, за регистрацию.";
+
+        return "";
+    }
+
+    public String getCategoryId(int position)
+    {
+        if(position == 0)
+            return "6";
+        if(position == 1)
+            return "7";
+        if(position == 2)
+            return "1";
+        if(position == 3)
+            return "8";
+        if(position == 4)
+            return "2";
+        if(position == 5)
+            return "9";
 
         return "";
     }

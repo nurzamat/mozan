@@ -35,6 +35,13 @@
     <string name="car">Car</string>
     <string name="service">Service</string>
 
+    <string name="electronics_ru">Электроника и техника</string>
+    <string name="building_ru">Строительство и ремонт</string>
+    <string name="realty_ru">Недвижимость</string>
+    <string name="service_parts_ru">Запчасти</string>
+    <string name="avto_ru">Авто</string>
+    <string name="rest_ru">Заведения, отдых</string>
+
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_icons">
