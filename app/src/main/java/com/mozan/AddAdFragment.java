@@ -159,6 +159,8 @@ public class AddAdFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
+
+                
                 //Intent in = new Intent(context, CustomGalleryActivity.class);
                 Intent in = new Intent(context, GalleryActivity.class);
                // Intent in = new Intent(context, GridViewActivity.class); //Ravi solution
@@ -251,7 +253,7 @@ public class AddAdFragment extends Fragment {
             {
                 String exText = ex.getMessage();
                 Log.d("AddAdFragment", "Exeption: " + exText);
-                return exText;
+                return "Ошибка";
             }
 
             return result;

@@ -131,7 +131,11 @@ public class GalleryActivity extends FragmentActivity {
             //thumbnails[i] = BitmapFactory.decodeFile(imagecursor.getString(dataColumnIndex), options);
             //thumbnails[i] = MediaStore.Images.Thumbnails.getThumbnail(getApplicationContext().getContentResolver(), id, MediaStore.Images.Thumbnails.MINI_KIND, null);
 
-            thumbnails[i] = utils.decodeFile(imagecursor.getString(dataColumnIndex), columnWidth, columnWidth);
+            //thumbnails[i] = utils.decodeFile(imagecursor.getString(dataColumnIndex), columnWidth, columnWidth);
+
+            thumbnails[i] = MediaStore.Images.Thumbnails.getThumbnail(
+                    getApplicationContext().getContentResolver(), id,
+                    MediaStore.Images.Thumbnails.MICRO_KIND, null);
             arrPath[i]= imagecursor.getString(dataColumnIndex);
         }
         imagecursor.close();

@@ -16,6 +16,7 @@
     <string name="drawer_close">Slider Menu Closed</string>
     <string name="phone_hint">111111111111111</string>
     <string name="code_hint">111111</string>
+    <string name="search_hint">search_hint</string>
 
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
@@ -34,7 +35,6 @@
     <string name="transport">Transport</string>
     <string name="car">Car</string>
     <string name="service">Service</string>
-
     <string name="electronics_ru">Электроника и техника</string>
     <string name="building_ru">Строительство и ремонт</string>
     <string name="realty_ru">Недвижимость</string>
@@ -69,7 +69,6 @@
     <string name="ACCOUNT_ACTIVATED">Ваш аккаунт был активирован. Спасибо, за регистрацию.</string>
     <string name="title_activity_custom_gallery">CustomGalleryActivity</string>
     <string name="title_activity_gallery">Галлерея</string>
-
     <string name="title_activity_grid_view">GridViewActivity</string>
 
     <string-array name="price_currencies">
@@ -91,4 +90,7 @@
         <item>Авто</item>
         <item>Заведения, отдых</item>
     </string-array>
+
+    <string name="title_activity_search_results">SearchResultsActivity</string>
+
 </resources>
