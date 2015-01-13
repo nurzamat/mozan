@@ -16,5 +16,6 @@ public class GlobalVar {
     public static String Phone = "";
     public static String Token = "";
     public static ArrayList<Bitmap> _bitmaps = new ArrayList<Bitmap>();
+    public static ArrayList<String> image_paths = new ArrayList<String>();
     public static boolean adv_position;
 }

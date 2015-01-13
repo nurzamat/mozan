@@ -230,8 +230,11 @@ public class AddAdFragment extends Fragment {
                 JSONObject obj = api.sendPost(jsonObject);
                 if(obj.has("id"))
                 {
-                    result = "Добавлено";
+                    String id = obj.getString("id");
 
+                    JSONObject jobj = api.sendImage(id, GlobalVar._bitmaps.get(0), GlobalVar.image_paths.get(0));
+
+                    result = "Добавлено";
                 }
                 else result = "Ошибка";
 

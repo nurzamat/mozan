@@ -3,22 +3,23 @@ package com.mozan.util;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-import com.mozan.R;
-
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.BasicHttpParams;
@@ -29,6 +30,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -44,6 +46,7 @@ public class ApiHelper {
     public static final String TOKEN_URL = "https://mozan.trade/api/auth/registration/";
     public static final String MEDIA_URL = "https://mozan.trade/media/";
     public static final String API_KEY = "7dbe69719ab6a99e677f4a1948b6c5b82162c40c";
+    public static final String POST_URL = "https://mozan.trade/api/post/";
     public static final String SEND_POST_URL = "https://mozan.trade/api/post/create/";
     //Categories
     public static final String REALTY_URL = "https://mozan.trade/api/category/1/";
@@ -96,6 +99,21 @@ public class ApiHelper {
         Log.i(TAG, "Sending request to: " + SEND_POST_URL);
         HttpResponse response = request(SEND_POST_URL, jsonObject, true);
        //HttpResponse response = multipart_request(SEND_POST_URL);
+
+        String responseStr = responseToStr(response);
+
+        Log.i(TAG, "Response: " + responseStr);
+        return new JSONObject(responseStr);
+    }
+
+    public JSONObject sendImage(String id, Bitmap bm, String image_path)
+            throws ApiException, IOException, JSONException {
+
+        Log.i(TAG, "Image path : " + image_path);
+        String url = POST_URL + id + "/images/";
+
+        Log.i(TAG, "Sending request to: " + url);
+        HttpResponse response = multipart_request(url, image_path);
 
         String responseStr = responseToStr(response);
 
@@ -211,46 +229,35 @@ public class ApiHelper {
         return response;
     }
 
-    public HttpResponse multipart_request(String url)
-            throws IOException, IllegalStateException,
-            JSONException {
-
-        Bitmap bm = null;
-        if(GlobalVar._bitmaps.size() > 0)
-        bm = GlobalVar._bitmaps.get(0);
+    public HttpResponse multipart_request(String url, String path) {
 
         DefaultHttpClient client = (DefaultHttpClient) getNewHttpClient();
-        HttpPost post = new HttpPost(url);
+        try {
 
-        MultipartEntityBuilder reqEntity = MultipartEntityBuilder.create();
-        /* example for setting a HttpMultipartMode */
-        reqEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+            HttpPost httppost = new HttpPost(url);
 
-        reqEntity.addPart("content", new StringBody("test_nur", ContentType.TEXT_PLAIN));
-        reqEntity.addPart("category", new StringBody("1", ContentType.TEXT_PLAIN));
-        reqEntity.addPart("price", new StringBody("12", ContentType.TEXT_PLAIN));
-        reqEntity.addPart("price_currency", new StringBody("USD", ContentType.TEXT_PLAIN));
-        /*
-        try{
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bm.compress(Bitmap.CompressFormat.JPEG, 75, bos);
-            byte[] data = bos.toByteArray();
-            ByteArrayBody bab = new ByteArrayBody(data, "forest.jpg");
-            reqEntity.addPart("picture", bab);
+            FileBody bin = new FileBody(new File(path));
+            StringBody comment = new StringBody("A binary file of some kind", ContentType.TEXT_PLAIN);
+
+            HttpEntity reqEntity = MultipartEntityBuilder.create()
+                    .addPart("original_image", bin)
+                    .addPart("comment", comment)
+                    .build();
+
+
+            httppost.setEntity(reqEntity);
+            httppost.setHeader("Authorization", "Token " + GlobalVar.Token);
+
+            Log.d("executing request", httppost.getRequestLine().toString());
+
+            HttpResponse response = client.execute(httppost);
+            return response;
         }
-        catch(Exception e){
-            //Log.v("Exception in Image", ""+e);
-            reqEntity.addPart("picture", new StringBody(""));
+        catch (Exception ex)
+        {
+            return null;
         }
-        */
-        post.setEntity(reqEntity.build());
-        post.setHeader("Content-type", "multipart/form-data");
-        post.setHeader("Authorization", "Token " + GlobalVar.Token);
-        HttpResponse response = client.execute(post);
-        Log.d("response status", response.getStatusLine().toString());
-        return response;
     }
-
 
     public String responseText(String status)
     {

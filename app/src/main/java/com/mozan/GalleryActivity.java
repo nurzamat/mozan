@@ -62,11 +62,13 @@ public class GalleryActivity extends FragmentActivity {
                 int cnt = 0;
                 String selectImages = "";
                 GlobalVar._bitmaps.clear();
+                GlobalVar.image_paths.clear();
                 for (int i =0; i<len; i++)
                 {
                     if (thumbnailsselection[i]){
                         cnt++;
                         GlobalVar._bitmaps.add(thumbnails[i]);
+                        GlobalVar.image_paths.add(arrPath[i]);
                     }
                 }
                 if (cnt == 0){
