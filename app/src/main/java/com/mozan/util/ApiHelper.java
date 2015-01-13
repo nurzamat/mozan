@@ -7,19 +7,15 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.BasicHttpParams;
@@ -106,7 +102,7 @@ public class ApiHelper {
         return new JSONObject(responseStr);
     }
 
-    public JSONObject sendImage(String id, Bitmap bm, String image_path)
+    public JSONObject sendImage(String id, String image_path)
             throws ApiException, IOException, JSONException {
 
         Log.i(TAG, "Image path : " + image_path);
@@ -237,13 +233,22 @@ public class ApiHelper {
             HttpPost httppost = new HttpPost(url);
 
             FileBody bin = new FileBody(new File(path));
-            StringBody comment = new StringBody("A binary file of some kind", ContentType.TEXT_PLAIN);
+            //StringBody comment = new StringBody("A binary file of some kind", ContentType.TEXT_PLAIN);
 
+            //for sending bitmap
+            /*
+            Bitmap bitmap = GlobalVar._bitmaps.get(0);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            byte[] data = bos.toByteArray();
+            ByteArrayBody bab = new ByteArrayBody(data, "nokia.jpg");
+            */
+            //end bitmap
             HttpEntity reqEntity = MultipartEntityBuilder.create()
                     .addPart("original_image", bin)
-                    .addPart("comment", comment)
+                    //.addPart("comment", comment)
+                    //.addPart("original_image",bab)   //for sending bitmap
                     .build();
-
 
             httppost.setEntity(reqEntity);
             httppost.setHeader("Authorization", "Token " + GlobalVar.Token);

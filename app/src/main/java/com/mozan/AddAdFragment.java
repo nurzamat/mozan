@@ -209,7 +209,7 @@ public class AddAdFragment extends Fragment {
             super.onPreExecute();
 
             dialog = ProgressDialog.show(context, "",
-                    "Posting...", true);
+                    "Загрузка...", true);
         }
 
         @Override
@@ -231,9 +231,16 @@ public class AddAdFragment extends Fragment {
                 if(obj.has("id"))
                 {
                     String id = obj.getString("id");
-
-                    JSONObject jobj = api.sendImage(id, GlobalVar._bitmaps.get(0), GlobalVar.image_paths.get(0));
-
+                    int length = GlobalVar.image_paths.size();
+                    if(length > 0)
+                    {
+                        JSONObject jobj;
+                        for (int i = 0; i <length; i++) {
+                            jobj = api.sendImage(id, GlobalVar.image_paths.get(i));
+                            if(jobj.has("id"))
+                                continue;
+                        }
+                    }
                     result = "Добавлено";
                 }
                 else result = "Ошибка";
@@ -255,7 +262,6 @@ public class AddAdFragment extends Fragment {
         {
             dialog.dismiss();
             Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
-
         }
     }
 }

@@ -67,8 +67,10 @@ public class GalleryActivity extends FragmentActivity {
                 {
                     if (thumbnailsselection[i]){
                         cnt++;
-                        GlobalVar._bitmaps.add(thumbnails[i]);
-                        GlobalVar.image_paths.add(arrPath[i]);
+                        if(i < 5){
+                            GlobalVar._bitmaps.add(thumbnails[i]);
+                            GlobalVar.image_paths.add(arrPath[i]);
+                        }
                     }
                 }
                 if (cnt == 0){
