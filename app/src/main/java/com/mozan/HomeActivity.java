@@ -115,7 +115,12 @@ public class HomeActivity extends FragmentActivity {
 			// on first time display view for first nav item
 			if(GlobalVar.adv_position)
             displayView(6);
-            else if(GlobalVar.search) displayView(7);
+            else if(GlobalVar.search)
+            {
+                displayView(7);
+                GlobalVar.query = "";
+                GlobalVar.search = false;
+            }
             else displayView(0);
 
             Bundle extras = getIntent().getExtras();

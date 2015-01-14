@@ -1,5 +1,6 @@
 package com.mozan;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -53,17 +54,18 @@ public class AvtoPosts extends Fragment {
 
         try
         {
+            Activity context = getActivity();
             listView = (ListView) rootView.findViewById(R.id.list);
-            adapter = new CustomListAdapter(getActivity(), postList);
+            adapter = new CustomListAdapter(context, postList);
             listView.setAdapter(adapter);
 
-            pDialog = new ProgressDialog(getActivity());
+            pDialog = new ProgressDialog(context);
             // Showing progress dialog before making http request
             pDialog.setMessage("Loading...");
             pDialog.show();
 
             // changing action bar color
-            getActivity().getActionBar().setBackgroundDrawable(
+            context.getActionBar().setBackgroundDrawable(
                     new ColorDrawable(Color.parseColor("#1b1b1b")));
         }
         catch (NullPointerException e)

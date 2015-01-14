@@ -48,6 +48,7 @@ public class SearchResultsActivity extends Activity {
         }
            // txtQuery.setText("Search Query: " + query);
         }
+
       finish();
     }
 }
