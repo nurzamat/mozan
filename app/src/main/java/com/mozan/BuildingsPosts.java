@@ -96,7 +96,7 @@ public class BuildingsPosts extends Fragment {
                                 genre.add(post.getUsername());
 
                                 post.setGenre(genre);
-                                // adding movie to movies array
+
                                 postList.add(post);
 
                             } catch (JSONException e) {

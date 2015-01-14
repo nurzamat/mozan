@@ -34,7 +34,6 @@ public class RealtyPosts extends Fragment {
     // Log tag
     private static final String TAG =  "[posts response]";
 
-    // Movies json url
     private static final String url = ApiHelper.REALTY_URL;
     private ProgressDialog pDialog;
     private List<Post> postList = new ArrayList<Post>();
@@ -97,7 +96,6 @@ public class RealtyPosts extends Fragment {
                                 genre.add(post.getUsername());
 
                                 post.setGenre(genre);
-                                // adding movie to movies array
                                 postList.add(post);
 
                             } catch (JSONException e) {

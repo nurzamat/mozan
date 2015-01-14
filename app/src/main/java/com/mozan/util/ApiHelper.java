@@ -1,6 +1,5 @@
 package com.mozan.util;
 
-import android.graphics.Bitmap;
 import android.util.Log;
 
 import org.apache.http.HttpEntity;
@@ -44,6 +43,7 @@ public class ApiHelper {
     public static final String API_KEY = "7dbe69719ab6a99e677f4a1948b6c5b82162c40c";
     public static final String POST_URL = "https://mozan.trade/api/post/";
     public static final String SEND_POST_URL = "https://mozan.trade/api/post/create/";
+    public static final String SEARCH_POST_URL = "https://mozan.trade/api/search/?q=";
     //Categories
     public static final String REALTY_URL = "https://mozan.trade/api/category/1/";
     public static final String AVTO_URL = "https://mozan.trade/api/category/2/";

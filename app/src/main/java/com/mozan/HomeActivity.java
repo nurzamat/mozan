@@ -115,6 +115,7 @@ public class HomeActivity extends FragmentActivity {
 			// on first time display view for first nav item
 			if(GlobalVar.adv_position)
             displayView(6);
+            else if(GlobalVar.search) displayView(7);
             else displayView(0);
 
             Bundle extras = getIntent().getExtras();
@@ -247,6 +248,11 @@ public class HomeActivity extends FragmentActivity {
         case 6:
             {
                 fragment = new AddAdFragment();
+                break;
+            }
+        case 7:
+            {
+                fragment = new SearchResultsFragment();
                 break;
             }
 		default:
