@@ -6,7 +6,8 @@ import java.util.ArrayList;
  * Created by User on 16.12.2014.
  */
 public class Post{
-    private String id, content, category, thumbnailUrl;
+    private String id, content, category;
+    private String thumbnailUrl = "";
     private String username;
     private String price = "";
     private ArrayList<String> genre;

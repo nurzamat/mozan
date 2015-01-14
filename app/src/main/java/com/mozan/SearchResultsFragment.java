@@ -83,25 +83,30 @@ public class SearchResultsFragment extends Fragment {
                 Log.d(TAG, response.toString());
 
                 try {
+
                     int count = response.getInt("count");
                     int start_index = response.getInt("start_index");
                     int end_index = response.getInt("end_index");
                     int num_pages = response.getInt("num_pages");
+
                     String next = response.getString("next");
                     String previous = response.getString("previous");
                     JSONArray jarray =  response.getJSONArray("results");
+                    JSONArray jimages;
 
                     for (int i = 0; i < jarray.length(); i++) {
                         try {
 
-                            JSONObject obj = jarray.getJSONObject(i);
+                            JSONObject obj = jarray.getJSONObject(i).getJSONObject("object");
                             Post post = new Post();
-                            JSONObject jobject = obj.getJSONObject("object");
 
-                            post.setContent(jobject.getString("content"));
-                            post.setCategory(obj.getString("category"));
+                            post.setContent(obj.getString("content"));
+
+                            post.setCategory("");
+                            jimages = obj.getJSONArray("images");
+                            if(jimages.length() > 0)
                             post.setThumbnailUrl(ApiHelper.MEDIA_URL + obj.getJSONArray("images").getJSONObject(0).getString("original_image"));
-                            post.setUsername(jobject.getJSONObject("owner").getString("username"));
+                            post.setUsername(obj.getJSONObject("owner").getString("username"));
                             post.setPrice(obj.getString("price"));
 
                             // Genre is json array
@@ -115,6 +120,10 @@ public class SearchResultsFragment extends Fragment {
                             e.printStackTrace();
                         }
                     }
+
+                    // notifying list adapter about data changes
+                    // so that it renders the list view with updated data
+                    adapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
