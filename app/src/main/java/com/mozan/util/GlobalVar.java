@@ -1,6 +1,7 @@
 package com.mozan.util;
 
 import android.graphics.Bitmap;
+import android.util.SparseBooleanArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,4 +21,6 @@ public class GlobalVar {
     public static boolean adv_position;
     public static boolean search = false;
     public static String query = "";
+
+    public static SparseBooleanArray mSparseBooleanArray = new SparseBooleanArray();
 }
