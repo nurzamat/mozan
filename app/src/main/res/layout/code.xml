@@ -44,7 +44,7 @@
                 android:hint="@string/phone_hint"
                 android:textColorHint="#ffffff"
               style="@style/AppTheme" />
-            </LinearLayout>>
+            </LinearLayout>
 		  <!-- Login button -->
 		  <Button android:id="@+id/btnCode"
 		  		android:layout_width="fill_parent"

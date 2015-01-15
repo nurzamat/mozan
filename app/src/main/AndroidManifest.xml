@@ -44,20 +44,8 @@
             android:value=".SearchResultsActivity" />
         </activity>
         <activity
-            android:name=".CustomGalleryActivity"
-            android:label="@string/title_activity_custom_gallery" >
-        </activity>
-        <activity
-            android:name=".GalleryActivity"
-            android:label="@string/title_activity_gallery" >
-        </activity>
-        <activity
             android:name=".MultiPhotoSelectActivity"
             android:label="@string/title_activity_gallery" >
-        </activity>
-        <activity
-            android:name=".GridViewActivity"
-            android:label="@string/title_activity_grid_view" >
         </activity>
         <activity
             android:name=".SearchResultsActivity"

@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -197,7 +196,6 @@ public class MultiPhotoSelectActivity extends Activity {
             }
 
             return mTempArry;
-
         }
         @Override
         public int getCount() {

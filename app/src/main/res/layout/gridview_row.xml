@@ -31,5 +31,5 @@
 		android:textSize="12sp"
 		android:ellipsize="marquee"
         android:textColor = "@color/grid_text"/>
-    </LinearLayout>>
+    </LinearLayout>
 </RelativeLayout>
