@@ -5,8 +5,6 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mozan.util.GlobalVar;
@@ -25,6 +23,7 @@ public class SearchResultsActivity extends Activity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         //txtQuery = (TextView) findViewById(R.id.txtQuery);
         handleIntent(getIntent());
+        finish();
     }
 
     @Override
@@ -47,6 +46,7 @@ public class SearchResultsActivity extends Activity {
             startActivity(in);
         }
            // txtQuery.setText("Search Query: " + query);
+            Toast.makeText(this, query, Toast.LENGTH_LONG).show();
         }
 
       finish();

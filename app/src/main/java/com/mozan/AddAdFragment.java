@@ -162,8 +162,10 @@ public class AddAdFragment extends Fragment {
 
                 
                 //Intent in = new Intent(context, CustomGalleryActivity.class);
-                Intent in = new Intent(context, GalleryActivity.class);
-               // Intent in = new Intent(context, GridViewActivity.class); //Ravi solution
+                //Intent in = new Intent(context, GalleryActivity.class);
+                //Intent in = new Intent(context, GridViewActivity.class); //Ravi solution
+
+                Intent in = new Intent(context, MultiPhotoSelectActivity.class);
                 startActivity(in);
             }
         });

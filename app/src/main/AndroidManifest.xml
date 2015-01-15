@@ -52,6 +52,10 @@
             android:label="@string/title_activity_gallery" >
         </activity>
         <activity
+            android:name=".MultiPhotoSelectActivity"
+            android:label="@string/title_activity_gallery" >
+        </activity>
+        <activity
             android:name=".GridViewActivity"
             android:label="@string/title_activity_grid_view" >
         </activity>
