@@ -20,8 +20,9 @@ public class StartActivity extends Activity {
         SharedPreferences sp = this.getSharedPreferences(GlobalVar.MOZAN,0);
         GlobalVar.Phone = sp.getString(GlobalVar.MOZAN_PHONE, "");
         GlobalVar.Token = sp.getString(GlobalVar.MOZAN_TOKEN, "");
+        GlobalVar.Uid = sp.getString(GlobalVar.MOZAN_UID, "");
 
-        Log.d("StartActivity", "Phone/token: " + GlobalVar.Phone  + " / " + GlobalVar.Token);
+        Log.d("StartActivity", "Phone/token/uid: " + GlobalVar.Phone  + " / " + GlobalVar.Token + " / " + GlobalVar.Uid);
 
         Intent in = new Intent(StartActivity.this, HomeActivity.class);
         startActivity(in);

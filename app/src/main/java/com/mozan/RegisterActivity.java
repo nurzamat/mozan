@@ -72,6 +72,7 @@ public class RegisterActivity extends Activity {
                 result = "";
                 if(obj.has("token")) {
                     GlobalVar.Token = obj.getString("token");
+                    GlobalVar.Uid = obj.getString("uid");
                 }
                 else
                 {
@@ -95,9 +96,10 @@ public class RegisterActivity extends Activity {
             if(!GlobalVar.Token.equals(""))
             {
                 SharedPreferences sp = getSharedPreferences(GlobalVar.MOZAN, 0);
-                SharedPreferences.Editor Ed=sp.edit();
+                SharedPreferences.Editor Ed = sp.edit();
                 Ed.putString(GlobalVar.MOZAN_PHONE, GlobalVar.Phone);
                 Ed.putString(GlobalVar.MOZAN_TOKEN,GlobalVar.Token);
+                Ed.putString(GlobalVar.MOZAN_UID,GlobalVar.Uid);
                 Ed.commit();
 
                 Intent in = new Intent(RegisterActivity.this, HomeActivity.class);
