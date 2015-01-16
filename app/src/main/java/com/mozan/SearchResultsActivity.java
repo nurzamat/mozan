@@ -5,13 +5,10 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.mozan.util.GlobalVar;
 
 public class SearchResultsActivity extends Activity {
-
-   // private TextView txtQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,9 +18,7 @@ public class SearchResultsActivity extends Activity {
         ActionBar actionBar = getActionBar();
         // Enabling Back navigation on Action Bar icon
         actionBar.setDisplayHomeAsUpEnabled(true);
-        //txtQuery = (TextView) findViewById(R.id.txtQuery);
         handleIntent(getIntent());
-        finish();
     }
 
     @Override
@@ -45,10 +40,9 @@ public class SearchResultsActivity extends Activity {
             Intent in = new Intent(SearchResultsActivity.this, HomeActivity.class);
             startActivity(in);
         }
-           // txtQuery.setText("Search Query: " + query);
-            Toast.makeText(this, query, Toast.LENGTH_LONG).show();
+           // Toast.makeText(this, query, Toast.LENGTH_LONG).show();
         }
 
-      finish();
+        finish();
     }
 }

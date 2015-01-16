@@ -1,7 +1,10 @@
 package com.mozan;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -17,6 +20,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.mozan.adapter.NavDrawerListAdapter;
 import com.mozan.model.NavDrawerItem;
@@ -28,7 +32,7 @@ public class HomeActivity extends FragmentActivity {
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
-
+    private Context context;
 	// nav drawer title
 	private CharSequence mDrawerTitle;
 
@@ -41,14 +45,12 @@ public class HomeActivity extends FragmentActivity {
 
 	private ArrayList<NavDrawerItem> navDrawerItems;
 	private NavDrawerListAdapter adapter;
-    public static boolean isHomeFragment;
     FragmentManager fragmentManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
 		mTitle = mDrawerTitle = getTitle();
 
 		// load slide menu items
@@ -76,7 +78,6 @@ public class HomeActivity extends FragmentActivity {
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
 		// What's hot, We  will add a counter here
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
-		
 
 		// Recycle the typed array
 		navMenuIcons.recycle();
@@ -141,7 +142,7 @@ public class HomeActivity extends FragmentActivity {
                     fragmentManager.beginTransaction()
                             .replace(R.id.frame_container, frag).commit();
 
-                    HomeActivity.isHomeFragment = false;
+                    GlobalVar.isHomeFragment = false;
 
                 } else {
                     // error in creating fragment
@@ -169,15 +170,15 @@ public class HomeActivity extends FragmentActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_main, menu);
         // Associate searchable configuration with the SearchView
-        SearchManager searchManager = (SearchManager) getSystemService(getApplicationContext().SEARCH_SERVICE);
+        context = getApplicationContext();
+        SearchManager searchManager = (SearchManager) getSystemService(context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search)
                 .getActionView();
         // Assumes current activity is the searchable activity
         //searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         //searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
 
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(getApplicationContext(), SearchResultsActivity.class)));
-
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(context, SearchResultsActivity.class)));
         //return super.onCreateOptionsMenu(menu);
         return true;
     }
@@ -265,11 +266,12 @@ public class HomeActivity extends FragmentActivity {
 		}
 
 		if (fragment != null) {
-
-            if(position == 0)
-               isHomeFragment = true;
-            else isHomeFragment = false;
-
+            if(position == 0) {
+                GlobalVar.isHomeFragment = true;
+            }
+            else {
+                GlobalVar.isHomeFragment = false;
+            }
 		 	fragmentManager = getSupportFragmentManager();
 			fragmentManager.beginTransaction()
 					.replace(R.id.frame_container, fragment).commit();
@@ -312,8 +314,17 @@ public class HomeActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-        if(!isHomeFragment)
-        displayView(0);
-        else super.onBackPressed();
+        if(!GlobalVar.isHomeFragment)
+        {
+            displayView(0);
+        }
+        else
+        {
+            //super.onBackPressed();
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
     }
 }

@@ -54,7 +54,7 @@ public class HomeFragment extends Fragment {
         DisplayMetrics metrics = new DisplayMetrics();
         context.getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-        int width = metrics.widthPixels;
+        //int width = metrics.widthPixels;
         height = metrics.heightPixels;
         height = height - const_height;
 /*
@@ -129,7 +129,7 @@ public class HomeFragment extends Fragment {
             fragmentManager.beginTransaction()
                     .replace(R.id.frame_container, fragment).commit();
 
-            HomeActivity.isHomeFragment = false;
+            GlobalVar.isHomeFragment = false;
 
         } else {
             // error in creating fragment

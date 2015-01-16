@@ -67,11 +67,9 @@ public class CustomListAdapter extends BaseAdapter {
         // getting post data for the row
         Post m = postItems.get(position);
         String image_url = m.getThumbnailUrl();
-
         // thumbnail image
-        if(!image_url.equals(""))
+        thumbNail.setDefaultImageResId(R.drawable.default_img);
         thumbNail.setImageUrl(image_url, imageLoader);
-        else thumbNail.setImageResource(R.drawable.default_img);
         // title
         content.setText(m.getContent());
 

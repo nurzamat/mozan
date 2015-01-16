@@ -37,12 +37,11 @@ public class SearchResultsFragment extends Fragment {
     // Log tag
     private static final String TAG =  "[search response]";
 
-    private static final String url = ApiHelper.SEARCH_POST_URL + GlobalVar.query;
+    private final String url = ApiHelper.SEARCH_POST_URL + GlobalVar.query;
     private ProgressDialog pDialog;
     private List<Post> postList = new ArrayList<Post>();
     private ListView listView;
     private CustomListAdapter adapter;
-
 
     public SearchResultsFragment() {
         // Required empty public constructor

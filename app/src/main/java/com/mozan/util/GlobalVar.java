@@ -23,6 +23,6 @@ public class GlobalVar {
     public static boolean adv_position;
     public static boolean search = false;
     public static String query = "";
-
+    public static boolean isHomeFragment;
     public static SparseBooleanArray mSparseBooleanArray = new SparseBooleanArray();
 }
