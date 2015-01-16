@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -56,6 +57,8 @@ public class RealtyPosts extends Fragment {
         {
             Activity context = getActivity();
             listView = (ListView) rootView.findViewById(R.id.list);
+            TextView emptyText = (TextView)rootView.findViewById(android.R.id.empty);
+            listView.setEmptyView(emptyText);
             adapter = new CustomListAdapter(context, postList);
             listView.setAdapter(adapter);
 

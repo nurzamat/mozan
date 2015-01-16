@@ -11,4 +11,10 @@
         android:dividerHeight="1dp"
         android:listSelector="@drawable/list_row_selector" />
 
+    <TextView android:id="@android:id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/no_results"
+        android:gravity="center"
+        android:textSize="16dp"/>
 </FrameLayout>
