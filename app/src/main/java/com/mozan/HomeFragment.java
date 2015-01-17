@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.mozan.adapter.GridviewAdapter;
 import com.mozan.util.GlobalVar;
@@ -41,7 +42,6 @@ public class HomeFragment extends Fragment {
 
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
         prepareList();
-
        /*
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -176,7 +176,7 @@ public class HomeFragment extends Fragment {
                     Bundle bundle = new Bundle();
                     bundle.putInt("id", R.drawable.camera);
                     bundle.putString("paths", "");
-                    fragment = new AddAdFragment();
+                    fragment = new AddPostFragment();
                     fragment.setArguments(bundle);
                     createFragment(fragment);
                 } else {

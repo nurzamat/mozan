@@ -51,12 +51,13 @@ public class RestPosts extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_rent_posts, container, false);
+        View empty_view = inflater.inflate(R.layout.empty_result, container, false);
 
         try
         {
             Activity context = getActivity();
             listView = (ListView) rootView.findViewById(R.id.list);
-            TextView emptyText = (TextView)rootView.findViewById(android.R.id.empty);
+            TextView emptyText = (TextView)empty_view.findViewById(android.R.id.empty);
             listView.setEmptyView(emptyText);
             adapter = new CustomListAdapter(context, postList);
             listView.setAdapter(adapter);

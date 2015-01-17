@@ -131,7 +131,7 @@ public class HomeActivity extends FragmentActivity {
                 Bundle bundle = new Bundle();
                 bundle.putInt("id_resource", id_resource);
                 bundle.putString("paths", paths);
-                AddAdFragment frag = new AddAdFragment();
+                AddPostFragment frag = new AddPostFragment();
                 frag.setArguments(bundle);
                 if (frag != null) {
                     FragmentManager fragmentManager = getSupportFragmentManager();
@@ -251,7 +251,7 @@ public class HomeActivity extends FragmentActivity {
       // conditional fragments
         case 6:
             {
-                fragment = new AddAdFragment();
+                fragment = new AddPostFragment();
                 break;
             }
         case 7:

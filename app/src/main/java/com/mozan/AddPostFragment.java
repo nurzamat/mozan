@@ -27,7 +27,7 @@ import com.mozan.util.GlobalVar;
 
 import org.json.JSONObject;
 
-public class AddAdFragment extends Fragment {
+public class AddPostFragment extends Fragment {
 
     // Declare Variables
     ViewPager mPager;
@@ -44,7 +44,7 @@ public class AddAdFragment extends Fragment {
     String result;
     Activity context;
 
-    public AddAdFragment()
+    public AddPostFragment()
     {
 
     }
@@ -59,7 +59,7 @@ public class AddAdFragment extends Fragment {
            this.id_resource =  obj.getInt("id_resource");
            this.paths = obj.getString("paths");
         }
-        rootView = inflater.inflate(R.layout.fragment_add_ad, container, false);
+        rootView = inflater.inflate(R.layout.fragment_add_post, container, false);
 
         context = getActivity();
         mAdapter = new PlaceSlidesFragmentAdapter(context, paths.split("|"));
@@ -75,7 +75,7 @@ public class AddAdFragment extends Fragment {
                 .setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
                     public void onPageSelected(int position) {
-                        Toast.makeText(AddAdFragment.this.getActivity(),
+                        Toast.makeText(AddPostFragment.this.getActivity(),
                                 "Changed to page " + position,
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -249,12 +249,12 @@ public class AddAdFragment extends Fragment {
                 }
                 else result = "Ошибка";
 
-                Log.d("AddAdFragment", "Token: " + GlobalVar.Token);
+                Log.d("AddPostFragment", "Token: " + GlobalVar.Token);
             }
             catch (Exception ex)
             {
                 String exText = ex.getMessage();
-                Log.d("AddAdFragment", "Exeption: " + exText);
+                Log.d("AddPostFragment", "Exeption: " + exText);
                 return "Ошибка";
             }
 

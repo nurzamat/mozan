@@ -18,12 +18,11 @@ import com.android.volley.VolleyLog;
 import com.mozan.adapter.CustomListAdapter;
 import com.mozan.model.Post;
 import com.mozan.util.ApiHelper;
+import com.mozan.util.GlobalVar;
 import com.mozan.util.JsonObjectRequest;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,12 +49,12 @@ public class ElectronicsPosts extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_house_holder_posts, container, false);
-
+        View empty_view = inflater.inflate(R.layout.empty_result, container, false);
         try
         {
             Activity context = getActivity();
             listView = (ListView) rootView.findViewById(R.id.list);
-            TextView emptyText = (TextView)rootView.findViewById(android.R.id.empty);
+            TextView emptyText = (TextView) empty_view.findViewById(android.R.id.empty);
             listView.setEmptyView(emptyText);
             adapter = new CustomListAdapter(context, postList);
             listView.setAdapter(adapter);

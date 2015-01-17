@@ -2,9 +2,7 @@ package com.mozan.util;
 
 import android.graphics.Bitmap;
 import android.util.SparseBooleanArray;
-
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by User on 12.12.2014.
