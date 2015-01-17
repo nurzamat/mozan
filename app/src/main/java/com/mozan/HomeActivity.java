@@ -1,6 +1,5 @@
 package com.mozan;
 
-import android.app.Activity;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -20,7 +19,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.mozan.adapter.NavDrawerListAdapter;
 import com.mozan.model.NavDrawerItem;
@@ -226,7 +224,7 @@ public class HomeActivity extends FragmentActivity {
              }
 		case 1:
              {
-                 fragment = new MyAdvertsFragment();
+                 fragment = new MyPostsFragment();
                  break;
              }
 		case 2:

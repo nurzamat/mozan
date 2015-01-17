@@ -13,9 +13,11 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.mozan.adapter.CustomListAdapter;
 import com.mozan.model.Post;
 import com.mozan.util.ApiHelper;
@@ -41,7 +43,6 @@ public class ElectronicsPosts extends Fragment {
     private List<Post> postList = new ArrayList<Post>();
     private ListView listView;
     private CustomListAdapter adapter;
-
 
     public ElectronicsPosts() {
         // Required empty public constructor
@@ -76,6 +77,7 @@ public class ElectronicsPosts extends Fragment {
             e.printStackTrace();
         }
 
+        /*
         JsonArrayRequest postReq = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -120,6 +122,72 @@ public class ElectronicsPosts extends Fragment {
         // Adding request to request queue
         AppController appcon = AppController.getInstance();
         appcon.addToRequestQueue(postReq);
+*/
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
+                url, null, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(TAG, response.toString());
+
+                try {
+
+                    int count = response.getInt("count");
+                    String next = response.getString("next");
+                    String previous = response.getString("previous");
+                    JSONArray jarray =  response.getJSONArray("results");
+                    JSONArray jimages;
+
+                    for (int i = 0; i < jarray.length(); i++) {
+                        try {
+
+                            JSONObject obj = jarray.getJSONObject(i);
+                            Post post = new Post();
+
+                            post.setContent(obj.getString("content"));
+
+                            post.setCategory("");
+                            jimages = obj.getJSONArray("images");
+                            if(jimages.length() > 0)
+                                post.setThumbnailUrl(ApiHelper.MEDIA_URL + obj.getJSONArray("images").getJSONObject(0).getString("original_image"));
+                            post.setUsername(obj.getJSONObject("owner").getString("username"));
+                            post.setPrice(obj.getString("price"));
+
+                            // Genre is json array
+                            ArrayList<String> genre = new ArrayList<String>();
+                            genre.add(post.getUsername());
+
+                            post.setGenre(genre);
+                            postList.add(post);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    // notifying list adapter about data changes
+                    // so that it renders the list view with updated data
+                    adapter.notifyDataSetChanged();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                hidePDialog();
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                // hide the progress dialog
+                hidePDialog();
+            }
+        });
+        // Adding request to request queue
+        AppController appcon = AppController.getInstance();
+        appcon.addToRequestQueue(jsonObjReq);
+
 
         // Inflate the layout for this fragment
         return rootView;

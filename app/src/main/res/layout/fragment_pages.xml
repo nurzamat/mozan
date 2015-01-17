@@ -17,6 +17,4 @@
         android:src="@drawable/ic_pages"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"/>
-    
-
 </RelativeLayout>

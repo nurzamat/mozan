@@ -21,7 +21,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.mozan.adapter.CustomListAdapter;
 import com.mozan.model.Post;
 import com.mozan.util.ApiHelper;
-import com.mozan.util.JsonArrayRequest;
+import com.mozan.util.GlobalVar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,22 +30,21 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+public class MyPostsFragment extends Fragment {
 
-public class RealtyPosts extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     // Log tag
-    private static final String TAG =  "[posts response]";
+    private static final String TAG =  "[my posts response]";
 
-    private static final String url = ApiHelper.REALTY_URL;
+    private String url;
     private ProgressDialog pDialog;
     private List<Post> postList = new ArrayList<Post>();
     private ListView listView;
     private CustomListAdapter adapter;
 
-
-    public RealtyPosts() {
+    public MyPostsFragment() {
         // Required empty public constructor
     }
 
@@ -53,8 +52,8 @@ public class RealtyPosts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_realty_posts, container, false);
-
+        View rootView = inflater.inflate(R.layout.fragment_my_posts, container, false);
+        url = ApiHelper.USER_URL + GlobalVar.Uid + "/posts/";
         try
         {
             Activity context = getActivity();
@@ -68,7 +67,6 @@ public class RealtyPosts extends Fragment {
             // Showing progress dialog before making http request
             pDialog.setMessage("Loading...");
             pDialog.show();
-
             // changing action bar color
             context.getActionBar().setBackgroundDrawable(
                     new ColorDrawable(Color.parseColor("#1b1b1b")));
