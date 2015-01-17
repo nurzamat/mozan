@@ -12,16 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.mozan.adapter.CustomListAdapter;
 import com.mozan.model.Post;
 import com.mozan.util.ApiHelper;
-import com.mozan.util.JsonArrayRequest;
+import com.mozan.util.JsonObjectRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -124,8 +121,7 @@ public class ElectronicsPosts extends Fragment {
         appcon.addToRequestQueue(postReq);
 */
 
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                url, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
