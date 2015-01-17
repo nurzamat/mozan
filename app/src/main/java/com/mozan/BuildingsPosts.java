@@ -33,7 +33,7 @@ public class BuildingsPosts extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     // Log tag
-    private static final String TAG =  "[posts response]";
+    private static final String TAG =  "[post response]";
 
     // Movies json url
     private static final String url = ApiHelper.BUILDING_URL;

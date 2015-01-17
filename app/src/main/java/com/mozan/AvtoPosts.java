@@ -33,7 +33,7 @@ public class AvtoPosts extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     // Log tag
-    private static final String TAG =  "[posts response]";
+    private static final String TAG =  "[post response]";
 
     private static final String url = ApiHelper.AVTO_URL;
     private ProgressDialog pDialog;

@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.mozan.adapter.CustomListAdapter;
+import com.mozan.adapter.CustomListPostAdapter;
 import com.mozan.model.Post;
 import com.mozan.util.ApiHelper;
 import com.mozan.util.GlobalVar;
@@ -33,13 +33,13 @@ public class MyPostsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     // Log tag
-    private static final String TAG =  "[my posts response]";
+    private static final String TAG =  "[my post response]";
 
     private String url;
     private ProgressDialog pDialog;
     private List<Post> postList = new ArrayList<Post>();
     private ListView listView;
-    private CustomListAdapter adapter;
+    private CustomListPostAdapter adapter;
     private TextView emptyText;
 
     public MyPostsFragment() {
@@ -58,7 +58,7 @@ public class MyPostsFragment extends Fragment {
             listView = (ListView) rootView.findViewById(R.id.list);
             emptyText = (TextView)rootView.findViewById(android.R.id.empty);
             listView.setEmptyView(emptyText);
-            adapter = new CustomListAdapter(context, postList);
+            adapter = new CustomListPostAdapter(context, postList);
             listView.setAdapter(adapter);
 
             pDialog = new ProgressDialog(context);
