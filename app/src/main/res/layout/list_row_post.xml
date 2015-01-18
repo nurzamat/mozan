@@ -57,9 +57,16 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:id="@+id/btnAdd"
+        android:id="@+id/btnEdit"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:background="@drawable/ic_action_delete"/>
+        android:background="@drawable/ic_menu_edit"/>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/btnDelete"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/btnEdit"
+        android:background="@drawable/ic_menu_delete"/>
 </RelativeLayout>
