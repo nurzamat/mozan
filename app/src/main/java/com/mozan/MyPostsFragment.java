@@ -63,7 +63,7 @@ public class MyPostsFragment extends Fragment {
             listView = (ListView) rootView.findViewById(R.id.list);
             emptyText = (TextView)rootView.findViewById(android.R.id.empty);
             listView.setEmptyView(emptyText);
-            adapter = new CustomListPostAdapter(context, postList);
+            adapter = new CustomListPostAdapter(context, this, postList);
             listView.setAdapter(adapter);
 
             pDialog = new ProgressDialog(context);
