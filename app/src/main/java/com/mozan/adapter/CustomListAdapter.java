@@ -106,7 +106,7 @@ public class CustomListAdapter extends BaseAdapter {
 
         int _position;
         String _id;
-        ArrayList<String> _image_urls;
+        ArrayList<String> _image_urls = null;
 
         // constructor
         public OnImageClickListener(int position, String id, ArrayList<String> _image_urls)
@@ -120,13 +120,15 @@ public class CustomListAdapter extends BaseAdapter {
         public void onClick(View v) {
             // on selecting grid view image
             // launch full screen activity
-
-            Intent i = new Intent(activity, FullScreenViewActivity.class);
-            i.putExtra("position", _position);
-            i.putExtra("id", _id);
-            i.putExtra("image_urls", _image_urls);
-            activity.startActivity(i);
-
+            if(_image_urls != null && _image_urls.size() > 0)
+            {
+                Intent i = new Intent(activity, FullScreenViewActivity.class);
+                i.putExtra("position", _position);
+                i.putExtra("id", _id);
+                i.putExtra("image_urls", _image_urls);
+                activity.startActivity(i);
+            }
+            else Toast.makeText(activity, R.string.no_photo, Toast.LENGTH_SHORT).show();
             //Toast.makeText(activity, "pos: " + _position + "post id:" + _id, Toast.LENGTH_LONG).show();
         }
 

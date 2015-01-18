@@ -62,12 +62,16 @@ public class AddPostFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_add_post, container, false);
 
         context = getActivity();
+        int color = getResources().getColor(R.color.blue_dark);
         mAdapter = new PlaceSlidesFragmentAdapter(context, paths.split("|"));
 
         mPager = (ViewPager) rootView.findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
 
         mIndicator = (CirclePageIndicator) rootView.findViewById(R.id.indicator);
+        mIndicator.setFillColor(color);
+        mIndicator.setStrokeColor(color);
+        mIndicator.setRadius(5);
         mIndicator.setViewPager(mPager);
         mIndicator.setSnap(true);
         /*

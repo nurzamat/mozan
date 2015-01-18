@@ -9,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
@@ -46,7 +48,8 @@ public class FullScreenImageAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         NetworkImageView imgDisplay;
-        Button btnClose;
+        ImageButton btnClose;
+        TextView count;
 
         inflater = (LayoutInflater) _activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -57,12 +60,15 @@ public class FullScreenImageAdapter extends PagerAdapter {
             imageLoader = AppController.getInstance().getImageLoader();
 
         imgDisplay = (NetworkImageView) viewLayout.findViewById(R.id.imgDisplay);
-
-        btnClose = (Button) viewLayout.findViewById(R.id.btnClose);
+        count = (TextView) viewLayout.findViewById(R.id.text_indicator);
+        btnClose = (ImageButton) viewLayout.findViewById(R.id.btnClose);
 
         imgDisplay.setDefaultImageResId(R.drawable.default_img);
         imgDisplay.setImageUrl(_imagePaths.get(position),imageLoader);
 
+        //indicator text
+        int start = position + 1;
+        count.setText(start + " из " + _imagePaths.size());
         // close button click event
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
