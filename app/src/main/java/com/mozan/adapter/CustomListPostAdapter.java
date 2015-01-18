@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,11 @@ public class CustomListPostAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
     private List<Post> postItems;
+    //views
+    private int thumbnail_id;
+    private int edit_id;
+    private int delete_id;
+
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
     public CustomListPostAdapter(Activity activity, List<Post> postItems) {
@@ -66,6 +72,8 @@ public class CustomListPostAdapter extends BaseAdapter {
         TextView username = (TextView) convertView.findViewById(R.id.username);
         TextView category = (TextView) convertView.findViewById(R.id.category);
         TextView price = (TextView) convertView.findViewById(R.id.price);
+        ImageButton edit = (ImageButton) convertView.findViewById(R.id.btnEdit);
+        ImageButton delete = (ImageButton) convertView.findViewById(R.id.btnDelete);
 
         // getting post data for the row
         Post m = postItems.get(position);
@@ -83,7 +91,12 @@ public class CustomListPostAdapter extends BaseAdapter {
         price.setText(String.valueOf(m.getPrice()));
 
         // image view click listener
-        thumbNail.setOnClickListener(new OnImageClickListener(position, m.getId(), m.getImageUrls()));
+        thumbnail_id = thumbNail.getId();
+        edit_id = edit.getId();
+        delete_id = delete.getId();
+        thumbNail.setOnClickListener(new OnImageClickListener(thumbnail_id, position, m.getId(), m.getImageUrls()));
+        edit.setOnClickListener(new OnImageClickListener(edit_id));
+        delete.setOnClickListener(new OnImageClickListener(delete_id));
 
         return convertView;
     }
@@ -93,10 +106,16 @@ public class CustomListPostAdapter extends BaseAdapter {
         int _position;
         String _id;
         ArrayList<String> _image_urls = null;
+        int _view_id = 0;
+        // constructors
 
-        // constructor
-        public OnImageClickListener(int position, String id, ArrayList<String> _image_urls)
+        public OnImageClickListener(int view_id)
         {
+            this._view_id = view_id;
+        }
+        public OnImageClickListener(int view_id, int position, String id, ArrayList<String> _image_urls)
+        {
+            this._view_id = view_id;
             this._position = position;
             this._id = id;
             this._image_urls = _image_urls;
@@ -104,17 +123,29 @@ public class CustomListPostAdapter extends BaseAdapter {
 
         @Override
         public void onClick(View v) {
+
             // on selecting grid view image
             // launch full screen activity
-            if(_image_urls != null && _image_urls.size() > 0)
+            if(_view_id == thumbnail_id)
             {
-                Intent i = new Intent(activity, FullScreenViewActivity.class);
-                i.putExtra("position", _position);
-                i.putExtra("id", _id);
-                i.putExtra("image_urls", _image_urls);
-                activity.startActivity(i);
+                if(_image_urls != null && _image_urls.size() > 0)
+                {
+                    Intent i = new Intent(activity, FullScreenViewActivity.class);
+                    i.putExtra("position", _position);
+                    i.putExtra("id", _id);
+                    i.putExtra("image_urls", _image_urls);
+                    activity.startActivity(i);
+                }
+                else Toast.makeText(activity, R.string.no_photo, Toast.LENGTH_SHORT).show();
             }
-            else Toast.makeText(activity, R.string.no_photo, Toast.LENGTH_SHORT).show();
+            if(_view_id == edit_id)
+            {
+               Toast.makeText(activity, "edit pressed", Toast.LENGTH_SHORT).show();
+            }
+            if(_view_id == delete_id)
+            {
+                Toast.makeText(activity, "delete pressed", Toast.LENGTH_SHORT).show();
+            }
             //Toast.makeText(activity, "pos: " + _position + "post id:" + _id, Toast.LENGTH_LONG).show();
         }
 

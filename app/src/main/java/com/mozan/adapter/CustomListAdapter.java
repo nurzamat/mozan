@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +21,6 @@ import com.mozan.AppController;
 import com.mozan.FullScreenViewActivity;
 import com.mozan.R;
 import com.mozan.model.Post;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +29,11 @@ public class CustomListAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private List<Post> postItems;
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+
+    //views
+    private int thumbnail_id;
+    private int message_id;
+    private int call_id;
 
     public CustomListAdapter(Activity activity, List<Post> postItems) {
         this.activity = activity;
@@ -67,6 +72,8 @@ public class CustomListAdapter extends BaseAdapter {
         TextView username = (TextView) convertView.findViewById(R.id.username);
         TextView category = (TextView) convertView.findViewById(R.id.category);
         TextView price = (TextView) convertView.findViewById(R.id.price);
+        ImageButton message = (ImageButton) convertView.findViewById(R.id.btnMessage);
+        ImageButton call = (ImageButton) convertView.findViewById(R.id.btnCall);
 
         // getting post data for the row
         Post m = postItems.get(position);
@@ -96,7 +103,12 @@ public class CustomListAdapter extends BaseAdapter {
         price.setText(String.valueOf(m.getPrice()));
 
         // image view click listener
-        thumbNail.setOnClickListener(new OnImageClickListener(position, m.getId(), m.getImageUrls()));
+        thumbnail_id = thumbNail.getId();
+        message_id = message.getId();
+        call_id = call.getId();
+        thumbNail.setOnClickListener(new OnImageClickListener(thumbnail_id, position, m.getId(), m.getImageUrls()));
+        message.setOnClickListener(new OnImageClickListener(message_id));
+        call.setOnClickListener(new OnImageClickListener(call_id));
 
         return convertView;
     }
@@ -107,10 +119,16 @@ public class CustomListAdapter extends BaseAdapter {
         int _position;
         String _id;
         ArrayList<String> _image_urls = null;
+        int _view_id = 0;
 
-        // constructor
-        public OnImageClickListener(int position, String id, ArrayList<String> _image_urls)
+        // constructors
+        public OnImageClickListener(int view_id)
         {
+            this._view_id = view_id;
+        }
+        public OnImageClickListener(int view_id, int position, String id, ArrayList<String> _image_urls)
+        {
+            this._view_id = view_id;
             this._position = position;
             this._id = id;
             this._image_urls = _image_urls;
@@ -120,15 +138,26 @@ public class CustomListAdapter extends BaseAdapter {
         public void onClick(View v) {
             // on selecting grid view image
             // launch full screen activity
-            if(_image_urls != null && _image_urls.size() > 0)
+            if(_view_id == thumbnail_id)
             {
-                Intent i = new Intent(activity, FullScreenViewActivity.class);
-                i.putExtra("position", _position);
-                i.putExtra("id", _id);
-                i.putExtra("image_urls", _image_urls);
-                activity.startActivity(i);
+                if(_image_urls != null && _image_urls.size() > 0)
+                {
+                    Intent i = new Intent(activity, FullScreenViewActivity.class);
+                    i.putExtra("position", _position);
+                    i.putExtra("id", _id);
+                    i.putExtra("image_urls", _image_urls);
+                    activity.startActivity(i);
+                }
+                else Toast.makeText(activity, R.string.no_photo, Toast.LENGTH_SHORT).show();
             }
-            else Toast.makeText(activity, R.string.no_photo, Toast.LENGTH_SHORT).show();
+            if(_view_id == message_id)
+            {
+                Toast.makeText(activity, "message pressed", Toast.LENGTH_SHORT).show();
+            }
+            if(_view_id == call_id)
+            {
+                Toast.makeText(activity, "call pressed", Toast.LENGTH_SHORT).show();
+            }
             //Toast.makeText(activity, "pos: " + _position + "post id:" + _id, Toast.LENGTH_LONG).show();
         }
 
