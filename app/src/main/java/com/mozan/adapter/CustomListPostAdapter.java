@@ -5,7 +5,9 @@ package com.mozan.adapter;
  */
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -144,7 +146,40 @@ public class CustomListPostAdapter extends BaseAdapter {
             }
             if(_view_id == delete_id)
             {
-                Toast.makeText(activity, "delete pressed", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(activity, "delete pressed", Toast.LENGTH_SHORT).show();
+
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
+
+                // Setting Dialog Title
+                alertDialog.setTitle("Удаление");
+
+                // Setting Dialog Message
+                alertDialog.setMessage("Вы действительно хотите удалить обьявление?");
+
+                // Setting Icon to Dialog
+                alertDialog.setIcon(R.drawable.ic_action_delete);
+
+                // Setting Positive "Yes" Button
+                alertDialog.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int which) {
+
+                        // Write your code here to invoke YES event
+                        Toast.makeText(activity, "You clicked on YES", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                // Setting Negative "NO" Button
+                alertDialog.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Write your code here to invoke NO event
+                        Toast.makeText(activity, "You clicked on NO", Toast.LENGTH_SHORT).show();
+                        dialog.cancel();
+                    }
+                });
+
+                // Showing Alert Message
+                alertDialog.show();
+
             }
             //Toast.makeText(activity, "pos: " + _position + "post id:" + _id, Toast.LENGTH_LONG).show();
         }
