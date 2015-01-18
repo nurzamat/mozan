@@ -7,6 +7,8 @@ package com.mozan.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.telephony.PhoneNumberUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,8 @@ public class CustomListAdapter extends BaseAdapter {
     private int thumbnail_id;
     private int message_id;
     private int call_id;
+    //phone number
+    private String phone;
 
     public CustomListAdapter(Activity activity, List<Post> postItems) {
         this.activity = activity;
@@ -85,7 +89,8 @@ public class CustomListAdapter extends BaseAdapter {
         content.setText(m.getContent());
 
         // username
-        username.setText("Username: " + String.valueOf(m.getUsername()));
+        phone = m.getUsername();
+        username.setText("Username: " + phone);
         category.setText(m.getCategory());
 
         // image_urls to string
@@ -156,7 +161,14 @@ public class CustomListAdapter extends BaseAdapter {
             }
             if(_view_id == call_id)
             {
-                Toast.makeText(activity, "call pressed", Toast.LENGTH_SHORT).show();
+                boolean isPhone = PhoneNumberUtils.isGlobalPhoneNumber("+"+phone);
+                if(isPhone)
+                {
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse("tel:"+phone));
+                    activity.startActivity(intent);
+                }
+                else Toast.makeText(activity, "call pressed /"+phone+"/", Toast.LENGTH_SHORT).show();
             }
             //Toast.makeText(activity, "pos: " + _position + "post id:" + _id, Toast.LENGTH_LONG).show();
         }
