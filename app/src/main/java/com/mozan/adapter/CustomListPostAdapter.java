@@ -184,7 +184,7 @@ public class CustomListPostAdapter extends BaseAdapter {
                 alertDialog.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // Write your code here to invoke NO event
-                        Toast.makeText(activity, "You clicked on NO", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(activity, "You clicked on NO", Toast.LENGTH_SHORT).show();
                         dialog.cancel();
                     }
                 });

@@ -264,6 +264,9 @@ public class AddPostFragment extends Fragment {
         {
             dialog.dismiss();
             Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+            Intent in = new Intent(context, HomeActivity.class);
+            in.putExtra("case", 1);
+            startActivity(in);
         }
     }
 }

@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.mozan.adapter.GridviewAdapter;
 import com.mozan.util.GlobalVar;
@@ -118,7 +117,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        configureImageButton();
+        configureAddButton();
 
         return rootView;
     }
@@ -164,7 +163,7 @@ public class HomeFragment extends Fragment {
         listCategoryImage.add(R.drawable.service);
     }
 
-    private void configureImageButton() {
+    private void configureAddButton() {
         // TODO Auto-generated method stub
         final ImageButton btn = (ImageButton) rootView.findViewById(R.id.btnAdd);
 

@@ -2,14 +2,17 @@ package com.mozan;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.android.volley.Response;
@@ -41,6 +44,8 @@ public class MyPostsFragment extends Fragment {
     private ListView listView;
     public static CustomListPostAdapter adapter;
     private TextView emptyText;
+    private View rootView;
+    Fragment fragment = null;
 
     public MyPostsFragment() {
         // Required empty public constructor
@@ -50,7 +55,7 @@ public class MyPostsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_my_posts, container, false);
+        rootView = inflater.inflate(R.layout.fragment_my_posts, container, false);
         url = ApiHelper.USER_URL + GlobalVar.Uid + "/posts/";
         try
         {
@@ -142,6 +147,7 @@ public class MyPostsFragment extends Fragment {
         AppController appcon = AppController.getInstance();
         appcon.addToRequestQueue(jsonObjReq);
 
+        configureAddButton();
         // Inflate the layout for this fragment
         return rootView;
     }
@@ -151,5 +157,41 @@ public class MyPostsFragment extends Fragment {
             pDialog.dismiss();
             pDialog = null;
         }
+    }
+
+    private void configureAddButton() {
+        // TODO Auto-generated method stub
+        final ImageButton btn = (ImageButton) rootView.findViewById(R.id.btnAdd);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (!GlobalVar.Phone.equals("") && !GlobalVar.Token.equals("")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("id", R.drawable.camera);
+                    bundle.putString("paths", "");
+                    fragment = new AddPostFragment();
+                    fragment.setArguments(bundle);
+                    if (fragment != null) {
+                        FragmentManager fragmentManager = getFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.frame_container, fragment).commit();
+
+                        GlobalVar.isHomeFragment = false;
+
+                    } else {
+                        // error in creating fragment
+                        Log.e("HomeActivity", "Error in creating fragment");
+                    }
+                } else {
+
+                    GlobalVar.adv_position = true;
+                    Intent in = new Intent(getActivity(), CodeActivity.class);
+                    startActivity(in);
+                }
+            }
+        });
+
     }
 }

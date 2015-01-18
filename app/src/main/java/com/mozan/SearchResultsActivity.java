@@ -36,8 +36,8 @@ public class SearchResultsActivity extends Activity {
         if(!query.equals(""))
         {
             GlobalVar.query = query;
-            GlobalVar.search = true;
             Intent in = new Intent(SearchResultsActivity.this, HomeActivity.class);
+            in.putExtra("case", 7);
             startActivity(in);
         }
            // Toast.makeText(this, query, Toast.LENGTH_LONG).show();

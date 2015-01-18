@@ -103,6 +103,8 @@ public class RegisterActivity extends Activity {
                 Ed.commit();
 
                 Intent in = new Intent(RegisterActivity.this, HomeActivity.class);
+                if(GlobalVar.adv_position)
+                    in.putExtra("case", 6);
                 startActivity(in);
                 //Intent in2 = new Intent(RegisterActivity.this, CodeActivity.class);
                 //in.putExtra("EXIT", true);

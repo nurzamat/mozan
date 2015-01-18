@@ -49,6 +49,7 @@ public class HomeActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+        Intent i = getIntent();
 		mTitle = mDrawerTitle = getTitle();
 
 		// load slide menu items
@@ -109,19 +110,23 @@ public class HomeActivity extends FragmentActivity {
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
+        int _case = i.getIntExtra("case", 0);
 
 		if (savedInstanceState == null) {
 			// on first time display view for first nav item
-			if(GlobalVar.adv_position && !GlobalVar.search)
+			if(_case == 6)
             {
-                displayView(6);
+                displayView(6);                   //add post
                 GlobalVar.adv_position = false;
             }
-            else if(GlobalVar.search)
+            else if(_case == 7)
             {
-                displayView(7);
+                displayView(7);       //search
                 GlobalVar.query = "";
-                GlobalVar.search = false;
+            }
+            else if(_case == 1)
+            {
+                displayView(1);  //my posts
             }
             else displayView(0);
 

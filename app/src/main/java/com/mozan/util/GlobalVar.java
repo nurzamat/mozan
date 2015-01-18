@@ -19,7 +19,6 @@ public class GlobalVar {
     public static ArrayList<Bitmap> _bitmaps = new ArrayList<Bitmap>();
     public static ArrayList<String> image_paths = new ArrayList<String>();
     public static boolean adv_position;
-    public static boolean search = false;
     public static String query = "";
     public static boolean isHomeFragment;
     public static SparseBooleanArray mSparseBooleanArray = new SparseBooleanArray();
