@@ -112,8 +112,11 @@ public class HomeActivity extends FragmentActivity {
 
 		if (savedInstanceState == null) {
 			// on first time display view for first nav item
-			if(GlobalVar.adv_position)
-            displayView(6);
+			if(GlobalVar.adv_position && !GlobalVar.search)
+            {
+                displayView(6);
+                GlobalVar.adv_position = false;
+            }
             else if(GlobalVar.search)
             {
                 displayView(7);

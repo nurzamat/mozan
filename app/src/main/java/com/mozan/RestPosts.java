@@ -94,21 +94,24 @@ public class RestPosts extends Fragment {
 
                             JSONObject obj = jarray.getJSONObject(i);
                             Post post = new Post();
-
+                            post.setId(obj.getString("id"));
                             post.setContent(obj.getString("content"));
-
-                            post.setCategory("");
+                            post.setCategory(obj.getString("category"));
+                            post.setPrice(obj.getString("price"));
+                            post.setUsername(obj.getJSONObject("owner").getString("username"));
                             jimages = obj.getJSONArray("images");
                             if(jimages.length() > 0)
-                                post.setThumbnailUrl(ApiHelper.MEDIA_URL + obj.getJSONArray("images").getJSONObject(0).getString("original_image"));
-                            post.setUsername(obj.getJSONObject("owner").getString("username"));
-                            post.setPrice(obj.getString("price"));
+                            {
+                                post.setThumbnailUrl(ApiHelper.MEDIA_URL + jimages.getJSONObject(0).getString("original_image"));
+                                // Image Urls
+                                ArrayList<String> urls = new ArrayList<String>();
 
-                            // Genre is json array
-                            ArrayList<String> genre = new ArrayList<String>();
-                            genre.add(post.getUsername());
-
-                            post.setGenre(genre);
+                                for (int j = 0; j < jimages.length(); j++)
+                                {
+                                    urls.add(ApiHelper.MEDIA_URL + jimages.getJSONObject(j).getString("original_image"));
+                                }
+                                post.setImageUrls(urls);
+                            }
                             postList.add(post);
 
                         } catch (JSONException e) {

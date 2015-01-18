@@ -18,14 +18,12 @@ import com.android.volley.VolleyLog;
 import com.mozan.adapter.CustomListAdapter;
 import com.mozan.model.Post;
 import com.mozan.util.ApiHelper;
-import com.mozan.util.GlobalVar;
 import com.mozan.util.JsonObjectRequest;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class ElectronicsPosts extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -66,6 +64,7 @@ public class ElectronicsPosts extends Fragment {
             // changing action bar color
             context.getActionBar().setBackgroundDrawable(
                     new ColorDrawable(Color.parseColor("#1b1b1b")));
+
         }
         catch (NullPointerException e)
         {
@@ -138,21 +137,24 @@ public class ElectronicsPosts extends Fragment {
 
                             JSONObject obj = jarray.getJSONObject(i);
                             Post post = new Post();
-
+                            post.setId(obj.getString("id"));
                             post.setContent(obj.getString("content"));
-
-                            post.setCategory("");
+                            post.setCategory(obj.getString("category"));
+                            post.setPrice(obj.getString("price"));
+                            post.setUsername(obj.getJSONObject("owner").getString("username"));
                             jimages = obj.getJSONArray("images");
                             if(jimages.length() > 0)
-                                post.setThumbnailUrl(ApiHelper.MEDIA_URL + obj.getJSONArray("images").getJSONObject(0).getString("original_image"));
-                            post.setUsername(obj.getJSONObject("owner").getString("username"));
-                            post.setPrice(obj.getString("price"));
+                            {
+                                post.setThumbnailUrl(ApiHelper.MEDIA_URL + jimages.getJSONObject(0).getString("original_image"));
+                                // Image Urls
+                                ArrayList<String> urls = new ArrayList<String>();
 
-                            // Genre is json array
-                            ArrayList<String> genre = new ArrayList<String>();
-                            genre.add(post.getUsername());
-
-                            post.setGenre(genre);
+                                for (int j = 0; j < jimages.length(); j++)
+                                {
+                                    urls.add(ApiHelper.MEDIA_URL + jimages.getJSONObject(j).getString("original_image"));
+                                }
+                                post.setImageUrls(urls);
+                            }
                             postList.add(post);
 
                         } catch (JSONException e) {

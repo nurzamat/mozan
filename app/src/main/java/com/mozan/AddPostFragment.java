@@ -159,12 +159,6 @@ public class AddPostFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-
-                
-                //Intent in = new Intent(context, CustomGalleryActivity.class);
-                //Intent in = new Intent(context, GalleryActivity.class);
-                //Intent in = new Intent(context, GridViewActivity.class); //Ravi solution
-
                 Intent in = new Intent(context, MultiPhotoSelectActivity.class);
                 startActivity(in);
             }

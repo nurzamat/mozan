@@ -6,24 +6,23 @@ import java.util.ArrayList;
  * Created by User on 16.12.2014.
  */
 public class Post{
-    private String id, content, category;
+    private String id, content, username, category;
     private String thumbnailUrl = "";
-    private String username;
     private String price = "";
-    private ArrayList<String> genre;
+    private ArrayList<String> image_urls;
 
     public Post() {
     }
 
     public Post(String id, String content, String category, String thumbnailUrl, String price, String username,
-                 ArrayList<String> genre) {
+                 ArrayList<String> image_urls) {
         this.id = id;
         this.content = content;
         this.category = category;
         this.thumbnailUrl = thumbnailUrl;
         this.price = price;
         this.username = username;
-        this.genre = genre;
+        this.image_urls = image_urls;
     }
 
     public String getId() {
@@ -74,12 +73,13 @@ public class Post{
         this.username = name;
     }
 
-    public ArrayList<String> getGenre() {
-        return genre;
+    public ArrayList<String> getImageUrls() {
+        return image_urls;
     }
 
-    public void setGenre(ArrayList<String> genre) {
-        this.genre = genre;
+    public void setImageUrls(ArrayList<String> image_urls)
+    {
+        this.image_urls = image_urls;
     }
 
 }
