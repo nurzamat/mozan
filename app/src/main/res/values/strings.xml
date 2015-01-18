@@ -97,5 +97,6 @@
     </string-array>
 
     <string name="title_activity_search_results">SearchResultsActivity</string>
+    <string name="title_activity_delete_post">DeletePostActivity</string>
 
 </resources>

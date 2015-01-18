@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.mozan.AppController;
+import com.mozan.DeletePostActivity;
 import com.mozan.FullScreenViewActivity;
 import com.mozan.R;
 import com.mozan.model.Post;
@@ -98,9 +99,13 @@ public class CustomListPostAdapter extends BaseAdapter {
         delete_id = delete.getId();
         thumbNail.setOnClickListener(new OnImageClickListener(thumbnail_id, position, m.getId(), m.getImageUrls()));
         edit.setOnClickListener(new OnImageClickListener(edit_id));
-        delete.setOnClickListener(new OnImageClickListener(delete_id));
+        delete.setOnClickListener(new OnImageClickListener(delete_id, position, m.getId()));
 
         return convertView;
+    }
+
+    public void deleteItem(int position) {
+        postItems.remove(position);
     }
 
     class OnImageClickListener implements View.OnClickListener {
@@ -114,6 +119,12 @@ public class CustomListPostAdapter extends BaseAdapter {
         public OnImageClickListener(int view_id)
         {
             this._view_id = view_id;
+        }
+        public OnImageClickListener(int view_id, int position, String id)
+        {
+            this._view_id = view_id;
+            this._position = position;
+            this._id = id;
         }
         public OnImageClickListener(int view_id, int position, String id, ArrayList<String> _image_urls)
         {
@@ -164,7 +175,8 @@ public class CustomListPostAdapter extends BaseAdapter {
                     public void onClick(DialogInterface dialog,int which) {
 
                         // Write your code here to invoke YES event
-                        Toast.makeText(activity, "You clicked on YES", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(activity, "You clicked on YES", Toast.LENGTH_SHORT).show();
+                        deletePost();
                     }
                 });
 
@@ -182,6 +194,14 @@ public class CustomListPostAdapter extends BaseAdapter {
 
             }
             //Toast.makeText(activity, "pos: " + _position + "post id:" + _id, Toast.LENGTH_LONG).show();
+        }
+
+        public void deletePost()
+        {
+            Intent i = new Intent(activity, DeletePostActivity.class);
+            i.putExtra("position", _position);
+            i.putExtra("id", _id);
+            activity.startActivity(i);
         }
 
     }

@@ -35,7 +35,6 @@ public class BuildingsPosts extends Fragment {
     // Log tag
     private static final String TAG =  "[post response]";
 
-    // Movies json url
     private static final String url = ApiHelper.BUILDING_URL;
     private ProgressDialog pDialog;
     private List<Post> postList = new ArrayList<Post>();

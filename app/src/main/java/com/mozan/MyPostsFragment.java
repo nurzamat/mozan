@@ -39,7 +39,7 @@ public class MyPostsFragment extends Fragment {
     private ProgressDialog pDialog;
     private List<Post> postList = new ArrayList<Post>();
     private ListView listView;
-    private CustomListPostAdapter adapter;
+    public static CustomListPostAdapter adapter;
     private TextView emptyText;
 
     public MyPostsFragment() {
