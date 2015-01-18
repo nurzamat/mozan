@@ -21,12 +21,10 @@ public class PlaceSlidesFragmentAdapter extends PagerAdapter {
     // Declare Variables
     Context context;
     LayoutInflater inflater;
-    String[] paths;
     int size;
 
-    public PlaceSlidesFragmentAdapter(Context context, String[] paths) {
+    public PlaceSlidesFragmentAdapter(Context context) {
         this.context = context;
-        this.paths = paths;
         this.size = GlobalVar._bitmaps.size();
     }
 

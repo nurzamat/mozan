@@ -44,6 +44,7 @@ public class HomeActivity extends FragmentActivity {
 	private ArrayList<NavDrawerItem> navDrawerItems;
 	private NavDrawerListAdapter adapter;
     FragmentManager fragmentManager;
+    private boolean _mode = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +117,8 @@ public class HomeActivity extends FragmentActivity {
 			// on first time display view for first nav item
 			if(_case == 6)
             {
-                displayView(6);                   //add post
+                _mode = i.getBooleanExtra("mode", true);
+                displayView(6);                   //add or edit post
                 GlobalVar.adv_position = false;
             }
             else if(_case == 7)
@@ -128,34 +130,8 @@ public class HomeActivity extends FragmentActivity {
             {
                 displayView(1);  //my posts
             }
-            else displayView(0);
+            else displayView(0); // home
 
-            Bundle extras = getIntent().getExtras();
-            if(extras != null)
-            {
-                String paths = extras.getString("paths");
-                int id_resource = extras.getInt("id_resource");
-
-                Bundle bundle = new Bundle();
-                bundle.putInt("id_resource", id_resource);
-                bundle.putString("paths", paths);
-                AddPostFragment frag = new AddPostFragment();
-                frag.setArguments(bundle);
-                if (frag != null) {
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-
-
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.frame_container, frag).commit();
-
-                    GlobalVar.isHomeFragment = false;
-
-                } else {
-                    // error in creating fragment
-                    Log.e("HomeActivity", "Error in creating fragment");
-                }
-
-            }
 		}
 	}
 
@@ -259,7 +235,10 @@ public class HomeActivity extends FragmentActivity {
       // conditional fragments
         case 6:
             {
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("mode", _mode);
                 fragment = new AddPostFragment();
+                fragment.setArguments(bundle);
                 break;
             }
         case 7:

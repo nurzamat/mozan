@@ -19,23 +19,29 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
-
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.mozan.adapter.PlaceSlidesFragmentAdapter;
 import com.mozan.lib.CirclePageIndicator;
 import com.mozan.util.ApiHelper;
 import com.mozan.util.GlobalVar;
+import com.mozan.util.PutRequest;
 
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddPostFragment extends Fragment {
 
     // Declare Variables
+    // Log tag
+    private static final String TAG =  "[add/edit post response]";
     ViewPager mPager;
     PagerAdapter mAdapter;
     View rootView;
     CirclePageIndicator mIndicator;
-    int id_resource = 0;
-    String paths = "";
     String content;
     int position;
     String category;
@@ -43,6 +49,9 @@ public class AddPostFragment extends Fragment {
     String price_currency;
     String result;
     Activity context;
+    boolean mode = true; // add mode = 1, edit mode = 0;
+    String url;
+    private ProgressDialog dialog;
 
     public AddPostFragment()
     {
@@ -56,14 +65,14 @@ public class AddPostFragment extends Fragment {
         Bundle obj = getArguments();
         if(obj != null)
         {
-           this.id_resource =  obj.getInt("id_resource");
-           this.paths = obj.getString("paths");
+           this.mode =  obj.getBoolean("mode");
+           this.url = ApiHelper.POST_URL + obj.getString("id") + "/";
         }
         rootView = inflater.inflate(R.layout.fragment_add_post, container, false);
 
         context = getActivity();
         int color = getResources().getColor(R.color.blue_dark);
-        mAdapter = new PlaceSlidesFragmentAdapter(context, paths.split("|"));
+        mAdapter = new PlaceSlidesFragmentAdapter(context);
 
         mPager = (ViewPager) rootView.findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
@@ -172,25 +181,81 @@ public class AddPostFragment extends Fragment {
         // TODO Auto-generated method stub
 
     }
+
     private void postButton() {
         // TODO Auto-generated method stub
         Button btn = (Button) rootView.findViewById(R.id.btnPost);
-        btn.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
+        if (mode)
+        {
+            btn.setText(R.string.add);
+            btn.setOnClickListener(new View.OnClickListener() {
 
-                if(!validate())
-                {
-                    Toast.makeText(context, "Заполните все поля", Toast.LENGTH_LONG).show();
+                @Override
+                public void onClick(View v) {
+
+                    if(!validate())
+                    {
+                        Toast.makeText(context, "Заполните все поля", Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        HttpAsyncTask task = new HttpAsyncTask();
+                        task.execute(ApiHelper.SEND_POST_URL);
+                    }
                 }
-                else
-                {
-                    HttpAsyncTask task = new HttpAsyncTask();
-                    task.execute(ApiHelper.SEND_POST_URL);
+            });
+        }
+        else
+        {
+            btn.setText(R.string.edit);
+            btn.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    if (!validate()) {
+                        Toast.makeText(context, "Заполните все поля", Toast.LENGTH_LONG).show();
+                    } else {
+                        dialog = ProgressDialog.show(context, "",
+                                "Загрузка...", true);
+                        PutRequest dr = new PutRequest(url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        // response
+                                        Log.d(TAG, response);
+                                        if (response.equals("")) // if response is ok
+                                        {
+                                            Toast.makeText(context, "Сохранено", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                                        // hide the progress dialog
+                                    }
+                                }
+                        ){
+                            @Override
+                            protected Map<String, String> getParams()
+                            {
+                                Map<String, String>  params = new HashMap<String, String>();
+                                //params.put("name", "Alif");
+                                //params.put("domain", "http://itsalif.info");
+                                return params;
+                            }
+                        };
+
+                        dialog.dismiss();
+                        AppController appcon = AppController.getInstance();
+                        appcon.addToRequestQueue(dr);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     private boolean validate(){
@@ -205,7 +270,6 @@ public class AddPostFragment extends Fragment {
 
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {
 
-        private ProgressDialog dialog;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();

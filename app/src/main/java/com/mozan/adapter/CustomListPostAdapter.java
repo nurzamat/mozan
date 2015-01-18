@@ -175,7 +175,7 @@ public class CustomListPostAdapter extends BaseAdapter {
                 alertDialog.setMessage("Вы действительно хотите удалить обьявление?");
 
                 // Setting Icon to Dialog
-                alertDialog.setIcon(R.drawable.ic_action_delete);
+                alertDialog.setIcon(R.drawable.ic_menu_delete);
 
                 // Setting Positive "Yes" Button
                 alertDialog.setPositiveButton("Да", new DialogInterface.OnClickListener() {
@@ -213,8 +213,7 @@ public class CustomListPostAdapter extends BaseAdapter {
         public void editPost()
         {
             Bundle bundle = new Bundle();
-            bundle.putInt("id", R.drawable.camera);
-            bundle.putString("paths", "");
+            bundle.putBoolean("mode", false);
             Fragment fragment = (Fragment) new AddPostFragment();
             fragment.setArguments(bundle);
             if (fragment != null) {

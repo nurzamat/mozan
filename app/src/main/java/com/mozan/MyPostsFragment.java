@@ -168,11 +168,7 @@ public class MyPostsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (!GlobalVar.Phone.equals("") && !GlobalVar.Token.equals("")) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("id", R.drawable.camera);
-                    bundle.putString("paths", "");
                     fragment = new AddPostFragment();
-                    fragment.setArguments(bundle);
                     if (fragment != null) {
                         FragmentManager fragmentManager = getFragmentManager();
                         fragmentManager.beginTransaction()

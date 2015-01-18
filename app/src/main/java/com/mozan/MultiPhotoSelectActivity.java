@@ -135,8 +135,7 @@ public class MultiPhotoSelectActivity extends Activity {
             Log.d("SelectedImages", selectImages);
 
             Intent in = new Intent(MultiPhotoSelectActivity.this, HomeActivity.class);
-            in.putExtra("id_resource", 0);
-            in.putExtra("paths", selectImages);
+            in.putExtra("case", 6);
             startActivity(in);
         }
     }

@@ -172,11 +172,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (!GlobalVar.Phone.equals("") && !GlobalVar.Token.equals("")) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("id", R.drawable.camera);
-                    bundle.putString("paths", "");
                     fragment = new AddPostFragment();
-                    fragment.setArguments(bundle);
                     createFragment(fragment);
                 } else {
 
