@@ -2,6 +2,7 @@ package com.mozan.util;
 
 import android.graphics.Bitmap;
 import android.util.SparseBooleanArray;
+import com.mozan.model.Post;
 import java.util.ArrayList;
 
 /**
@@ -22,4 +23,6 @@ public class GlobalVar {
     public static String query = "";
     public static boolean isHomeFragment;
     public static SparseBooleanArray mSparseBooleanArray = new SparseBooleanArray();
+    public static Post _Post;
+    public static boolean Mode = true; // add = true, edit = false
 }

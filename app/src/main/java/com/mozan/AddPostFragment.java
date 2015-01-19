@@ -27,9 +27,7 @@ import com.mozan.lib.CirclePageIndicator;
 import com.mozan.util.ApiHelper;
 import com.mozan.util.GlobalVar;
 import com.mozan.util.PutRequest;
-
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -70,16 +68,28 @@ public class AddPostFragment extends Fragment {
         Bundle obj = getArguments();
         if(obj != null)
         {
+           //this.mode =  obj.getBoolean("mode");
+           this.mode =  GlobalVar.Mode;
            //for set text
-           this.id = obj.getString("id");
-           this.mode =  obj.getBoolean("mode");
-           this.url = ApiHelper.POST_URL + id + "/";
-
-           this.category = obj.getString("category");
-           this.content = obj.getString("content");
-           this.price = obj.getString("price");
-         //this.price_currency = obj.getString("price_currency");
-           this.image_urls = obj.getStringArrayList("image_urls");
+           if(!mode)
+           {
+               this.id = GlobalVar._Post.getId();
+               this.url = ApiHelper.POST_URL + id + "/";
+               this.category = GlobalVar._Post.getCategory();
+               this.content = GlobalVar._Post.getContent();
+               this.image_urls = GlobalVar._Post.getImageUrls();
+               //this.price_currency = GlobalVar._Post.getPriceCurrency();
+               try
+               {
+                   String part = GlobalVar._Post.getPrice().split(" ")[0];
+                   if(part.split(".").length > 0)
+                       this.price = part.split(".")[0];
+               }
+               catch (Exception ex)
+               {
+                   ex.printStackTrace();
+               }
+           }
         }
         rootView = inflater.inflate(R.layout.fragment_add_post, container, false);
         etContent = (EditText) rootView.findViewById(R.id.content);
@@ -243,14 +253,11 @@ public class AddPostFragment extends Fragment {
                                     public void onResponse(String response) {
                                         // response
                                         Log.d(TAG, response);
-                                        if (response.equals("")) // if response is ok
-                                        {
-                                            Toast.makeText(context, "Сохранено", Toast.LENGTH_LONG).show();
-                                            Intent in = new Intent(context, HomeActivity.class);
-                                            in.putExtra("case", 1);
-                                            startActivity(in);
-                                        }
-                                        else Toast.makeText(context, "Ошибка", Toast.LENGTH_LONG).show();
+                                       // Toast.makeText(context, "Сохранено", Toast.LENGTH_LONG).show();
+                                        Intent in = new Intent(context, HomeActivity.class);
+                                        in.putExtra("case", 1);
+                                        startActivity(in);
+                                        GlobalVar.Mode = true;
                                     }
                                 },
                                 new Response.ErrorListener() {

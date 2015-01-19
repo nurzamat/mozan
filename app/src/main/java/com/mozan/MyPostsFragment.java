@@ -167,6 +167,7 @@ public class MyPostsFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
+                GlobalVar.Mode = true;
                 if (!GlobalVar.Phone.equals("") && !GlobalVar.Token.equals("")) {
                     fragment = new AddPostFragment();
                     if (fragment != null) {

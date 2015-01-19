@@ -202,15 +202,18 @@ public class CustomListPostAdapter extends BaseAdapter {
         }
         public void editPost()
         {
+            GlobalVar._Post = _m;
+            GlobalVar.Mode = false;
             Bundle bundle = new Bundle();
             bundle.putBoolean("mode", false);
+            /*
             bundle.putString("id", _m.getId());
             bundle.putString("category", _m.getCategory());
             bundle.putString("content", _m.getContent());
             bundle.putString("price", _m.getPrice());
-           // bundle.putString("price_currency", _m.getPriceCurrency());
+            //bundle.putString("price_currency", _m.getPriceCurrency());
             bundle.putStringArrayList("image_urls", _m.getImageUrls());
-
+           */
             Fragment fragment = (Fragment) new AddPostFragment();
             fragment.setArguments(bundle);
             if (fragment != null) {
