@@ -62,7 +62,7 @@
                 android:singleLine="false"
                 android:hint="Цена"
                 android:textColorHint="@color/blue_light"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:maxLength="18"/>
             <Spinner android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

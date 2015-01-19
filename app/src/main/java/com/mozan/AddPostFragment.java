@@ -31,6 +31,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class AddPostFragment extends Fragment {
 
@@ -44,6 +45,7 @@ public class AddPostFragment extends Fragment {
     String content;
     int position;
     String category;
+    String category_name;
     String price;
     String price_currency;
     String result;
@@ -76,18 +78,20 @@ public class AddPostFragment extends Fragment {
                this.id = GlobalVar._Post.getId();
                this.url = ApiHelper.POST_URL + id + "/";
                this.category = GlobalVar._Post.getCategory();
+               this.category_name = GlobalVar._Post.getCategoryName();
                this.content = GlobalVar._Post.getContent();
                this.image_urls = GlobalVar._Post.getImageUrls();
                this.price_currency = GlobalVar._Post.getPriceCurrency();
-               try
+
+               String raw_price = GlobalVar._Post.getPrice();
+               if (raw_price.contains("."))
                {
-                   String part = GlobalVar._Post.getPrice().split(" ")[0];
-                   if(part.split(".").length > 0)
-                       this.price = part.split(".")[0];
+                   String[] parts = raw_price.split(Pattern.quote("."));
+                   this.price = parts[0] + "." + parts[1].replaceAll("\\D+","");
                }
-               catch (Exception ex)
+               else
                {
-                   ex.printStackTrace();
+                   this.price = "";
                }
            }
         }
@@ -151,6 +155,7 @@ public class AddPostFragment extends Fragment {
             etContent.setText(content);
             etPrice.setText(price);
             spinner.setSelection(adapter.getPosition(price_currency));
+            spinner_category.setSelection(adapter_category.getPosition(category_name));
         }
 
         spinner.setOnItemSelectedListener(
@@ -177,11 +182,9 @@ public class AddPostFragment extends Fragment {
                                                int pos, long id) {
 
                         position = pos;
-                        category = parent.getItemAtPosition(pos).toString();
-                        // On selecting a spinner item
-                       // String item = parent.getItemAtPosition(pos).toString();
+                        category_name = parent.getItemAtPosition(pos).toString();
                         // Showing selected spinner item
-                       // Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+                       //Toast.makeText(parent.getContext(), "Selected: " + category_name, Toast.LENGTH_LONG).show();
                     }
                     @Override
                     public void onNothingSelected(AdapterView<?> arg0) {
@@ -304,7 +307,7 @@ public class AddPostFragment extends Fragment {
         content = etContent.getText().toString().trim();
         price = etPrice.getText().toString().trim();
 
-        return (!content.equals("") && !price.equals("") && !category.equals("") && !price_currency.equals(""));
+        return (!content.equals("") && !price.equals("") && !category_name.equals("") && !price_currency.equals(""));
     }
 
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {

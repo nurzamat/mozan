@@ -101,6 +101,7 @@ public class MyPostsFragment extends Fragment {
                             post.setId(obj.getString("id"));
                             post.setContent(obj.getString("content"));
                             post.setCategory(obj.getString("category"));
+                            post.setCategoryName(obj.getString("category_name"));
                             post.setPrice(obj.getString("price"));
                             post.setPriceCurrency(obj.getString("price_currency"));
                             post.setPriceCurrency(obj.getString("price_currency"));
