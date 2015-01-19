@@ -24,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.mozan.adapter.PlaceSlidesFragmentAdapter;
 import com.mozan.lib.CirclePageIndicator;
+import com.mozan.model.Image;
 import com.mozan.util.ApiHelper;
 import com.mozan.util.GlobalVar;
 import com.mozan.util.PutRequest;
@@ -53,7 +54,7 @@ public class AddPostFragment extends Fragment {
     boolean mode = true; // add mode = 1, edit mode = 0;
     String url;
     String id = "";
-    private ArrayList<String> image_urls = null;
+    private ArrayList<Image> images = null;
     private ProgressDialog dialog;
     EditText etContent;
     EditText etPrice;
@@ -80,7 +81,7 @@ public class AddPostFragment extends Fragment {
                this.category = GlobalVar._Post.getCategory();
                this.category_name = GlobalVar._Post.getCategoryName();
                this.content = GlobalVar._Post.getContent();
-               this.image_urls = GlobalVar._Post.getImageUrls();
+               this.images = GlobalVar._Post.getImages();
                this.price_currency = GlobalVar._Post.getPriceCurrency();
 
                String raw_price = GlobalVar._Post.getPrice();
@@ -100,42 +101,7 @@ public class AddPostFragment extends Fragment {
         etPrice = (EditText) rootView.findViewById(R.id.price);
 
         context = getActivity();
-        int color = getResources().getColor(R.color.blue_dark);
-        mAdapter = new PlaceSlidesFragmentAdapter(context);
-
-        mPager = (ViewPager) rootView.findViewById(R.id.pager);
-        mPager.setAdapter(mAdapter);
-
-        mIndicator = (CirclePageIndicator) rootView.findViewById(R.id.indicator);
-        mIndicator.setFillColor(color);
-        mIndicator.setStrokeColor(color);
-        mIndicator.setRadius(5);
-        mIndicator.setViewPager(mPager);
-        mIndicator.setSnap(true);
-        /*
-        mIndicator
-                .setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                    @Override
-                    public void onPageSelected(int position) {
-                        Toast.makeText(AddPostFragment.this.getActivity(),
-                                "Changed to page " + position,
-                                Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onPageScrolled(int position,
-                                               float positionOffset, int positionOffsetPixels) {
-                    }
-
-                    @Override
-                    public void onPageScrollStateChanged(int state) {
-                    }
-                });
-
-        */
-
         //spinner job
-
         Spinner spinner = (Spinner) rootView.findViewById(R.id.spinner);
         Spinner spinner_category = (Spinner) rootView.findViewById(R.id.spinner_category);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -156,6 +122,7 @@ public class AddPostFragment extends Fragment {
             etPrice.setText(price);
             spinner.setSelection(adapter.getPosition(price_currency));
             spinner_category.setSelection(adapter_category.getPosition(category_name));
+
         }
 
         spinner.setOnItemSelectedListener(
@@ -192,6 +159,40 @@ public class AddPostFragment extends Fragment {
                     }
                 }
         );
+
+        int color = getResources().getColor(R.color.blue_dark);
+        mAdapter = new PlaceSlidesFragmentAdapter(context);
+
+        mPager = (ViewPager) rootView.findViewById(R.id.pager);
+        mPager.setAdapter(mAdapter);
+
+        mIndicator = (CirclePageIndicator) rootView.findViewById(R.id.indicator);
+        mIndicator.setFillColor(color);
+        mIndicator.setStrokeColor(color);
+        mIndicator.setRadius(5);
+        mIndicator.setViewPager(mPager);
+        mIndicator.setSnap(true);
+        /*
+        mIndicator
+                .setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                    @Override
+                    public void onPageSelected(int position) {
+                        Toast.makeText(AddPostFragment.this.getActivity(),
+                                "Changed to page " + position,
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onPageScrolled(int position,
+                                               float positionOffset, int positionOffsetPixels) {
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int state) {
+                    }
+                });
+
+        */
 
         cameraButton();
         categoryButton();

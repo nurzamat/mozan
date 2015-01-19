@@ -24,6 +24,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.mozan.AppController;
 import com.mozan.FullScreenViewActivity;
 import com.mozan.R;
+import com.mozan.model.Image;
 import com.mozan.model.Post;
 import java.util.ArrayList;
 import java.util.List;
@@ -117,7 +118,14 @@ public class CustomListAdapter extends BaseAdapter {
        // call_id = call.getId();
         menu_id = menu.getId();
 
-        thumbNail.setOnClickListener(new OnImageClickListener(thumbnail_id, position, m.getId(), m.getImageUrls()));
+        ArrayList<Image> images = m.getImages();
+        ArrayList<String> urls = new ArrayList<String>();
+        for (int i = 0; i < images.size(); i++)
+        {
+            urls.add(images.get(i).getUrl());
+        }
+
+        thumbNail.setOnClickListener(new OnImageClickListener(thumbnail_id, position, m.getId(), urls));
         //message.setOnClickListener(new OnImageClickListener(message_id));
         //call.setOnClickListener(new OnImageClickListener(call_id));
 

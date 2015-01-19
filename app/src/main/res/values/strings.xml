@@ -27,6 +27,7 @@
     <string name="delete">Удалить</string>
     <string name="send_message">Сообщение</string>
     <string name="call">Позвонить</string>
+    <string name="select">Выбрать</string>
 
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">

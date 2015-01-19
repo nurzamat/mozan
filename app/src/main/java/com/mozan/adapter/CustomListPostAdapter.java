@@ -29,6 +29,7 @@ import com.mozan.AppController;
 import com.mozan.DeletePostActivity;
 import com.mozan.FullScreenViewActivity;
 import com.mozan.R;
+import com.mozan.model.Image;
 import com.mozan.model.Post;
 import com.mozan.util.GlobalVar;
 import java.util.ArrayList;
@@ -142,7 +143,12 @@ public class CustomListPostAdapter extends BaseAdapter {
             // launch full screen activity
             if(_view_id == thumbnail_id)
             {
-                ArrayList<String> _image_urls = _m.getImageUrls();
+                ArrayList<Image> images = _m.getImages();
+                ArrayList<String> _image_urls = new ArrayList<String>();
+                for (int i = 0; i < images.size(); i++)
+                {
+                    _image_urls.add(images.get(i).getUrl());
+                }
 
                 if(_image_urls != null && _image_urls.size() > 0)
                 {

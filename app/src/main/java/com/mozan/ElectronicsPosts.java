@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.mozan.adapter.CustomListAdapter;
+import com.mozan.model.Image;
 import com.mozan.model.Post;
 import com.mozan.util.ApiHelper;
 import com.mozan.util.JsonObjectRequest;
@@ -148,14 +149,17 @@ public class ElectronicsPosts extends Fragment {
                             if(jimages.length() > 0)
                             {
                                 post.setThumbnailUrl(ApiHelper.MEDIA_URL + jimages.getJSONObject(0).getString("original_image"));
-                                // Image Urls
-                                ArrayList<String> urls = new ArrayList<String>();
-
+                                // Images
+                                ArrayList<Image> images = new ArrayList<Image>();
+                                JSONObject img;
+                                Image image;
                                 for (int j = 0; j < jimages.length(); j++)
                                 {
-                                    urls.add(ApiHelper.MEDIA_URL + jimages.getJSONObject(j).getString("original_image"));
+                                    img = jimages.getJSONObject(j);
+                                    image = new Image(img.getString("id"), ApiHelper.MEDIA_URL + img.getString("original_image"));
+                                    images.add(image);
                                 }
-                                post.setImageUrls(urls);
+                                post.setImages(images);
                             }
                             postList.add(post);
 

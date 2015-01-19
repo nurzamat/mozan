@@ -64,9 +64,7 @@ public class MultiPhotoSelectActivity extends Activity {
 
         imageLoader = ImageLoader.getInstance();
         imageLoader.init(config);
-
 //
-
         setContentView(R.layout.gallery_gridview);
         gridView = (GridView) findViewById(R.id.gridview);
         InitilizeGridLayout();

@@ -9,7 +9,8 @@ public class Post{
     private String id, content, username, category, category_name;
     private String thumbnailUrl = "";
     private String price, price_currency = "";
-    private ArrayList<String> image_urls;
+    //private ArrayList<String> image_urls;
+    private ArrayList<Image> images;
 
     public Post() {
     }
@@ -78,13 +79,13 @@ public class Post{
         this.username = name;
     }
 
-    public ArrayList<String> getImageUrls() {
-        return image_urls;
+    public ArrayList<Image> getImages() {
+        return images;
     }
 
-    public void setImageUrls(ArrayList<String> image_urls)
+    public void setImages(ArrayList<Image> _images)
     {
-        this.image_urls = image_urls;
+        this.images = _images;
     }
 
 }
