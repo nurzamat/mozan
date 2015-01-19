@@ -23,6 +23,7 @@
     <string name="no_photo">Нет фото</string>
     <string name="add">Добавить</string>
     <string name="edit">Редактировать</string>
+    <string name="save">Сохранить</string>
     <string name="delete">Удалить</string>
     <string name="send_message">Сообщение</string>
     <string name="call">Позвонить</string>

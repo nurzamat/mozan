@@ -213,6 +213,7 @@ public class AddPostFragment extends Fragment {
 
         if (mode)
         {
+            // add mode
             btn.setText(R.string.add);
             btn.setOnClickListener(new View.OnClickListener() {
 
@@ -233,9 +234,11 @@ public class AddPostFragment extends Fragment {
         }
         else
         {
-            btn.setText(R.string.edit);
+            //edit mode
+            btn.setText(R.string.save);
             etContent.setText(content);
             etPrice.setText(price);
+
 
             btn.setOnClickListener(new View.OnClickListener() {
 

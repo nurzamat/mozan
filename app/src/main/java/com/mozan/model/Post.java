@@ -8,19 +8,20 @@ import java.util.ArrayList;
 public class Post{
     private String id, content, username, category;
     private String thumbnailUrl = "";
-    private String price = "";
+    private String price, price_currency = "";
     private ArrayList<String> image_urls;
 
     public Post() {
     }
 
-    public Post(String id, String content, String category, String thumbnailUrl, String price, String username,
+    public Post(String id, String content, String category, String thumbnailUrl, String price, String price_currency, String username,
                  ArrayList<String> image_urls) {
         this.id = id;
         this.content = content;
         this.category = category;
         this.thumbnailUrl = thumbnailUrl;
         this.price = price;
+        this.price_currency = price_currency;
         this.username = username;
         this.image_urls = image_urls;
     }
@@ -63,6 +64,14 @@ public class Post{
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public String getPriceCurrency() {
+        return price_currency;
+    }
+
+    public void setPriceCurrency(String price_currency) {
+        this.price_currency = price_currency;
     }
 
     public String getUsername() {
