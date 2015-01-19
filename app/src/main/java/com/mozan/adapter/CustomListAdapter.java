@@ -77,7 +77,7 @@ public class CustomListAdapter extends BaseAdapter {
                 .findViewById(R.id.thumbnail);
         TextView content = (TextView) convertView.findViewById(R.id.content);
         TextView username = (TextView) convertView.findViewById(R.id.username);
-        TextView category = (TextView) convertView.findViewById(R.id.category);
+        TextView category_name = (TextView) convertView.findViewById(R.id.category);
         TextView price = (TextView) convertView.findViewById(R.id.price);
         //ImageButton message = (ImageButton) convertView.findViewById(R.id.btnMessage);
         //ImageButton call = (ImageButton) convertView.findViewById(R.id.btnCall);
@@ -95,7 +95,7 @@ public class CustomListAdapter extends BaseAdapter {
         // username
         phone = m.getUsername();
         username.setText("Username: " + phone);
-        category.setText(m.getCategory());
+        category_name.setText(m.getCategoryName());
 
         // image_urls to string
         /*

@@ -82,7 +82,7 @@ public class CustomListPostAdapter extends BaseAdapter {
                 .findViewById(R.id.thumbnail);
         TextView content = (TextView) convertView.findViewById(R.id.content);
         TextView username = (TextView) convertView.findViewById(R.id.username);
-        TextView category = (TextView) convertView.findViewById(R.id.category);
+        TextView category_name = (TextView) convertView.findViewById(R.id.category);
         TextView price = (TextView) convertView.findViewById(R.id.price);
         //ImageButton edit = (ImageButton) convertView.findViewById(R.id.btnEdit);
         //ImageButton delete = (ImageButton) convertView.findViewById(R.id.btnDelete);
@@ -99,7 +99,7 @@ public class CustomListPostAdapter extends BaseAdapter {
 
         // username
         username.setText("Username: " + String.valueOf(m.getUsername()));
-        category.setText(m.getCategory());
+        category_name.setText(m.getCategoryName());
         // price
         price.setText(String.valueOf(m.getPrice()));
 
