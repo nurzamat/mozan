@@ -10,10 +10,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.telephony.PhoneNumberUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +38,7 @@ public class CustomListAdapter extends BaseAdapter {
     private int thumbnail_id;
     private int message_id;
     private int call_id;
+    private int menu_id;
     //phone number
     private String phone;
 
@@ -76,8 +79,9 @@ public class CustomListAdapter extends BaseAdapter {
         TextView username = (TextView) convertView.findViewById(R.id.username);
         TextView category = (TextView) convertView.findViewById(R.id.category);
         TextView price = (TextView) convertView.findViewById(R.id.price);
-        ImageButton message = (ImageButton) convertView.findViewById(R.id.btnMessage);
-        ImageButton call = (ImageButton) convertView.findViewById(R.id.btnCall);
+        //ImageButton message = (ImageButton) convertView.findViewById(R.id.btnMessage);
+        //ImageButton call = (ImageButton) convertView.findViewById(R.id.btnCall);
+        ImageButton menu = (ImageButton) convertView.findViewById(R.id.btnMenu2);
 
         // getting post data for the row
         Post m = postItems.get(position);
@@ -109,11 +113,15 @@ public class CustomListAdapter extends BaseAdapter {
 
         // image view click listener
         thumbnail_id = thumbNail.getId();
-        message_id = message.getId();
-        call_id = call.getId();
+       // message_id = message.getId();
+       // call_id = call.getId();
+        menu_id = menu.getId();
+
         thumbNail.setOnClickListener(new OnImageClickListener(thumbnail_id, position, m.getId(), m.getImageUrls()));
-        message.setOnClickListener(new OnImageClickListener(message_id));
-        call.setOnClickListener(new OnImageClickListener(call_id));
+        //message.setOnClickListener(new OnImageClickListener(message_id));
+        //call.setOnClickListener(new OnImageClickListener(call_id));
+
+        menu.setOnClickListener(new OnImageClickListener(menu_id, position, m));
 
         return convertView;
     }
@@ -125,11 +133,18 @@ public class CustomListAdapter extends BaseAdapter {
         String _id;
         ArrayList<String> _image_urls = null;
         int _view_id = 0;
+        Post _m;
 
         // constructors
         public OnImageClickListener(int view_id)
         {
             this._view_id = view_id;
+        }
+        public OnImageClickListener(int view_id, int _position, Post m)
+        {
+            this._view_id = view_id;
+            this._position = _position;
+            this._m = m;
         }
         public OnImageClickListener(int view_id, int position, String id, ArrayList<String> _image_urls)
         {
@@ -170,7 +185,39 @@ public class CustomListAdapter extends BaseAdapter {
                 }
                 else Toast.makeText(activity, "call pressed /"+phone+"/", Toast.LENGTH_SHORT).show();
             }
-            //Toast.makeText(activity, "pos: " + _position + "post id:" + _id, Toast.LENGTH_LONG).show();
+            if(_view_id == menu_id)
+            {
+                //Creating the instance of PopupMenu
+                PopupMenu popup = new PopupMenu(activity, v);
+                //Inflating the Popup using xml file
+                popup.getMenuInflater().inflate(R.menu.popup_menu2, popup.getMenu());
+
+                //registering popup with OnMenuItemClickListener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        String title = item.getTitle().toString();
+                        if(title.equals("Сообщение"))
+                        {
+                            Toast.makeText(activity, "message pressed", Toast.LENGTH_SHORT).show();
+                        }
+                        if(title.equals("Позвонить"))
+                        {
+                            String phone = _m.getUsername();
+                            boolean isPhone = PhoneNumberUtils.isGlobalPhoneNumber("+"+phone);
+                            if(isPhone)
+                            {
+                                Intent intent = new Intent(Intent.ACTION_DIAL);
+                                intent.setData(Uri.parse("tel:"+phone));
+                                activity.startActivity(intent);
+                            }
+                            else Toast.makeText(activity, "call pressed /"+phone+"/", Toast.LENGTH_SHORT).show();
+                        }
+                        return true;
+                    }
+                });
+                popup.show();//showing popup menu
+
+            }
         }
 
     }

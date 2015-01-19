@@ -14,10 +14,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.toolbox.ImageLoader;
@@ -40,6 +42,7 @@ public class CustomListPostAdapter extends BaseAdapter {
     private int thumbnail_id;
     private int edit_id;
     private int delete_id;
+    private int menu_id;
     private Fragment fragment_base;
 
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
@@ -81,8 +84,9 @@ public class CustomListPostAdapter extends BaseAdapter {
         TextView username = (TextView) convertView.findViewById(R.id.username);
         TextView category = (TextView) convertView.findViewById(R.id.category);
         TextView price = (TextView) convertView.findViewById(R.id.price);
-        ImageButton edit = (ImageButton) convertView.findViewById(R.id.btnEdit);
-        ImageButton delete = (ImageButton) convertView.findViewById(R.id.btnDelete);
+        //ImageButton edit = (ImageButton) convertView.findViewById(R.id.btnEdit);
+        //ImageButton delete = (ImageButton) convertView.findViewById(R.id.btnDelete);
+        ImageButton menu = (ImageButton) convertView.findViewById(R.id.btnMenu);
 
         // getting post data for the row
         Post m = postItems.get(position);
@@ -101,11 +105,14 @@ public class CustomListPostAdapter extends BaseAdapter {
 
         // image view click listener
         thumbnail_id = thumbNail.getId();
-        edit_id = edit.getId();
-        delete_id = delete.getId();
+        //edit_id = edit.getId();
+        //delete_id = delete.getId();
+        menu_id = menu.getId();
+
         thumbNail.setOnClickListener(new OnImageClickListener(thumbnail_id, position, m));
-        edit.setOnClickListener(new OnImageClickListener(edit_id, position, m));
-        delete.setOnClickListener(new OnImageClickListener(delete_id, position, m));
+        //edit.setOnClickListener(new OnImageClickListener(edit_id, position, m));
+        //delete.setOnClickListener(new OnImageClickListener(delete_id, position, m));
+        menu.setOnClickListener(new OnImageClickListener(menu_id, position, m));
 
         return convertView;
     }
@@ -154,51 +161,75 @@ public class CustomListPostAdapter extends BaseAdapter {
             }
             if(_view_id == delete_id)
             {
-                //Toast.makeText(activity, "delete pressed", Toast.LENGTH_SHORT).show();
-
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
-
-                // Setting Dialog Title
-                alertDialog.setTitle("Удаление");
-
-                // Setting Dialog Message
-                alertDialog.setMessage("Вы действительно хотите удалить обьявление?");
-
-                // Setting Icon to Dialog
-                alertDialog.setIcon(R.drawable.ic_menu_delete);
-
-                // Setting Positive "Yes" Button
-                alertDialog.setPositiveButton("Да", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int which) {
-
-                        // Write your code here to invoke YES event
-                        //Toast.makeText(activity, "You clicked on YES", Toast.LENGTH_SHORT).show();
-                        deletePost();
-                    }
-                });
-
-                // Setting Negative "NO" Button
-                alertDialog.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Write your code here to invoke NO event
-                        //Toast.makeText(activity, "You clicked on NO", Toast.LENGTH_SHORT).show();
-                        dialog.cancel();
-                    }
-                });
-
-                // Showing Alert Message
-                alertDialog.show();
-
+                deletePost();
             }
-            //Toast.makeText(activity, "pos: " + _position + "post id:" + _id, Toast.LENGTH_LONG).show();
+            if(_view_id == menu_id)
+            {
+               // Toast.makeText(activity, "menu pressed", Toast.LENGTH_SHORT).show();
+
+                //Creating the instance of PopupMenu
+                PopupMenu popup = new PopupMenu(activity, v);
+                //Inflating the Popup using xml file
+                popup.getMenuInflater().inflate(R.menu.popup_menu1, popup.getMenu());
+
+                //registering popup with OnMenuItemClickListener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        String title = item.getTitle().toString();
+                        if(title.equals("Редактировать"))
+                        {
+                            editPost();
+                        }
+                        if(title.equals("Удалить"))
+                        {
+                            deletePost();
+                        }
+                        return true;
+                    }
+                });
+                popup.show();//showing popup menu
+            }
         }
 
         public void deletePost()
         {
-            Intent i = new Intent(activity, DeletePostActivity.class);
-            i.putExtra("position", _position);
-            i.putExtra("id", _m.getId());
-            activity.startActivity(i);
+            //Toast.makeText(activity, "delete pressed", Toast.LENGTH_SHORT).show();
+
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
+
+            // Setting Dialog Title
+            alertDialog.setTitle("Удаление");
+
+            // Setting Dialog Message
+            alertDialog.setMessage("Вы действительно хотите удалить обьявление?");
+
+            // Setting Icon to Dialog
+            alertDialog.setIcon(R.drawable.ic_menu_delete);
+
+            // Setting Positive "Yes" Button
+            alertDialog.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog,int which) {
+
+                    // Write your code here to invoke YES event
+                    //Toast.makeText(activity, "You clicked on YES", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(activity, DeletePostActivity.class);
+                    i.putExtra("position", _position);
+                    i.putExtra("id", _m.getId());
+                    activity.startActivity(i);
+                }
+            });
+
+            // Setting Negative "NO" Button
+            alertDialog.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // Write your code here to invoke NO event
+                    //Toast.makeText(activity, "You clicked on NO", Toast.LENGTH_SHORT).show();
+                    dialog.cancel();
+                }
+            });
+
+            // Showing Alert Message
+            alertDialog.show();
         }
         public void editPost()
         {

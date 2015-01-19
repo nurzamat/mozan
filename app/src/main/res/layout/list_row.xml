@@ -57,16 +57,8 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btnMessage"
+        android:id="@+id/btnMenu2"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:background="@drawable/ic_menu_message"/>
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/btnCall"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@id/btnMessage"
-        android:background="@drawable/ic_menu_call"/>
+        android:background="@drawable/ic_communities"/>
 </RelativeLayout>
