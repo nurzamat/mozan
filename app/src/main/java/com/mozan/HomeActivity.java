@@ -44,7 +44,6 @@ public class HomeActivity extends FragmentActivity {
 	private ArrayList<NavDrawerItem> navDrawerItems;
 	private NavDrawerListAdapter adapter;
     FragmentManager fragmentManager;
-    private boolean _mode = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +116,6 @@ public class HomeActivity extends FragmentActivity {
 			// on first time display view for first nav item
 			if(_case == 6)
             {
-                _mode = i.getBooleanExtra("mode", true);
                 displayView(6);                   //add or edit post
                 GlobalVar.adv_position = false;
             }
@@ -235,10 +233,7 @@ public class HomeActivity extends FragmentActivity {
       // conditional fragments
         case 6:
             {
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("mode", _mode);
                 fragment = new AddPostFragment();
-                fragment.setArguments(bundle);
                 break;
             }
         case 7:

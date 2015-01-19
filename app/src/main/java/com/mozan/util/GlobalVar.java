@@ -24,5 +24,5 @@ public class GlobalVar {
     public static boolean isHomeFragment;
     public static SparseBooleanArray mSparseBooleanArray = new SparseBooleanArray();
     public static Post _Post;
-    public static boolean Mode = true; // add = true, edit = false
+    public static boolean Mode; // add = true, edit = false
 }

@@ -54,7 +54,7 @@ public class AddPostFragment extends Fragment {
     boolean mode = true; // add mode = 1, edit mode = 0;
     String url;
     String id = "";
-    private ArrayList<Image> images = null;
+    private ArrayList<Image> images;
     private ProgressDialog dialog;
     EditText etContent;
     EditText etPrice;
@@ -68,33 +68,28 @@ public class AddPostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Bundle obj = getArguments();
-        if(obj != null)
+        this.mode =  GlobalVar.Mode;
+        //for set text
+        if(!mode)
         {
-           //this.mode =  obj.getBoolean("mode");
-           this.mode =  GlobalVar.Mode;
-           //for set text
-           if(!mode)
-           {
-               this.id = GlobalVar._Post.getId();
-               this.url = ApiHelper.POST_URL + id + "/";
-               this.category = GlobalVar._Post.getCategory();
-               this.category_name = GlobalVar._Post.getCategoryName();
-               this.content = GlobalVar._Post.getContent();
-               this.images = GlobalVar._Post.getImages();
-               this.price_currency = GlobalVar._Post.getPriceCurrency();
+            this.id = GlobalVar._Post.getId();
+            this.url = ApiHelper.POST_URL + id + "/";
+            this.category = GlobalVar._Post.getCategory();
+            this.category_name = GlobalVar._Post.getCategoryName();
+            this.content = GlobalVar._Post.getContent();
+            this.images = GlobalVar._Post.getImages();
+            this.price_currency = GlobalVar._Post.getPriceCurrency();
 
-               String raw_price = GlobalVar._Post.getPrice();
-               if (raw_price.contains("."))
-               {
-                   String[] parts = raw_price.split(Pattern.quote("."));
-                   this.price = parts[0] + "." + parts[1].replaceAll("\\D+","");
-               }
-               else
-               {
-                   this.price = "";
-               }
-           }
+            String raw_price = GlobalVar._Post.getPrice();
+            if (raw_price.contains("."))
+            {
+                String[] parts = raw_price.split(Pattern.quote("."));
+                this.price = parts[0] + "." + parts[1].replaceAll("\\D+","");
+            }
+            else
+            {
+                this.price = "";
+            }
         }
         rootView = inflater.inflate(R.layout.fragment_add_post, container, false);
         etContent = (EditText) rootView.findViewById(R.id.content);
@@ -116,7 +111,7 @@ public class AddPostFragment extends Fragment {
         spinner.setAdapter(adapter);
         spinner_category.setAdapter(adapter_category);
 
-        if(!mode)
+        if(!mode) //edit
         {
             etContent.setText(content);
             etPrice.setText(price);
@@ -162,10 +157,8 @@ public class AddPostFragment extends Fragment {
 
         int color = getResources().getColor(R.color.blue_dark);
         mAdapter = new PlaceSlidesFragmentAdapter(context);
-
         mPager = (ViewPager) rootView.findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
-
         mIndicator = (CirclePageIndicator) rootView.findViewById(R.id.indicator);
         mIndicator.setFillColor(color);
         mIndicator.setStrokeColor(color);
@@ -193,7 +186,6 @@ public class AddPostFragment extends Fragment {
                 });
 
         */
-
         cameraButton();
         categoryButton();
         postButton();
@@ -223,7 +215,7 @@ public class AddPostFragment extends Fragment {
         Button btn = (Button) rootView.findViewById(R.id.btnPost);
 
         if (mode)
-        {
+        {    Toast.makeText(context, "add mode", Toast.LENGTH_LONG).show();
             // add mode
             btn.setText(R.string.add);
             btn.setOnClickListener(new View.OnClickListener() {
@@ -244,7 +236,7 @@ public class AddPostFragment extends Fragment {
             });
         }
         else
-        {
+        {     Toast.makeText(context, "edit mode", Toast.LENGTH_LONG).show();
             //edit mode
             btn.setText(R.string.save);
             btn.setOnClickListener(new View.OnClickListener() {
@@ -267,7 +259,6 @@ public class AddPostFragment extends Fragment {
                                         Intent in = new Intent(context, HomeActivity.class);
                                         in.putExtra("case", 1);
                                         startActivity(in);
-                                        GlobalVar.Mode = true;
                                     }
                                 },
                                 new Response.ErrorListener() {

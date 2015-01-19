@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -52,8 +53,7 @@ public class FullScreenImageAdapter extends PagerAdapter {
 
         inflater = (LayoutInflater) _activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View viewLayout = inflater.inflate(R.layout.layout_fullscreen_image, container,
-                false);
+        View viewLayout = inflater.inflate(R.layout.layout_fullscreen_image, container, false);
 
         if (imageLoader == null)
             imageLoader = AppController.getInstance().getImageLoader();
