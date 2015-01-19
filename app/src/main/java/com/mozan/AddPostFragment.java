@@ -78,7 +78,7 @@ public class AddPostFragment extends Fragment {
                this.category = GlobalVar._Post.getCategory();
                this.content = GlobalVar._Post.getContent();
                this.image_urls = GlobalVar._Post.getImageUrls();
-               //this.price_currency = GlobalVar._Post.getPriceCurrency();
+               this.price_currency = GlobalVar._Post.getPriceCurrency();
                try
                {
                    String part = GlobalVar._Post.getPrice().split(" ")[0];
@@ -145,6 +145,13 @@ public class AddPostFragment extends Fragment {
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
         spinner_category.setAdapter(adapter_category);
+
+        if(!mode)
+        {
+            etContent.setText(content);
+            etPrice.setText(price);
+            spinner.setSelection(adapter.getPosition(price_currency));
+        }
 
         spinner.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
@@ -236,10 +243,6 @@ public class AddPostFragment extends Fragment {
         {
             //edit mode
             btn.setText(R.string.save);
-            etContent.setText(content);
-            etPrice.setText(price);
-
-
             btn.setOnClickListener(new View.OnClickListener() {
 
                 @Override

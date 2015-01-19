@@ -98,6 +98,7 @@ public class RealtyPosts extends Fragment {
                             post.setContent(obj.getString("content"));
                             post.setCategory(obj.getString("category"));
                             post.setPrice(obj.getString("price"));
+                            post.setPriceCurrency(obj.getString("price_currency"));
                             post.setUsername(obj.getJSONObject("owner").getString("username"));
                             jimages = obj.getJSONArray("images");
                             if(jimages.length() > 0)
