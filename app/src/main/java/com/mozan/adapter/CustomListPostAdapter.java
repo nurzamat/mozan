@@ -103,9 +103,9 @@ public class CustomListPostAdapter extends BaseAdapter {
         thumbnail_id = thumbNail.getId();
         edit_id = edit.getId();
         delete_id = delete.getId();
-        thumbNail.setOnClickListener(new OnImageClickListener(thumbnail_id, position, m.getId(), m.getImageUrls()));
-        edit.setOnClickListener(new OnImageClickListener(edit_id));
-        delete.setOnClickListener(new OnImageClickListener(delete_id, position, m.getId()));
+        thumbNail.setOnClickListener(new OnImageClickListener(thumbnail_id, position, m));
+        edit.setOnClickListener(new OnImageClickListener(edit_id, position, m));
+        delete.setOnClickListener(new OnImageClickListener(delete_id, position, m));
 
         return convertView;
     }
@@ -117,27 +117,15 @@ public class CustomListPostAdapter extends BaseAdapter {
     class OnImageClickListener implements View.OnClickListener {
 
         int _position;
-        String _id;
-        ArrayList<String> _image_urls = null;
-        int _view_id = 0;
-        // constructors
+        int _view_id;
+        Post _m;
 
-        public OnImageClickListener(int view_id)
-        {
-            this._view_id = view_id;
-        }
-        public OnImageClickListener(int view_id, int position, String id)
+        // constructor
+        public OnImageClickListener(int view_id, int position, Post m)
         {
             this._view_id = view_id;
             this._position = position;
-            this._id = id;
-        }
-        public OnImageClickListener(int view_id, int position, String id, ArrayList<String> _image_urls)
-        {
-            this._view_id = view_id;
-            this._position = position;
-            this._id = id;
-            this._image_urls = _image_urls;
+            this._m = m;
         }
 
         @Override
@@ -147,11 +135,13 @@ public class CustomListPostAdapter extends BaseAdapter {
             // launch full screen activity
             if(_view_id == thumbnail_id)
             {
+                ArrayList<String> _image_urls = _m.getImageUrls();
+
                 if(_image_urls != null && _image_urls.size() > 0)
                 {
                     Intent i = new Intent(activity, FullScreenViewActivity.class);
                     i.putExtra("position", _position);
-                    i.putExtra("id", _id);
+                    i.putExtra("id", _m.getId());
                     i.putExtra("image_urls", _image_urls);
                     activity.startActivity(i);
                 }
@@ -207,13 +197,20 @@ public class CustomListPostAdapter extends BaseAdapter {
         {
             Intent i = new Intent(activity, DeletePostActivity.class);
             i.putExtra("position", _position);
-            i.putExtra("id", _id);
+            i.putExtra("id", _m.getId());
             activity.startActivity(i);
         }
         public void editPost()
         {
             Bundle bundle = new Bundle();
             bundle.putBoolean("mode", false);
+            bundle.putString("id", _m.getId());
+            bundle.putString("category", _m.getCategory());
+            bundle.putString("content", _m.getContent());
+            bundle.putString("price", _m.getPrice());
+           // bundle.putString("price_currency", _m.getPriceCurrency());
+            bundle.putStringArrayList("image_urls", _m.getImageUrls());
+
             Fragment fragment = (Fragment) new AddPostFragment();
             fragment.setArguments(bundle);
             if (fragment != null) {

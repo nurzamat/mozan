@@ -30,6 +30,7 @@ import com.mozan.util.PutRequest;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,7 +52,11 @@ public class AddPostFragment extends Fragment {
     Activity context;
     boolean mode = true; // add mode = 1, edit mode = 0;
     String url;
+    String id = "";
+    private ArrayList<String> image_urls = null;
     private ProgressDialog dialog;
+    EditText etContent;
+    EditText etPrice;
 
     public AddPostFragment()
     {
@@ -65,10 +70,20 @@ public class AddPostFragment extends Fragment {
         Bundle obj = getArguments();
         if(obj != null)
         {
+           //for set text
+           this.id = obj.getString("id");
            this.mode =  obj.getBoolean("mode");
-           this.url = ApiHelper.POST_URL + obj.getString("id") + "/";
+           this.url = ApiHelper.POST_URL + id + "/";
+
+           this.category = obj.getString("category");
+           this.content = obj.getString("content");
+           this.price = obj.getString("price");
+         //this.price_currency = obj.getString("price_currency");
+           this.image_urls = obj.getStringArrayList("image_urls");
         }
         rootView = inflater.inflate(R.layout.fragment_add_post, container, false);
+        etContent = (EditText) rootView.findViewById(R.id.content);
+        etPrice = (EditText) rootView.findViewById(R.id.price);
 
         context = getActivity();
         int color = getResources().getColor(R.color.blue_dark);
@@ -209,6 +224,9 @@ public class AddPostFragment extends Fragment {
         else
         {
             btn.setText(R.string.edit);
+            etContent.setText(content);
+            etPrice.setText(price);
+
             btn.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -228,7 +246,11 @@ public class AddPostFragment extends Fragment {
                                         if (response.equals("")) // if response is ok
                                         {
                                             Toast.makeText(context, "Сохранено", Toast.LENGTH_LONG).show();
+                                            Intent in = new Intent(context, HomeActivity.class);
+                                            in.putExtra("case", 1);
+                                            startActivity(in);
                                         }
+                                        else Toast.makeText(context, "Ошибка", Toast.LENGTH_LONG).show();
                                     }
                                 },
                                 new Response.ErrorListener() {
@@ -243,8 +265,14 @@ public class AddPostFragment extends Fragment {
                             protected Map<String, String> getParams()
                             {
                                 Map<String, String>  params = new HashMap<String, String>();
-                                //params.put("name", "Alif");
-                                //params.put("domain", "http://itsalif.info");
+
+                                ApiHelper api = new ApiHelper();
+                                params.put("category", api.getCategoryId(position));
+                                params.put("content", content);
+                                params.put("price", price);
+                                params.put("price_currency", price_currency);
+                                params.put("api_key", api.API_KEY);
+
                                 return params;
                             }
                         };
@@ -259,10 +287,8 @@ public class AddPostFragment extends Fragment {
     }
 
     private boolean validate(){
-        EditText etContent = (EditText) rootView.findViewById(R.id.content);
-        content = etContent.getText().toString().trim();
 
-        EditText etPrice = (EditText) rootView.findViewById(R.id.price);
+        content = etContent.getText().toString().trim();
         price = etPrice.getText().toString().trim();
 
         return (!content.equals("") && !price.equals("") && !category.equals("") && !price_currency.equals(""));
