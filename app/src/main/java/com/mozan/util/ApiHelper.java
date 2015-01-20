@@ -2,6 +2,8 @@ package com.mozan.util;
 
 import android.util.Log;
 
+import com.mozan.model.Category;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
@@ -30,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.KeyStore;
+import java.util.Iterator;
 
 /**
  * Created by User on 12.12.2014.
@@ -37,8 +40,8 @@ import java.security.KeyStore;
 public class ApiHelper {
 
     public static final String TAG = "[API]";
-    public static final String CODE_URL = "https://mozan.trade/api/auth/registration/";
-    public static final String TOKEN_URL = "https://mozan.trade/api/auth/registration/";
+    public static final String CODE_URL = "https://mozan.trade/api/user/registration/";
+    public static final String TOKEN_URL = "https://mozan.trade/api/user/registration/";
     public static final String MEDIA_URL = "https://mozan.trade/media/";
     public static final String API_KEY = "7dbe69719ab6a99e677f4a1948b6c5b82162c40c";
     public static final String POST_URL = "https://mozan.trade/api/post/";
@@ -46,6 +49,7 @@ public class ApiHelper {
     public static final String SEARCH_POST_URL = "https://mozan.trade/api/search/?q=";
     public static final String USER_URL = "https://mozan.trade/api/user/";
     //Categories
+    public static final String CATEGORIES_URL = "https://mozan.trade/api/category/list/";
     public static final String REALTY_URL = "https://mozan.trade/api/category/1/";
     public static final String AVTO_URL = "https://mozan.trade/api/category/2/";
     public static final String RENT_URL = "https://mozan.trade/api/category/3/";
@@ -289,7 +293,7 @@ public class ApiHelper {
         return "";
     }
 
-    public String getCategoryId(int position)
+    public static String getCategoryId(int position) // position or index
     {
         if(position == 0)
             return "6";
@@ -304,6 +308,16 @@ public class ApiHelper {
         if(position == 5)
             return "9";
 
+        return "";
+    }
+
+    public static String getCategoryName(String id)
+    {
+        for(Iterator<Category> i = GlobalVar._categories.iterator(); i.hasNext(); ) {
+            Category item = i.next();
+            if(item.getId().equals(id))
+                return item.getName();
+        }
         return "";
     }
 }

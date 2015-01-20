@@ -14,7 +14,7 @@ public class CustomNetworkImageView extends NetworkImageView {
 
     private Bitmap mLocalBitmap;
 
-    private boolean mShowLocal;
+    public boolean mShowLocal;
 
     public void setLocalImageBitmap(Bitmap bitmap) {
         if (bitmap != null) {

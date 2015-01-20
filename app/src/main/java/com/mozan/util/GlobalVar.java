@@ -2,6 +2,8 @@ package com.mozan.util;
 
 import android.graphics.Bitmap;
 import android.util.SparseBooleanArray;
+
+import com.mozan.model.Category;
 import com.mozan.model.Post;
 import java.util.ArrayList;
 
@@ -17,10 +19,9 @@ public class GlobalVar {
     public static String Phone = "";
     public static String Token = "";
     public static String Uid = "";
+    public static ArrayList<Category> _categories = new ArrayList<Category>();
     public static ArrayList<Bitmap> _bitmaps = new ArrayList<Bitmap>();
     public static ArrayList<String> image_paths = new ArrayList<String>();
-    public static ArrayList<Bitmap> edit_bitmaps = new ArrayList<Bitmap>();
-    public static ArrayList<String> edit_image_paths = new ArrayList<String>();
     public static boolean adv_position;
     public static String query = "";
     public static boolean isHomeFragment;

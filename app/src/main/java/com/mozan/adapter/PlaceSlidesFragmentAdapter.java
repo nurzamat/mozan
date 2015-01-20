@@ -16,7 +16,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.mozan.AppController;
 import com.mozan.R;
 import com.mozan.model.Image;
 import com.mozan.util.CustomNetworkImageView;
@@ -29,8 +31,10 @@ public class PlaceSlidesFragmentAdapter extends PagerAdapter {
     Context context;
     LayoutInflater inflater;
     int size;
+    int url_size;
     ArrayList<Image> images = null;
     ArrayList<String> urls = null;
+    ImageLoader imageLoader = null;
 
     public PlaceSlidesFragmentAdapter(Context context) {
         this.context = context;
@@ -43,8 +47,12 @@ public class PlaceSlidesFragmentAdapter extends PagerAdapter {
             {
                 urls.add(images.get(i).getUrl());
             }
-            this.size = size + urls.size();
+            this.url_size = urls.size();
+            this.size = size + url_size;
+            this.imageLoader = AppController.getInstance().getImageLoader();
         }
+
+        Log.d("PlaceSlidesFragmentAdapter size:", " "+size);
     }
 
     @Override
@@ -99,18 +107,23 @@ public class PlaceSlidesFragmentAdapter extends PagerAdapter {
             {
                 if(size > 0)
                 {
-
-
-
-                    imgflag.setLocalImageBitmap(GlobalVar._bitmaps.get(position));
+                    //imgflag.setDefaultImageResId(R.drawable.default_img);
+                    if(position < url_size) {
+                        imgflag.setImageUrl(urls.get(position), imageLoader);
+                    }
+                    else
+                    {
+                        imgflag.mShowLocal = true;
+                        imgflag.setLocalImageBitmap(GlobalVar._bitmaps.get(position - url_size));
+                    }
                 }
                 else
                 {
                     //default image
                     //Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_img);
-                    Drawable drawable = context.getResources().getDrawable(R.drawable.default_img);
-                    Bitmap bmp = ((BitmapDrawable)drawable).getBitmap();
-                    imgflag.setLocalImageBitmap(bmp);
+                    //Drawable drawable = context.getResources().getDrawable(R.drawable.default_img);
+                    //Bitmap bmp = ((BitmapDrawable)drawable).getBitmap();
+                    //imgflag.setLocalImageBitmap(bmp);
                 }
             }
             catch (IndexOutOfBoundsException ex)

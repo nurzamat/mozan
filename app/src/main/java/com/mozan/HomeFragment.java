@@ -15,6 +15,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 
 import com.mozan.adapter.GridviewAdapter;
+import com.mozan.util.ApiHelper;
 import com.mozan.util.GlobalVar;
 
 import java.util.ArrayList;
@@ -139,20 +140,14 @@ public class HomeFragment extends Fragment {
     public void prepareList()
     {
         listCategory = new ArrayList<String>();
-/*
-        listCategory.add("House holder");
-        listCategory.add("Realty");
-        listCategory.add("Rent");
-        listCategory.add("Transport");
-        listCategory.add("Car");
-        listCategory.add("Service");
-*/
-        listCategory.add("ЭЛЕКТРОНИКА И ТЕХНИКА");
-        listCategory.add("СТРОИТЕЛЬСТВО И РЕМОНТ");
-        listCategory.add("НЕДВИЖИМОСТЬ");
-        listCategory.add("ЗАПЧАСТИ");
-        listCategory.add("АВТО");
-        listCategory.add("ЗАВЕДЕНИЯ, ОТДЫХ");
+
+        listCategory.add(ApiHelper.getCategoryName(ApiHelper.getCategoryId(0)).toUpperCase());
+        listCategory.add(ApiHelper.getCategoryName(ApiHelper.getCategoryId(1)).toUpperCase());
+        listCategory.add(ApiHelper.getCategoryName(ApiHelper.getCategoryId(2)).toUpperCase());
+        listCategory.add(ApiHelper.getCategoryName(ApiHelper.getCategoryId(3)).toUpperCase());
+        listCategory.add(ApiHelper.getCategoryName(ApiHelper.getCategoryId(4)).toUpperCase());
+        listCategory.add(ApiHelper.getCategoryName(ApiHelper.getCategoryId(5)).toUpperCase());
+        listCategory.add(ApiHelper.getCategoryName(ApiHelper.getCategoryId(6)).toUpperCase());
 
         listCategoryImage = new ArrayList<Integer>();
         listCategoryImage.add(R.drawable.house_holder);

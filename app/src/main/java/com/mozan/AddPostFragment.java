@@ -256,12 +256,11 @@ public class AddPostFragment extends Fragment {
                     {
                         Map<String, String>  params = new HashMap<String, String>();
 
-                        ApiHelper api = new ApiHelper();
-                        params.put("category", api.getCategoryId(position));
+                        params.put("category", ApiHelper.getCategoryId(position));
                         params.put("content", content);
                         params.put("price", price);
                         params.put("price_currency", price_currency);
-                        params.put("api_key", api.API_KEY);
+                        params.put("api_key", ApiHelper.API_KEY);
 
                         return params;
                     }
@@ -301,11 +300,11 @@ public class AddPostFragment extends Fragment {
                 ApiHelper api = new ApiHelper();
 
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("category", api.getCategoryId(position));
+                jsonObject.put("category", ApiHelper.getCategoryId(position));
                 jsonObject.put("content", content);
                 jsonObject.put("price", price);
                 jsonObject.put("price_currency", price_currency);
-                jsonObject.put("api_key", api.API_KEY);
+                jsonObject.put("api_key", ApiHelper.API_KEY);
 
                 JSONObject obj = api.sendPost(jsonObject);
                 if(obj.has("id"))

@@ -1,16 +1,31 @@
 package com.mozan;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.mozan.model.Category;
+import com.mozan.util.ApiHelper;
 import com.mozan.util.GlobalVar;
+import com.mozan.util.JsonArrayRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class StartActivity extends Activity {
+
+    private static final String TAG =  "[CATEGORIES response]";
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +39,43 @@ public class StartActivity extends Activity {
 
         Log.d("StartActivity", "Phone/token/uid: " + GlobalVar.Phone  + " / " + GlobalVar.Token + " / " + GlobalVar.Uid);
 
-        Intent in = new Intent(StartActivity.this, HomeActivity.class);
-        startActivity(in);
+        pDialog = ProgressDialog.show(StartActivity.this, "", "Загрузка...", true);
+        GlobalVar._categories.clear();
+        JsonArrayRequest Req = new JsonArrayRequest(ApiHelper.CATEGORIES_URL,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d(TAG, response.toString());
+                        // Parsing json array
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+
+                                JSONObject obj = response.getJSONObject(i);
+                                Category category = new Category();
+                                category.setId(obj.getString("id"));
+                                category.setName(obj.getString("name"));
+                                category.setParent(obj.getString("parent"));
+
+                                GlobalVar._categories.add(category);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        Intent in = new Intent(StartActivity.this, HomeActivity.class);
+                        startActivity(in);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        });
+        // Adding request to request queue
+        AppController appcon = AppController.getInstance();
+        appcon.addToRequestQueue(Req);
+        pDialog.dismiss();
         finish();
     }
 

@@ -91,18 +91,19 @@ public class SearchResultsFragment extends Fragment {
                     String previous = response.getString("previous");
                     JSONArray jarray =  response.getJSONArray("results");
                     JSONArray jimages;
-
+                    String category_id;
                     for (int i = 0; i < jarray.length(); i++) {
                         try {
                             JSONObject obj = jarray.getJSONObject(i).getJSONObject("object");
                             Post post = new Post();
                             post.setId(obj.getString("id"));
                             post.setContent(obj.getString("content"));
-                            post.setCategory(obj.getString("category"));
-                            post.setCategoryName(obj.getString("category_name"));
                             post.setPrice(obj.getString("price"));
                             post.setPriceCurrency(obj.getString("price_currency"));
                             post.setUsername(obj.getJSONObject("owner").getString("username"));
+                            category_id = obj.getString("category");
+                            post.setCategory(category_id);
+                            post.setCategoryName(ApiHelper.getCategoryName(category_id));
                             jimages = obj.getJSONArray("images");
                             if(jimages.length() > 0)
                             {
