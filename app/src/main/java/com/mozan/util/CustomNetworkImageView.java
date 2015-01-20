@@ -3,7 +3,6 @@ package com.mozan.util;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
-
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
@@ -14,7 +13,7 @@ public class CustomNetworkImageView extends NetworkImageView {
 
     private Bitmap mLocalBitmap;
 
-    public boolean mShowLocal;
+    private boolean mShowLocal;
 
     public void setLocalImageBitmap(Bitmap bitmap) {
         if (bitmap != null) {

@@ -3,9 +3,6 @@ package com.mozan.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -14,14 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
-
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
-import com.mozan.AppController;
 import com.mozan.R;
-import com.mozan.model.Image;
-import com.mozan.util.CustomNetworkImageView;
 import com.mozan.util.GlobalVar;
 
 import java.util.ArrayList;
@@ -31,28 +21,14 @@ public class PlaceSlidesFragmentAdapter extends PagerAdapter {
     Context context;
     LayoutInflater inflater;
     int size;
-    int url_size;
-    ArrayList<Image> images = null;
-    ArrayList<String> urls = null;
-    ImageLoader imageLoader = null;
+    ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
 
     public PlaceSlidesFragmentAdapter(Context context) {
+        bitmaps.clear();
+        bitmaps.addAll(GlobalVar._postBitmaps);
+        bitmaps.addAll(GlobalVar._bitmaps);
         this.context = context;
-        this.size = GlobalVar._bitmaps.size();
-        if(GlobalVar._Post != null)
-        {
-            this.images = GlobalVar._Post.getImages();
-            this.urls = new ArrayList<String>();
-            for (int i = 0; i < images.size(); i++)
-            {
-                urls.add(images.get(i).getUrl());
-            }
-            this.url_size = urls.size();
-            this.size = size + url_size;
-            this.imageLoader = AppController.getInstance().getImageLoader();
-        }
-
-        Log.d("PlaceSlidesFragmentAdapter size:", " "+size);
+        this.size = bitmaps.size();
     }
 
     @Override
@@ -87,7 +63,8 @@ public class PlaceSlidesFragmentAdapter extends PagerAdapter {
             {
                 if(size > 0)
                     imgflag.setImageBitmap(GlobalVar._bitmaps.get(position));
-                else {
+                else
+                {
                     imgflag.setImageResource(R.drawable.default_img);
                 }
             }
@@ -100,36 +77,52 @@ public class PlaceSlidesFragmentAdapter extends PagerAdapter {
         {   // Edit mode
             itemView = inflater.inflate(R.layout.viewpager_item_edit, container, false);
             // Locate the ImageView in viewpager_item.xml
+            ImageView imgflag = (ImageView) itemView.findViewById(R.id.flag);
+            imgflag.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            // Capture position and set to the ImageView
+
+            //imgflag.setDefaultImageResId(R.drawable.default_img);
+
+            imgflag.setImageBitmap(bitmaps.get(position));
+            imgflag.setImageBitmap(bitmaps.get(position));
+            /*
+            itemView = inflater.inflate(R.layout.viewpager_item_edit, container, false);
+            // Locate the ImageView in viewpager_item.xml
             CustomNetworkImageView imgflag = (CustomNetworkImageView) itemView.findViewById(R.id.flag);
             imgflag.setScaleType(ImageView.ScaleType.CENTER_CROP);
             // Capture position and set to the ImageView
-            try
+
+            if (imageLoader == null)
+                imageLoader = AppController.getInstance().getImageLoader();
+
+            //imgflag.setDefaultImageResId(R.drawable.default_img);
+            if(position < url_size)
             {
-                if(size > 0)
-                {
-                    //imgflag.setDefaultImageResId(R.drawable.default_img);
-                    if(position < url_size) {
-                        imgflag.setImageUrl(urls.get(position), imageLoader);
+                //imgflag.setImageUrl(urls.get(position), imageLoader);
+                imageLoader.get(urls.get(position), new ImageLoader.ImageListener() {
+                    @Override
+                    public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                        bitmap = response.getBitmap();
                     }
-                    else
-                    {
-                        imgflag.mShowLocal = true;
-                        imgflag.setLocalImageBitmap(GlobalVar._bitmaps.get(position - url_size));
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d("PlaceSlidesFragmentAdapter", "Error: " + error.getMessage());
                     }
-                }
-                else
-                {
-                    //default image
-                    //Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_img);
-                    //Drawable drawable = context.getResources().getDrawable(R.drawable.default_img);
-                    //Bitmap bmp = ((BitmapDrawable)drawable).getBitmap();
-                    //imgflag.setLocalImageBitmap(bmp);
-                }
+                });
+                Log.d("<:", ""+position);
             }
-            catch (IndexOutOfBoundsException ex)
+            else
             {
-                Log.d("PlaceSlidesFragmentAdapter exeption:", ex.getMessage());
+                //imgflag.setLocalImageBitmap(GlobalVar._bitmaps.get(position));
+                //imgflag.setLocalImageBitmap(GlobalVar._bitmaps.get(position - url_size));
+                bitmap = GlobalVar._bitmaps.get(position - url_size);
+                Log.d("=:", ""+position);
             }
+
+            imgflag.setLocalImageBitmap(bitmap);
+
+            */
         }
         // Add viewpager_item.xml to ViewPager
         ((ViewPager) container).addView(itemView);

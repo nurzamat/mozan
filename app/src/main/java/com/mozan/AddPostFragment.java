@@ -22,12 +22,15 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.ImageLoader;
 import com.mozan.adapter.PlaceSlidesFragmentAdapter;
 import com.mozan.lib.CirclePageIndicator;
 import com.mozan.util.ApiHelper;
 import com.mozan.util.GlobalVar;
 import com.mozan.util.PutRequest;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -55,6 +58,7 @@ public class AddPostFragment extends Fragment {
     private ProgressDialog dialog;
     EditText etContent;
     EditText etPrice;
+    ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
     public AddPostFragment()
     {
@@ -86,7 +90,29 @@ public class AddPostFragment extends Fragment {
             {
                 this.price = "";
             }
+            //prepare bitmaps
+            GlobalVar._postBitmaps.clear();
+            if(imageLoader ==  null)
+                imageLoader = AppController.getInstance().getImageLoader();
+            ArrayList<String> urls = ApiHelper.getImageUrls(GlobalVar._Post.getImages());
+            for (int i = 0; i < urls.size(); i++)
+            {
+                imageLoader.get(urls.get(i), new ImageLoader.ImageListener() {
+                    @Override
+                    public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                        GlobalVar._postBitmaps.add(response.getBitmap());
+                    }
 
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                    }
+                });
+            }
+
+           // mAdapter.notifyDataSetChanged();
+
+            //
         }
         rootView = inflater.inflate(R.layout.fragment_add_post, container, false);
         etContent = (EditText) rootView.findViewById(R.id.content);

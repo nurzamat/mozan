@@ -167,6 +167,11 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 GlobalVar.Mode = true;
+                GlobalVar._Post = null;
+                GlobalVar._bitmaps.clear();
+                GlobalVar.image_paths.clear();
+                GlobalVar.mSparseBooleanArray.clear();
+
                 if (!GlobalVar.Phone.equals("") && !GlobalVar.Token.equals("")) {
                     fragment = new AddPostFragment();
                     createFragment(fragment);

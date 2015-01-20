@@ -3,6 +3,7 @@ package com.mozan.util;
 import android.util.Log;
 
 import com.mozan.model.Category;
+import com.mozan.model.Image;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -32,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.KeyStore;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -319,6 +321,15 @@ public class ApiHelper {
                 return item.getName();
         }
         return "";
+    }
+    public static ArrayList<String> getImageUrls(ArrayList<Image> images)
+    {
+        ArrayList<String> urls = new ArrayList<String>();
+        for(Iterator<Image> i = images.iterator(); i.hasNext(); ) {
+            Image item = i.next();
+            urls.add(item.getUrl());
+        }
+        return urls;
     }
 }
 
