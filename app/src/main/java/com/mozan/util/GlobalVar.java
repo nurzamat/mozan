@@ -19,10 +19,12 @@ public class GlobalVar {
     public static String Uid = "";
     public static ArrayList<Bitmap> _bitmaps = new ArrayList<Bitmap>();
     public static ArrayList<String> image_paths = new ArrayList<String>();
+    public static ArrayList<Bitmap> edit_bitmaps = new ArrayList<Bitmap>();
+    public static ArrayList<String> edit_image_paths = new ArrayList<String>();
     public static boolean adv_position;
     public static String query = "";
     public static boolean isHomeFragment;
     public static SparseBooleanArray mSparseBooleanArray = new SparseBooleanArray();
-    public static Post _Post;
+    public static Post _Post = null;
     public static boolean Mode; // add = true, edit = false
 }

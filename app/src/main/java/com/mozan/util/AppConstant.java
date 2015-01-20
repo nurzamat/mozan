@@ -15,4 +15,5 @@ public class AppConstant {
     public static final int GRID_PADDING = 4; // in dp
 
     public static final int MAX_IMAGES = 5;
+
 }

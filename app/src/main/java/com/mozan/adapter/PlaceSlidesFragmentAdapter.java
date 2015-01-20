@@ -18,18 +18,33 @@ import android.widget.Toast;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.mozan.R;
+import com.mozan.model.Image;
 import com.mozan.util.CustomNetworkImageView;
 import com.mozan.util.GlobalVar;
+
+import java.util.ArrayList;
 
 public class PlaceSlidesFragmentAdapter extends PagerAdapter {
     // Declare Variables
     Context context;
     LayoutInflater inflater;
     int size;
+    ArrayList<Image> images = null;
+    ArrayList<String> urls = null;
 
     public PlaceSlidesFragmentAdapter(Context context) {
         this.context = context;
         this.size = GlobalVar._bitmaps.size();
+        if(GlobalVar._Post != null)
+        {
+            this.images = GlobalVar._Post.getImages();
+            this.urls = new ArrayList<String>();
+            for (int i = 0; i < images.size(); i++)
+            {
+                urls.add(images.get(i).getUrl());
+            }
+            this.size = size + urls.size();
+        }
     }
 
     @Override
@@ -84,18 +99,17 @@ public class PlaceSlidesFragmentAdapter extends PagerAdapter {
             {
                 if(size > 0)
                 {
+
+
+
                     imgflag.setLocalImageBitmap(GlobalVar._bitmaps.get(position));
-                    Toast.makeText(context, "size = "+size, Toast.LENGTH_LONG).show();
                 }
                 else
                 {
+                    //default image
                     //Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_img);
-
-                    Toast.makeText(context, "size = "+size, Toast.LENGTH_LONG).show();
-
                     Drawable drawable = context.getResources().getDrawable(R.drawable.default_img);
                     Bitmap bmp = ((BitmapDrawable)drawable).getBitmap();
-
                     imgflag.setLocalImageBitmap(bmp);
                 }
             }

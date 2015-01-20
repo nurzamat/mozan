@@ -187,7 +187,6 @@ public class MultiPhotoSelectActivity extends Activity {
                 if(GlobalVar.mSparseBooleanArray.get(i)) {
 
                     mTempArry.add(mList.get(i));
-
                 }
 
             }

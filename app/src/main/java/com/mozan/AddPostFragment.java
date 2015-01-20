@@ -24,12 +24,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.mozan.adapter.PlaceSlidesFragmentAdapter;
 import com.mozan.lib.CirclePageIndicator;
-import com.mozan.model.Image;
 import com.mozan.util.ApiHelper;
 import com.mozan.util.GlobalVar;
 import com.mozan.util.PutRequest;
 import org.json.JSONObject;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -54,7 +52,6 @@ public class AddPostFragment extends Fragment {
     boolean mode = true; // add mode = 1, edit mode = 0;
     String url;
     String id = "";
-    private ArrayList<Image> images;
     private ProgressDialog dialog;
     EditText etContent;
     EditText etPrice;
@@ -77,7 +74,6 @@ public class AddPostFragment extends Fragment {
             this.category = GlobalVar._Post.getCategory();
             this.category_name = GlobalVar._Post.getCategoryName();
             this.content = GlobalVar._Post.getContent();
-            this.images = GlobalVar._Post.getImages();
             this.price_currency = GlobalVar._Post.getPriceCurrency();
 
             String raw_price = GlobalVar._Post.getPrice();
@@ -90,6 +86,7 @@ public class AddPostFragment extends Fragment {
             {
                 this.price = "";
             }
+
         }
         rootView = inflater.inflate(R.layout.fragment_add_post, container, false);
         etContent = (EditText) rootView.findViewById(R.id.content);
@@ -111,13 +108,20 @@ public class AddPostFragment extends Fragment {
         spinner.setAdapter(adapter);
         spinner_category.setAdapter(adapter_category);
 
+        Button postBtn = (Button) rootView.findViewById(R.id.btnPost);
+        ImageButton cameraBtn = (ImageButton) rootView.findViewById(R.id.btnCamera);
+
         if(!mode) //edit
         {
             etContent.setText(content);
             etPrice.setText(price);
             spinner.setSelection(adapter.getPosition(price_currency));
             spinner_category.setSelection(adapter_category.getPosition(category_name));
-
+            postBtn.setText(R.string.save);
+        }
+        else
+        {
+            postBtn.setText(R.string.add);
         }
 
         spinner.setOnItemSelectedListener(
@@ -186,17 +190,14 @@ public class AddPostFragment extends Fragment {
                 });
 
         */
-        cameraButton();
-        categoryButton();
-        postButton();
-        return rootView;
-    }
+        postBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                postButton();
+            }
+        });
 
-    private void cameraButton() {
-        // TODO Auto-generated method stub
-        ImageButton btn = (ImageButton) rootView.findViewById(R.id.btnCamera);
-
-        btn.setOnClickListener(new View.OnClickListener() {
+        cameraBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -204,93 +205,72 @@ public class AddPostFragment extends Fragment {
                 startActivity(in);
             }
         });
-    }
-    private void categoryButton() {
-        // TODO Auto-generated method stub
 
+        return rootView;
     }
 
     private void postButton() {
         // TODO Auto-generated method stub
-        Button btn = (Button) rootView.findViewById(R.id.btnPost);
 
-        if (mode)
-        {    Toast.makeText(context, "add mode", Toast.LENGTH_LONG).show();
-            // add mode
-            btn.setText(R.string.add);
-            btn.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-
-                    if(!validate())
-                    {
-                        Toast.makeText(context, "Заполните все поля", Toast.LENGTH_LONG).show();
-                    }
-                    else
-                    {
-                        HttpAsyncTask task = new HttpAsyncTask();
-                        task.execute(ApiHelper.SEND_POST_URL);
-                    }
-                }
-            });
+        if(!validate())
+        {
+            Toast.makeText(context, "Заполните все поля", Toast.LENGTH_LONG).show();
         }
         else
-        {     Toast.makeText(context, "edit mode", Toast.LENGTH_LONG).show();
-            //edit mode
-            btn.setText(R.string.save);
-            btn.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-
-                    if (!validate()) {
-                        Toast.makeText(context, "Заполните все поля", Toast.LENGTH_LONG).show();
-                    } else {
-                        dialog = ProgressDialog.show(context, "",
-                                "Загрузка...", true);
-                        PutRequest dr = new PutRequest(url,
-                                new Response.Listener<String>() {
-                                    @Override
-                                    public void onResponse(String response) {
-                                        // response
-                                        Log.d(TAG, response);
-                                       // Toast.makeText(context, "Сохранено", Toast.LENGTH_LONG).show();
-                                        Intent in = new Intent(context, HomeActivity.class);
-                                        in.putExtra("case", 1);
-                                        startActivity(in);
-                                    }
-                                },
-                                new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        VolleyLog.d(TAG, "Error: " + error.getMessage());
-                                        // hide the progress dialog
-                                    }
-                                }
-                        ){
+        {
+            if (mode)
+            {
+                HttpAsyncTask task = new HttpAsyncTask();
+                task.execute(ApiHelper.SEND_POST_URL);
+            }
+            else
+            {
+                dialog = ProgressDialog.show(context, "",
+                        "Загрузка...", true);
+                PutRequest dr = new PutRequest(url,
+                        new Response.Listener<String>() {
                             @Override
-                            protected Map<String, String> getParams()
-                            {
-                                Map<String, String>  params = new HashMap<String, String>();
-
-                                ApiHelper api = new ApiHelper();
-                                params.put("category", api.getCategoryId(position));
-                                params.put("content", content);
-                                params.put("price", price);
-                                params.put("price_currency", price_currency);
-                                params.put("api_key", api.API_KEY);
-
-                                return params;
+                            public void onResponse(String response) {
+                                // response
+                                Log.d(TAG, response);
+                                Toast.makeText(context, "Сохранено", Toast.LENGTH_LONG).show();
+                                Intent in = new Intent(context, HomeActivity.class);
+                                in.putExtra("case", 1);
+                                startActivity(in);
+                                //clear images
+                                GlobalVar._bitmaps.clear();
+                                GlobalVar.image_paths.clear();
+                                GlobalVar._Post = null;
                             }
-                        };
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                                // hide the progress dialog
+                            }
+                        }
+                ){
+                    @Override
+                    protected Map<String, String> getParams()
+                    {
+                        Map<String, String>  params = new HashMap<String, String>();
 
-                        dialog.dismiss();
-                        AppController appcon = AppController.getInstance();
-                        appcon.addToRequestQueue(dr);
+                        ApiHelper api = new ApiHelper();
+                        params.put("category", api.getCategoryId(position));
+                        params.put("content", content);
+                        params.put("price", price);
+                        params.put("price_currency", price_currency);
+                        params.put("api_key", api.API_KEY);
+
+                        return params;
                     }
-                }
-            });
+                };
+
+                dialog.dismiss();
+                AppController appcon = AppController.getInstance();
+                appcon.addToRequestQueue(dr);
+            }
         }
     }
 
@@ -365,6 +345,9 @@ public class AddPostFragment extends Fragment {
             Intent in = new Intent(context, HomeActivity.class);
             in.putExtra("case", 1);
             startActivity(in);
+            //clear images
+            GlobalVar._bitmaps.clear();
+            GlobalVar.image_paths.clear();
         }
     }
 }
