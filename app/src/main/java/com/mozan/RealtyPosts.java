@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.mozan.adapter.CustomListAdapter;
+import com.mozan.adapter.PostListAdapter;
 import com.mozan.model.Image;
 import com.mozan.model.Post;
 import com.mozan.util.ApiHelper;
@@ -40,7 +40,7 @@ public class RealtyPosts extends Fragment {
     private ProgressDialog pDialog;
     private List<Post> postList = new ArrayList<Post>();
     private ListView listView;
-    private CustomListAdapter adapter;
+    private PostListAdapter adapter;
     private TextView emptyText;
 
     public RealtyPosts() {
@@ -59,7 +59,7 @@ public class RealtyPosts extends Fragment {
             listView = (ListView) rootView.findViewById(R.id.list);
             emptyText = (TextView)rootView.findViewById(android.R.id.empty);
             listView.setEmptyView(emptyText);
-            adapter = new CustomListAdapter(context, postList);
+            adapter = new PostListAdapter(context, postList);
             listView.setAdapter(adapter);
             listView.setEmptyView(emptyText);
             pDialog = new ProgressDialog(context);

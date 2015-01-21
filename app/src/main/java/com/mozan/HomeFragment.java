@@ -14,7 +14,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
 
-import com.mozan.adapter.GridviewAdapter;
+import com.mozan.adapter.HomeGridviewAdapter;
 import com.mozan.util.ApiHelper;
 import com.mozan.util.GlobalVar;
 
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
-    private GridviewAdapter mAdapter;
+    private HomeGridviewAdapter mAdapter;
     private ArrayList<String> listCategory;
     private ArrayList<Integer> listCategoryImage;
     Fragment fragment = null;
@@ -65,7 +65,7 @@ public class HomeFragment extends Fragment {
         height = height - actionBarHeight;
 */
         // prepared arraylist and passed it to the Adapter class
-        mAdapter = new GridviewAdapter(context, listCategory, listCategoryImage);
+        mAdapter = new HomeGridviewAdapter(context, listCategory, listCategoryImage);
 
         // Set custom adapter to gridview
         gridView = (GridView) rootView.findViewById(R.id.gridView1);

@@ -17,14 +17,14 @@ import android.widget.TextView;
 import com.mozan.HomeFragment;
 import com.mozan.R;
 
-public class GridviewAdapter extends BaseAdapter
+public class HomeGridviewAdapter extends BaseAdapter
 {
 	private ArrayList<String> listCategory;
 
 	private ArrayList<Integer> listCategoryImage;
 	private Activity activity;
 	
-	public GridviewAdapter(Activity activity,ArrayList<String> listCategory, ArrayList<Integer> listCategoryImage) {
+	public HomeGridviewAdapter(Activity activity, ArrayList<String> listCategory, ArrayList<Integer> listCategoryImage) {
 		super();
 		this.listCategory = listCategory;
 		this.listCategoryImage = listCategoryImage;

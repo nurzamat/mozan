@@ -29,7 +29,7 @@ import com.mozan.model.Post;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomListAdapter extends BaseAdapter {
+public class PostListAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
     private List<Post> postItems;
@@ -43,7 +43,7 @@ public class CustomListAdapter extends BaseAdapter {
     //phone number
     private String phone;
 
-    public CustomListAdapter(Activity activity, List<Post> postItems) {
+    public PostListAdapter(Activity activity, List<Post> postItems) {
         this.activity = activity;
         this.postItems = postItems;
     }

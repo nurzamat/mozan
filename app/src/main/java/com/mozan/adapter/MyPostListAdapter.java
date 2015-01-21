@@ -33,7 +33,7 @@ import com.mozan.util.GlobalVar;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomListPostAdapter extends BaseAdapter {
+public class MyPostListAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
     private List<Post> postItems;
@@ -45,7 +45,7 @@ public class CustomListPostAdapter extends BaseAdapter {
     private Fragment fragment_base;
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
-    public CustomListPostAdapter(Activity activity, Fragment fragment, List<Post> postItems) {
+    public MyPostListAdapter(Activity activity, Fragment fragment, List<Post> postItems) {
         this.activity = activity;
         this.postItems = postItems;
         this.fragment_base = fragment;
