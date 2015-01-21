@@ -362,9 +362,15 @@ public class ApiHelper {
     public static ArrayList<String> getImageUrls(ArrayList<Image> images)
     {
         ArrayList<String> urls = new ArrayList<String>();
-        for(Iterator<Image> i = images.iterator(); i.hasNext(); ) {
-            Image item = i.next();
-            urls.add(item.getUrl());
+        try {
+            for(Iterator<Image> i = images.iterator(); i.hasNext(); ) {
+                Image item = i.next();
+                urls.add(item.getUrl());
+            }
+        }
+        catch (Exception ex)
+        {
+         //Log.d(TAG, ex.getMessage());
         }
         return urls;
     }
@@ -378,10 +384,10 @@ public class ApiHelper {
 
     public static void postImageLoader(Post m)
     {
-        GlobalVar._postBitmaps.clear();
-        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
         if(m != null)
         {
+            GlobalVar._postBitmaps.clear();
+            ImageLoader imageLoader = AppController.getInstance().getImageLoader();
             ArrayList<String> urls = ApiHelper.getImageUrls(m.getImages());
 
             for (int i = 0; i < urls.size(); i++)

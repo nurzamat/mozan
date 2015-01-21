@@ -26,6 +26,8 @@ import com.mozan.FullScreenViewActivity;
 import com.mozan.R;
 import com.mozan.model.Image;
 import com.mozan.model.Post;
+import com.mozan.util.ApiHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,10 +39,7 @@ public class PostListAdapter extends BaseAdapter {
 
     //views
     private int thumbnail_id;
-    private int message_id;
-    private int call_id;
     private int menu_id;
-    //phone number
     private String phone;
 
     public PostListAdapter(Activity activity, List<Post> postItems) {
@@ -92,7 +91,6 @@ public class PostListAdapter extends BaseAdapter {
         thumbNail.setImageUrl(image_url, imageLoader);
         // title
         content.setText(m.getContent());
-
         // username
         phone = m.getUsername();
         username.setText("Username: " + phone);
@@ -118,17 +116,7 @@ public class PostListAdapter extends BaseAdapter {
        // call_id = call.getId();
         menu_id = menu.getId();
 
-        ArrayList<Image> images = m.getImages();
-        ArrayList<String> urls = new ArrayList<String>();
-        for (int i = 0; i < images.size(); i++)
-        {
-            urls.add(images.get(i).getUrl());
-        }
-
-        thumbNail.setOnClickListener(new OnImageClickListener(thumbnail_id, position, m.getId(), urls));
-        //message.setOnClickListener(new OnImageClickListener(message_id));
-        //call.setOnClickListener(new OnImageClickListener(call_id));
-
+        thumbNail.setOnClickListener(new OnImageClickListener(thumbnail_id, position, m.getId(), ApiHelper.getImageUrls(m.getImages())));
         menu.setOnClickListener(new OnImageClickListener(menu_id, position, m));
 
         return convertView;
@@ -144,10 +132,6 @@ public class PostListAdapter extends BaseAdapter {
         Post _m;
 
         // constructors
-        public OnImageClickListener(int view_id)
-        {
-            this._view_id = view_id;
-        }
         public OnImageClickListener(int view_id, int _position, Post m)
         {
             this._view_id = view_id;
@@ -168,7 +152,7 @@ public class PostListAdapter extends BaseAdapter {
             // launch full screen activity
             if(_view_id == thumbnail_id)
             {
-                if(_image_urls != null && _image_urls.size() > 0)
+                if(_image_urls.size() > 0)
                 {
                     Intent i = new Intent(activity, FullScreenViewActivity.class);
                     i.putExtra("position", _position);
@@ -177,21 +161,6 @@ public class PostListAdapter extends BaseAdapter {
                     activity.startActivity(i);
                 }
                 else Toast.makeText(activity, R.string.no_photo, Toast.LENGTH_SHORT).show();
-            }
-            if(_view_id == message_id)
-            {
-                Toast.makeText(activity, "message pressed", Toast.LENGTH_SHORT).show();
-            }
-            if(_view_id == call_id)
-            {
-                boolean isPhone = PhoneNumberUtils.isGlobalPhoneNumber("+"+phone);
-                if(isPhone)
-                {
-                    Intent intent = new Intent(Intent.ACTION_DIAL);
-                    intent.setData(Uri.parse("tel:"+phone));
-                    activity.startActivity(intent);
-                }
-                else Toast.makeText(activity, "call pressed /"+phone+"/", Toast.LENGTH_SHORT).show();
             }
             if(_view_id == menu_id)
             {
@@ -224,10 +193,7 @@ public class PostListAdapter extends BaseAdapter {
                     }
                 });
                 popup.show();//showing popup menu
-
             }
         }
-
     }
-
 }

@@ -39,8 +39,6 @@ public class MyPostListAdapter extends BaseAdapter {
     private List<Post> postItems;
     //views
     private int thumbnail_id;
-    private int edit_id;
-    private int delete_id;
     private int menu_id;
     private Fragment fragment_base;
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
@@ -82,8 +80,6 @@ public class MyPostListAdapter extends BaseAdapter {
         TextView username = (TextView) convertView.findViewById(R.id.username);
         TextView category_name = (TextView) convertView.findViewById(R.id.category);
         TextView price = (TextView) convertView.findViewById(R.id.price);
-        //ImageButton edit = (ImageButton) convertView.findViewById(R.id.btnEdit);
-        //ImageButton delete = (ImageButton) convertView.findViewById(R.id.btnDelete);
         ImageButton menu = (ImageButton) convertView.findViewById(R.id.btnMenu);
 
         // getting post data for the row
@@ -103,13 +99,9 @@ public class MyPostListAdapter extends BaseAdapter {
 
         // image view click listener
         thumbnail_id = thumbNail.getId();
-        //edit_id = edit.getId();
-        //delete_id = delete.getId();
         menu_id = menu.getId();
 
         thumbNail.setOnClickListener(new OnImageClickListener(thumbnail_id, position, m));
-        //edit.setOnClickListener(new OnImageClickListener(edit_id, position, m));
-        //delete.setOnClickListener(new OnImageClickListener(delete_id, position, m));
         menu.setOnClickListener(new OnImageClickListener(menu_id, position, m));
 
         return convertView;
@@ -140,14 +132,8 @@ public class MyPostListAdapter extends BaseAdapter {
             // launch full screen activity
             if(_view_id == thumbnail_id)
             {
-                ArrayList<Image> images = _m.getImages();
-                ArrayList<String> _image_urls = new ArrayList<String>();
-                for (int i = 0; i < images.size(); i++)
-                {
-                    _image_urls.add(images.get(i).getUrl());
-                }
-
-                if(_image_urls != null && _image_urls.size() > 0)
+                ArrayList<String> _image_urls = ApiHelper.getImageUrls(_m.getImages());
+                if(_image_urls.size() > 0)
                 {
                     Intent i = new Intent(activity, FullScreenViewActivity.class);
                     i.putExtra("position", _position);
@@ -156,15 +142,6 @@ public class MyPostListAdapter extends BaseAdapter {
                     activity.startActivity(i);
                 }
                 else Toast.makeText(activity, R.string.no_photo, Toast.LENGTH_SHORT).show();
-            }
-            if(_view_id == edit_id)
-            {
-               //Toast.makeText(activity, "edit pressed", Toast.LENGTH_SHORT).show();
-                editPost();
-            }
-            if(_view_id == delete_id)
-            {
-                deletePost();
             }
             if(_view_id == menu_id)
             {
