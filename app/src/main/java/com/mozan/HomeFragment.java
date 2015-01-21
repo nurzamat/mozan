@@ -147,7 +147,6 @@ public class HomeFragment extends Fragment {
         listCategory.add(ApiHelper.getCategoryName(ApiHelper.getCategoryId(3)).toUpperCase());
         listCategory.add(ApiHelper.getCategoryName(ApiHelper.getCategoryId(4)).toUpperCase());
         listCategory.add(ApiHelper.getCategoryName(ApiHelper.getCategoryId(5)).toUpperCase());
-        listCategory.add(ApiHelper.getCategoryName(ApiHelper.getCategoryId(6)).toUpperCase());
 
         listCategoryImage = new ArrayList<Integer>();
         listCategoryImage.add(R.drawable.house_holder);
