@@ -72,53 +72,6 @@ public class ElectronicsPosts extends Fragment {
             e.printStackTrace();
         }
 
-        /*
-        JsonArrayRequest postReq = new JsonArrayRequest(url,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        Log.d(TAG, response.toString());
-                        hidePDialog();
-
-                        // Parsing json
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-
-                                JSONObject obj = response.getJSONObject(i);
-                                Post post = new Post();
-                                post.setContent(obj.getString("content"));
-                                post.setCategory(obj.getString("category"));
-                                post.setThumbnailUrl(ApiHelper.MEDIA_URL + obj.getJSONArray("images").getJSONObject(0).getString("original_image"));
-                                post.setUsername(obj.getJSONObject("owner").getString("username"));
-                                post.setPrice(obj.getString("price"));
-
-                                // Genre is json array
-                                ArrayList<String> genre = new ArrayList<String>();
-                                genre.add(post.getUsername());
-
-                                post.setGenre(genre);
-                                postList.add(post);
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        // notifying list adapter about data changes
-                        // so that it renders the list view with updated data
-                        adapter.notifyDataSetChanged();
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                hidePDialog();
-            }
-        });
-        // Adding request to request queue
-        AppController appcon = AppController.getInstance();
-        appcon.addToRequestQueue(postReq);
-*/
-
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
 
             @Override

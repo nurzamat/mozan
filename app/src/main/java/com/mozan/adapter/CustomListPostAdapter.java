@@ -9,10 +9,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,13 +21,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
-import com.mozan.AddPostFragment;
 import com.mozan.AppController;
 import com.mozan.DeletePostActivity;
 import com.mozan.FullScreenViewActivity;
+import com.mozan.HomeActivity;
 import com.mozan.R;
 import com.mozan.model.Image;
 import com.mozan.model.Post;
+import com.mozan.util.ApiHelper;
 import com.mozan.util.GlobalVar;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +43,6 @@ public class CustomListPostAdapter extends BaseAdapter {
     private int delete_id;
     private int menu_id;
     private Fragment fragment_base;
-
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
     public CustomListPostAdapter(Activity activity, Fragment fragment, List<Post> postItems) {
@@ -171,7 +168,8 @@ public class CustomListPostAdapter extends BaseAdapter {
             }
             if(_view_id == menu_id)
             {
-               // Toast.makeText(activity, "menu pressed", Toast.LENGTH_SHORT).show();
+                if(_m!= GlobalVar._Post)
+                ApiHelper.postImageLoader(_m);
 
                 //Creating the instance of PopupMenu
                 PopupMenu popup = new PopupMenu(activity, v);
@@ -245,21 +243,9 @@ public class CustomListPostAdapter extends BaseAdapter {
             GlobalVar.image_paths.clear();
             GlobalVar.mSparseBooleanArray.clear();
 
-            Bundle bundle = new Bundle();
-            bundle.putBoolean("mode", false);
-            Fragment fragment = (Fragment) new AddPostFragment();
-            fragment.setArguments(bundle);
-            if (fragment != null) {
-                FragmentManager fragmentManager = fragment_base.getFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.frame_container, fragment).commit();
-
-                GlobalVar.isHomeFragment = false;
-
-            } else {
-                // error in creating fragment
-                Log.e("MyPosts Adapter", "Error in creating fragment");
-            }
+            Intent in = new Intent(activity, HomeActivity.class);
+            in.putExtra("case", 6);
+            activity.startActivity(in);
         }
     }
 

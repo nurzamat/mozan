@@ -59,8 +59,6 @@ public class AddPostFragment extends Fragment {
     private ProgressDialog dialog;
     EditText etContent;
     EditText etPrice;
-    ImageLoader imageLoader = AppController.getInstance().getImageLoader();
-    Bitmap bm;
 
     public AddPostFragment()
     {
@@ -68,9 +66,10 @@ public class AddPostFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
+        context = getActivity();
         this.mode =  GlobalVar.Mode;
         //for set text
         if(!mode)
@@ -93,40 +92,18 @@ public class AddPostFragment extends Fragment {
                 this.price = "";
             }
             //prepare bitmaps
-            GlobalVar._postBitmaps.clear();
-            if(imageLoader ==  null)
-                imageLoader = AppController.getInstance().getImageLoader();
-
-            ArrayList<String> urls = ApiHelper.getImageUrls(GlobalVar._Post.getImages());
-
-            for (int i = 0; i < urls.size(); i++)
-            {
-                imageLoader.get(urls.get(i), new ImageLoader.ImageListener() {
-                    @Override
-                    public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                        bm = response.getBitmap();
-                        if(bm != null)
-                        {
-                          GlobalVar._postBitmaps.add(bm);
-                          Log.d(TAG, "bitmap: " + "not null");
-                        }
-                        else Log.d(TAG, "bitmap: " + "null");
-                    }
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d(TAG, "Error: " + error.getMessage());
-                    }
-                });
-            }
-            Log.d(TAG, "_postBitmaps size: " + GlobalVar._postBitmaps.size());
-            //
+           ApiHelper.postImageLoader(GlobalVar._Post);
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        //context = getActivity();
         rootView = inflater.inflate(R.layout.fragment_add_post, container, false);
         etContent = (EditText) rootView.findViewById(R.id.content);
         etPrice = (EditText) rootView.findViewById(R.id.price);
-
-        context = getActivity();
         //spinner job
         Spinner spinner = (Spinner) rootView.findViewById(R.id.spinner);
         Spinner spinner_category = (Spinner) rootView.findViewById(R.id.spinner_category);
@@ -273,6 +250,7 @@ public class AddPostFragment extends Fragment {
                                 startActivity(in);
                                 //clear images
                                 GlobalVar._bitmaps.clear();
+                                GlobalVar._postBitmaps.clear();
                                 GlobalVar.image_paths.clear();
                                 GlobalVar._Post = null;
                             }
@@ -381,6 +359,7 @@ public class AddPostFragment extends Fragment {
             //clear images
             GlobalVar._bitmaps.clear();
             GlobalVar.image_paths.clear();
+            GlobalVar._postBitmaps.clear();
         }
     }
 }

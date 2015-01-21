@@ -19,7 +19,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
-
 import com.mozan.adapter.NavDrawerListAdapter;
 import com.mozan.model.NavDrawerItem;
 import com.mozan.util.GlobalVar;
@@ -129,7 +128,6 @@ public class HomeActivity extends FragmentActivity {
                 displayView(1);  //my posts
             }
             else displayView(0); // home
-
 		}
 	}
 

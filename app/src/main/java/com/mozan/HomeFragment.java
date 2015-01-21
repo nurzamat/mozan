@@ -168,6 +168,7 @@ public class HomeFragment extends Fragment {
                 GlobalVar.Mode = true;
                 GlobalVar._Post = null;
                 GlobalVar._bitmaps.clear();
+                GlobalVar._postBitmaps.clear();
                 GlobalVar.image_paths.clear();
                 GlobalVar.mSparseBooleanArray.clear();
 

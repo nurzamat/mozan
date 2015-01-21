@@ -2,6 +2,7 @@ package com.mozan.adapter;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
+import com.mozan.HomeActivity;
 import com.mozan.R;
 import com.mozan.util.GlobalVar;
 
@@ -24,6 +27,7 @@ public class PlaceSlidesFragmentAdapter extends PagerAdapter {
     ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
 
     public PlaceSlidesFragmentAdapter(Context context) {
+
         bitmaps.clear();
         bitmaps.addAll(GlobalVar._postBitmaps);
         bitmaps.addAll(GlobalVar._bitmaps);
@@ -50,50 +54,27 @@ public class PlaceSlidesFragmentAdapter extends PagerAdapter {
         View itemView;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        if(GlobalVar.Mode)
+        itemView = inflater.inflate(R.layout.viewpager_item, container, false);
+        // Locate the ImageView in viewpager_item.xml
+        ImageView imgflag = (ImageView) itemView.findViewById(R.id.flag);
+        imgflag.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        // Capture position and set to the ImageView
+        try
         {
-            // Add mode
-            itemView = inflater.inflate(R.layout.viewpager_item, container, false);
-            // Locate the ImageView in viewpager_item.xml
-            ImageView imgflag = (ImageView) itemView.findViewById(R.id.flag);
-            imgflag.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            // Capture position and set to the ImageView
-            try
+            if(size > 0)
             {
-                if(size > 0)
-                    imgflag.setImageBitmap(GlobalVar._bitmaps.get(position));
-                else
-                {
-                    imgflag.setImageResource(R.drawable.default_img);
-                }
+                imgflag.setImageBitmap(bitmaps.get(position));
             }
-            catch (IndexOutOfBoundsException ex)
+            else
             {
-                Log.d("PlaceSlidesFragmentAdapter exeption:", ex.getMessage());
+                imgflag.setImageResource(R.drawable.default_img);
             }
         }
-        else
-        {   // Edit mode
-            itemView = inflater.inflate(R.layout.viewpager_item_edit, container, false);
-            // Locate the ImageView in viewpager_item.xml
-            ImageView imgflag = (ImageView) itemView.findViewById(R.id.flag);
-            imgflag.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        catch (IndexOutOfBoundsException ex)
+        {
+            Log.d("PlaceSlidesFragmentAdapter exeption:", ex.getMessage());
+        }
 
-            try
-            {
-                if(size > 0)
-                    imgflag.setImageBitmap(bitmaps.get(position));
-                else
-                {
-                    imgflag.setImageResource(R.drawable.default_img);
-                }
-            }
-            catch (IndexOutOfBoundsException ex)
-            {
-                Log.d("PlaceSlidesFragmentAdapter exeption:", ex.getMessage());
-            }
-        }
         // Add viewpager_item.xml to ViewPager
         ((ViewPager) container).addView(itemView);
 

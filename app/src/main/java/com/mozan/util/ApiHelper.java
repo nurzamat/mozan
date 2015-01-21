@@ -5,8 +5,15 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
+
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.ImageLoader;
+import com.mozan.AppController;
 import com.mozan.model.Category;
 import com.mozan.model.Image;
+import com.mozan.model.Post;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
@@ -367,6 +374,31 @@ public class ApiHelper {
         ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
+    }
+
+    public static void postImageLoader(Post m)
+    {
+        GlobalVar._postBitmaps.clear();
+        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+        if(m != null)
+        {
+            ArrayList<String> urls = ApiHelper.getImageUrls(m.getImages());
+
+            for (int i = 0; i < urls.size(); i++)
+            {
+                imageLoader.get(urls.get(i), new ImageLoader.ImageListener() {
+                    @Override
+                    public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                        GlobalVar._postBitmaps.add(response.getBitmap());
+                    }
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                    }
+                });
+            }
+        }
     }
 }
 
