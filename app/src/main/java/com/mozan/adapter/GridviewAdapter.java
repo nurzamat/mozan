@@ -3,6 +3,7 @@ package com.mozan.adapter;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,29 +60,39 @@ public class GridviewAdapter extends BaseAdapter
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		ViewHolder view;
-		LayoutInflater inflator = activity.getLayoutInflater();
-		
-		if(convertView==null)
-		{
-			view = new ViewHolder();
-			convertView = inflator.inflate(R.layout.gridview_row, null);
-			
-			view.txtViewTitle = (TextView) convertView.findViewById(R.id.textView1);
-			view.imgViewFlag = (ImageView) convertView.findViewById(R.id.imageView1);
-            view.layout = (LinearLayout) convertView.findViewById(R.id.layout_id);
-            //view.imgViewFlag.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 180)); //for image
-           // view.layout.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, HomeFragment.height));
-            convertView.setMinimumHeight(HomeFragment.height/3);
-            convertView.setTag(view);
-		}
-		else
-		{
-			view = (ViewHolder) convertView.getTag();
-		}
-		
-		view.txtViewTitle.setText(listCategory.get(position));
-		view.imgViewFlag.setImageResource(listCategoryImage.get(position));
-		
+
+        try {
+            LayoutInflater inflator = activity.getLayoutInflater();
+
+            if(convertView==null)
+            {
+                view = new ViewHolder();
+                convertView = inflator.inflate(R.layout.gridview_row, null);
+
+                view.txtViewTitle = (TextView) convertView.findViewById(R.id.textView1);
+                view.imgViewFlag = (ImageView) convertView.findViewById(R.id.imageView1);
+                view.layout = (LinearLayout) convertView.findViewById(R.id.layout_id);
+                //view.imgViewFlag.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 180)); //for image
+                // view.layout.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, HomeFragment.height));
+                convertView.setMinimumHeight(HomeFragment.height/3);
+                convertView.setTag(view);
+            }
+            else
+            {
+                view = (ViewHolder) convertView.getTag();
+            }
+
+            if(position < 6)
+            {
+                view.txtViewTitle.setText(listCategory.get(position));
+                view.imgViewFlag.setImageResource(listCategoryImage.get(position));
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.d("GridviewAdapter", ex.getMessage());
+
+        }
 		return convertView;
 	}
 

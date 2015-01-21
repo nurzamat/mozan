@@ -94,6 +94,7 @@ public class AddPostFragment extends Fragment {
             GlobalVar._postBitmaps.clear();
             if(imageLoader ==  null)
                 imageLoader = AppController.getInstance().getImageLoader();
+
             ArrayList<String> urls = ApiHelper.getImageUrls(GlobalVar._Post.getImages());
             for (int i = 0; i < urls.size(); i++)
             {

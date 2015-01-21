@@ -193,6 +193,7 @@ public class MultiPhotoSelectActivity extends Activity {
 
             return mTempArry;
         }
+
         @Override
         public int getCount() {
             return imageUrls.size();

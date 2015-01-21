@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -39,6 +40,21 @@ public class StartActivity extends Activity {
 
         Log.d("StartActivity", "Phone/token/uid: " + GlobalVar.Phone  + " / " + GlobalVar.Token + " / " + GlobalVar.Uid);
 
+        if(!ApiHelper.isConnected(this)){
+            Toast.makeText(getBaseContext(), "No Internet connection!", Toast.LENGTH_LONG).show();
+            return;
+        }
+        else
+        {
+            // Use Volley or Async Task
+            //VolleyRequest();
+            HttpAsyncTask task = new HttpAsyncTask();
+            task.execute(ApiHelper.CATEGORIES_URL);
+        }
+        finish();
+    }
+
+    private void VolleyRequest() {
         pDialog = ProgressDialog.show(StartActivity.this, "", "Загрузка...", true);
         GlobalVar._categories.clear();
         JsonArrayRequest Req = new JsonArrayRequest(ApiHelper.CATEGORIES_URL,
@@ -48,8 +64,8 @@ public class StartActivity extends Activity {
                         Log.d(TAG, response.toString());
                         // Parsing json array
                         for (int i = 0; i < response.length(); i++) {
-                            try {
-
+                            try
+                            {
                                 JSONObject obj = response.getJSONObject(i);
                                 Category category = new Category();
                                 category.setId(obj.getString("id"));
@@ -76,9 +92,63 @@ public class StartActivity extends Activity {
         AppController appcon = AppController.getInstance();
         appcon.addToRequestQueue(Req);
         pDialog.dismiss();
-        finish();
     }
 
+
+    private class HttpAsyncTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            //pDialog = ProgressDialog.show(StartActivity.this, "", "Loading, please wait...", true);
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+
+            try
+            {
+                GlobalVar._categories.clear();
+                ApiHelper api = new ApiHelper();
+                JSONArray response = api.getCategories();
+                // Parsing json array
+                for (int i = 0; i < response.length(); i++)
+                {
+                    JSONObject obj = response.getJSONObject(i);
+                    Category category = new Category();
+                    category.setId(obj.getString("id"));
+                    category.setName(obj.getString("name"));
+                    category.setParent(obj.getString("parent"));
+
+                    GlobalVar._categories.add(category);
+                }
+            }
+            catch (Exception ex)
+            {
+                String exText = ex.getMessage();
+                Log.d("code activity", "Exeption: " + exText);
+                return "Ошибка";
+            }
+
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String result)
+        {
+            //pDialog.dismiss();
+            if(!result.equals(""))
+            {
+                Toast.makeText(StartActivity.this, result, Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Intent in = new Intent(StartActivity.this, HomeActivity.class);
+                startActivity(in);
+            }
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

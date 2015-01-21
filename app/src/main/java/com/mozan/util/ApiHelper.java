@@ -1,14 +1,17 @@
 package com.mozan.util;
 
+import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
-
 import com.mozan.model.Category;
 import com.mozan.model.Image;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.PlainSocketFactory;
@@ -25,6 +28,7 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -96,6 +100,18 @@ public class ApiHelper {
         return new JSONObject(responseStr);
     }
 
+    public JSONArray getCategories()
+            throws ApiException, IOException, JSONException {
+
+        Log.i(TAG, "Sending request to: " + CATEGORIES_URL);
+        HttpResponse response = requestGet(CATEGORIES_URL);
+
+        String responseStr = responseToStr(response);
+
+        Log.i(TAG, "Response: " + responseStr);
+        return new JSONArray(responseStr);
+    }
+
     public JSONObject sendPost(JSONObject jsonObject)
             throws ApiException, IOException, JSONException {
 
@@ -126,7 +142,8 @@ public class ApiHelper {
 
     public static String responseToStr(HttpResponse response) throws IOException
     {
-        return EntityUtils.toString(response.getEntity());
+       //return EntityUtils.toString(response.getEntity());
+       return EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
     }
     public static class ApiException extends Exception {
 
@@ -232,6 +249,19 @@ public class ApiHelper {
         return response;
     }
 
+    public HttpResponse requestGet(String url)
+            throws IOException, IllegalStateException,
+            JSONException {
+
+        DefaultHttpClient client = (DefaultHttpClient) getNewHttpClient();
+
+        HttpGet get = new HttpGet(url);
+        get.setHeader("Accept", "application/json");
+        get.setHeader("Content-type", "application/json");
+        HttpResponse response = client.execute(get);
+        return response;
+    }
+
     public HttpResponse multipart_request(String url, String path) {
 
         DefaultHttpClient client = (DefaultHttpClient) getNewHttpClient();
@@ -330,6 +360,13 @@ public class ApiHelper {
             urls.add(item.getUrl());
         }
         return urls;
+    }
+
+    public static boolean isConnected(Context context)
+    {
+        ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Activity.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 }
 
