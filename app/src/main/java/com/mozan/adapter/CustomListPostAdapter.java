@@ -244,9 +244,9 @@ public class CustomListPostAdapter extends BaseAdapter {
             GlobalVar._bitmaps.clear();
             GlobalVar.image_paths.clear();
             GlobalVar.mSparseBooleanArray.clear();
+
             Bundle bundle = new Bundle();
             bundle.putBoolean("mode", false);
-
             Fragment fragment = (Fragment) new AddPostFragment();
             fragment.setArguments(bundle);
             if (fragment != null) {

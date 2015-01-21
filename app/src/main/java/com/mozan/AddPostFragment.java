@@ -3,6 +3,7 @@ package com.mozan;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -59,6 +60,7 @@ public class AddPostFragment extends Fragment {
     EditText etContent;
     EditText etPrice;
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+    Bitmap bm;
 
     public AddPostFragment()
     {
@@ -96,12 +98,19 @@ public class AddPostFragment extends Fragment {
                 imageLoader = AppController.getInstance().getImageLoader();
 
             ArrayList<String> urls = ApiHelper.getImageUrls(GlobalVar._Post.getImages());
+
             for (int i = 0; i < urls.size(); i++)
             {
                 imageLoader.get(urls.get(i), new ImageLoader.ImageListener() {
                     @Override
                     public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                        GlobalVar._postBitmaps.add(response.getBitmap());
+                        bm = response.getBitmap();
+                        if(bm != null)
+                        {
+                          GlobalVar._postBitmaps.add(bm);
+                          Log.d(TAG, "bitmap: " + "not null");
+                        }
+                        else Log.d(TAG, "bitmap: " + "null");
                     }
 
                     @Override
@@ -110,9 +119,7 @@ public class AddPostFragment extends Fragment {
                     }
                 });
             }
-
-           // mAdapter.notifyDataSetChanged();
-
+            Log.d(TAG, "_postBitmaps size: " + GlobalVar._postBitmaps.size());
             //
         }
         rootView = inflater.inflate(R.layout.fragment_add_post, container, false);

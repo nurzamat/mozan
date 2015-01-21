@@ -79,50 +79,20 @@ public class PlaceSlidesFragmentAdapter extends PagerAdapter {
             // Locate the ImageView in viewpager_item.xml
             ImageView imgflag = (ImageView) itemView.findViewById(R.id.flag);
             imgflag.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            // Capture position and set to the ImageView
 
-            //imgflag.setDefaultImageResId(R.drawable.default_img);
-
-            imgflag.setImageBitmap(bitmaps.get(position));
-            imgflag.setImageBitmap(bitmaps.get(position));
-            /*
-            itemView = inflater.inflate(R.layout.viewpager_item_edit, container, false);
-            // Locate the ImageView in viewpager_item.xml
-            CustomNetworkImageView imgflag = (CustomNetworkImageView) itemView.findViewById(R.id.flag);
-            imgflag.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            // Capture position and set to the ImageView
-
-            if (imageLoader == null)
-                imageLoader = AppController.getInstance().getImageLoader();
-
-            //imgflag.setDefaultImageResId(R.drawable.default_img);
-            if(position < url_size)
+            try
             {
-                //imgflag.setImageUrl(urls.get(position), imageLoader);
-                imageLoader.get(urls.get(position), new ImageLoader.ImageListener() {
-                    @Override
-                    public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                        bitmap = response.getBitmap();
-                    }
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d("PlaceSlidesFragmentAdapter", "Error: " + error.getMessage());
-                    }
-                });
-                Log.d("<:", ""+position);
+                if(size > 0)
+                    imgflag.setImageBitmap(bitmaps.get(position));
+                else
+                {
+                    imgflag.setImageResource(R.drawable.default_img);
+                }
             }
-            else
+            catch (IndexOutOfBoundsException ex)
             {
-                //imgflag.setLocalImageBitmap(GlobalVar._bitmaps.get(position));
-                //imgflag.setLocalImageBitmap(GlobalVar._bitmaps.get(position - url_size));
-                bitmap = GlobalVar._bitmaps.get(position - url_size);
-                Log.d("=:", ""+position);
+                Log.d("PlaceSlidesFragmentAdapter exeption:", ex.getMessage());
             }
-
-            imgflag.setLocalImageBitmap(bitmap);
-
-            */
         }
         // Add viewpager_item.xml to ViewPager
         ((ViewPager) container).addView(itemView);
