@@ -63,7 +63,7 @@ public class AvtoPosts extends Fragment {
 
             pDialog = new ProgressDialog(context);
             // Showing progress dialog before making http request
-            pDialog.setMessage("Loading...");
+            pDialog.setMessage("Загрузка...");
             pDialog.show();
 
             // changing action bar color

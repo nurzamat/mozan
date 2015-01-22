@@ -28,7 +28,7 @@ public class DeletePostActivity extends Activity {
 
         pDialog = new ProgressDialog(DeletePostActivity.this);
         // Showing progress dialog before making http request
-        pDialog.setMessage("Loading...");
+        pDialog.setMessage("Загрузка...");
         pDialog.show();
         String url = ApiHelper.POST_URL + id + "/";
         finish();

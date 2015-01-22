@@ -89,7 +89,7 @@ public class CodeActivity extends Activity {
             super.onPreExecute();
 
             dialog = ProgressDialog.show(CodeActivity.this, "",
-                    "Loading, please wait...", true);
+                    "Загрузка...", true);
         }
 
         @Override

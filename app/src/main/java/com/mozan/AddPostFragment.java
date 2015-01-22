@@ -1,6 +1,8 @@
 package com.mozan;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,7 +18,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.android.volley.Response;
@@ -52,9 +53,9 @@ public class AddPostFragment extends Fragment {
     boolean mode = true; // add mode = 1, edit mode = 0;
     String url;
     String id = "";
-    private ProgressBar progressBar;
     EditText etContent;
     EditText etPrice;
+    public static Context ctx;
 
     public AddPostFragment()
     {
@@ -67,6 +68,7 @@ public class AddPostFragment extends Fragment {
 
 
         context = getActivity();
+        ctx = context;
         this.mode =  GlobalVar.Mode;
         //for set text
         if(!mode)
@@ -97,9 +99,6 @@ public class AddPostFragment extends Fragment {
 
         //context = getActivity();
         rootView = inflater.inflate(R.layout.fragment_add_post, container, false);
-        progressBar = (ProgressBar)rootView.findViewById(R.id.progBar);
-        progressBar.setVisibility(View.GONE);
-
         etContent = (EditText) rootView.findViewById(R.id.content);
         etPrice = (EditText) rootView.findViewById(R.id.price);
         //spinner job
@@ -200,12 +199,9 @@ public class AddPostFragment extends Fragment {
     }
 
     private void postButton() {
-        // TODO Auto-generated method stub
-        progressBar.setVisibility(View.VISIBLE);
         if(!validate())
         {
             Toast.makeText(context, "Заполните все поля", Toast.LENGTH_LONG).show();
-            progressBar.setVisibility(View.GONE);
         }
         else
         {
@@ -217,10 +213,14 @@ public class AddPostFragment extends Fragment {
             else
             {   //use volley or async
                 //VolleyPut();
+
+                //async task
+                ProgressDialog pdialog = ProgressDialog.show(context, "","Загрузка...", true);
+                pdialog.show();
                 putHttpAsyncTask task = new putHttpAsyncTask();
                 task.execute(url);
+                pdialog.dismiss();
             }
-           progressBar.setVisibility(View.GONE);
         }
     }
 
@@ -255,7 +255,6 @@ public class AddPostFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         VolleyLog.d(TAG, "Error: " + error.getMessage());
                         // hide the progress dialog
-                        progressBar.setVisibility(View.GONE);
                         Toast.makeText(context, "Ошибка", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -289,11 +288,12 @@ public class AddPostFragment extends Fragment {
     // add mode
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {
 
+        ProgressDialog dialog;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-
+            dialog = ProgressDialog.show(context, "","Загрузка...", true);
+            dialog.show();
         }
 
         @Override
@@ -344,7 +344,7 @@ public class AddPostFragment extends Fragment {
         @Override
         protected void onPostExecute(String result)
         {
-
+            dialog.dismiss();
             Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
             Intent in = new Intent(context, HomeActivity.class);
             in.putExtra("case", 1);
@@ -357,9 +357,14 @@ public class AddPostFragment extends Fragment {
 
     private class putHttpAsyncTask extends AsyncTask<String, Void, String> {
 
+        ProgressDialog pdialog;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
+            pdialog = ProgressDialog.show(context, "","Загрузка...", true);
+            pdialog.show();
         }
 
         @Override
@@ -389,6 +394,7 @@ public class AddPostFragment extends Fragment {
         @Override
         protected void onPostExecute(String result)
         {
+            pdialog.dismiss();
             if(!result.equals(""))
             {
                 Toast.makeText(context, result, Toast.LENGTH_SHORT).show();

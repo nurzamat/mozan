@@ -59,7 +59,7 @@ public class RegisterActivity extends Activity {
             super.onPreExecute();
 
             dialog = ProgressDialog.show(RegisterActivity.this, "",
-                    "Loading, please wait...", true);
+                    "Загрузка...", true);
         }
 
         @Override

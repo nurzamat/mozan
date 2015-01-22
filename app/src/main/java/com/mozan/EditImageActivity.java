@@ -2,6 +2,7 @@ package com.mozan;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,25 +22,31 @@ import org.json.JSONObject;
 
 public class EditImageActivity extends Activity {
 
-    private ProgressBar spin;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        spin = new ProgressBar(EditImageActivity.this);
-        spin.setVisibility(View.GONE);
-
+      try
+      {
         HttpAsyncTask task = new HttpAsyncTask();
         task.execute(ApiHelper.SEND_POST_URL);
-        finish();
+      }
+      catch (Exception ex)
+      {
+          if(ex != null)
+          Toast.makeText(AddPostFragment.ctx, ex.getMessage(), Toast.LENGTH_SHORT).show();
+      }
+      finish();
     }
 
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {
+
+        ProgressDialog progdialog;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            spin.setVisibility(View.VISIBLE);
+
+            progdialog = ProgressDialog.show(AddPostFragment.ctx, "","Загрузка...", true);
+            progdialog.show();
         }
 
         @Override
@@ -71,14 +78,14 @@ public class EditImageActivity extends Activity {
         @Override
         protected void onPostExecute(String result)
         {
-            spin.setVisibility(View.GONE);
+            progdialog.dismiss();
             if(!result.equals(""))
             {
-                Toast.makeText(EditImageActivity.this, result, Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddPostFragment.ctx, result, Toast.LENGTH_SHORT).show();
             }
             else
             {
-                Toast.makeText(EditImageActivity.this, "Сохранено", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddPostFragment.ctx, "Сохранено", Toast.LENGTH_SHORT).show();
                 Intent in = new Intent(EditImageActivity.this, HomeActivity.class);
                 in.putExtra("case", 1);
                 startActivity(in);

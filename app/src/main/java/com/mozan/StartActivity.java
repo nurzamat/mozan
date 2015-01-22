@@ -103,7 +103,7 @@ public class StartActivity extends Activity {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            pDialog = ProgressDialog.show(StartActivity.this, "", "Loading, please wait...", true);
+            pDialog = ProgressDialog.show(StartActivity.this, "", "Загрузка...", true);
         }
 
         @Override

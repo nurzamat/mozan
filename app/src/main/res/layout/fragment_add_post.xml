@@ -11,7 +11,12 @@
     android:id="@+id/frame_add_adv"
     tools:context="com.mozan.AddPostFragment"
     android:padding="10dp">
-
+    <ProgressBar
+        android:id="@+id/progBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_centerInParent="true"/>
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="wrap_content"
@@ -75,10 +80,5 @@
         android:text="@string/add"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"/>
-    <ProgressBar
-        android:id="@+id/progBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
 </RelativeLayout>
  </ScrollView>

@@ -64,7 +64,7 @@ public class RealtyPosts extends Fragment {
             listView.setEmptyView(emptyText);
             pDialog = new ProgressDialog(context);
             // Showing progress dialog before making http request
-            pDialog.setMessage("Loading...");
+            pDialog.setMessage("Загрузка...");
             pDialog.show();
 
             // changing action bar color

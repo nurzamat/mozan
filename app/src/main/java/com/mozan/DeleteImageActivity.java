@@ -32,7 +32,7 @@ public class DeleteImageActivity extends Activity {
 
         pDialog = new ProgressDialog(DeleteImageActivity.this);
         // Showing progress dialog before making http request
-        pDialog.setMessage("Loading...");
+        pDialog.setMessage("Загрузка...");
         pDialog.show();
         String url = ApiHelper.POST_URL + GlobalVar._Post.getId() + "/image/" + image_id;
         finish();
