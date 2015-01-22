@@ -70,6 +70,7 @@ public class FullScreenImageAdapter extends PagerAdapter {
         btnClose = (ImageButton) viewLayout.findViewById(R.id.btnClose);
         btnDelete = (ImageButton) viewLayout.findViewById(R.id.btnDelete);
 
+
         // thumbnail image
         //if(_images.get(position).getUrl().equals(""))
         //   imgDisplay.setDefaultImageResId(R.drawable.default_img);
@@ -87,18 +88,28 @@ public class FullScreenImageAdapter extends PagerAdapter {
             }
         });
 
-        // delete button click event
-        btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        if(GlobalVar._Post.getUsername().equals(GlobalVar.Phone))
+        {
+            // delete button click event
+            btnDelete.setVisibility(View.VISIBLE);
+            btnDelete.setEnabled(true);
+            btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                Intent i = new Intent(_activity, DeleteImageActivity.class);
-                i.putExtra("position", position);
-                i.putExtra("image_id", _images.get(position).getId());
-                _activity.startActivity(i);
-                _activity.finish();
-            }
-        });
+                    Intent i = new Intent(_activity, DeleteImageActivity.class);
+                    i.putExtra("position", position);
+                    i.putExtra("image_id", _images.get(position).getId());
+                    _activity.startActivity(i);
+                    _activity.finish();
+                }
+            });
+        }
+        else
+        {
+            btnDelete.setVisibility(View.INVISIBLE);
+            btnDelete.setEnabled(false);
+        }
 
         ((ViewPager) container).addView(viewLayout);
 

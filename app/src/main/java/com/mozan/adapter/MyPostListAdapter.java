@@ -136,8 +136,8 @@ public class MyPostListAdapter extends BaseAdapter {
             {
                 if(_m.getImages() != null && _m.getImages().size() > 0)
                 {
-                    Intent i = new Intent(activity, FullScreenViewActivity.class);
                     GlobalVar._Post = _m;
+                    Intent i = new Intent(activity, FullScreenViewActivity.class);
                     activity.startActivity(i);
                 }
                 else Toast.makeText(activity, R.string.no_photo, Toast.LENGTH_SHORT).show();
