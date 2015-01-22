@@ -75,7 +75,7 @@ public class HomeActivity extends FragmentActivity {
 		// Pages
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
 		// What's hot, We  will add a counter here
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
+      //navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
 
 		// Recycle the typed array
 		navMenuIcons.recycle();
@@ -217,16 +217,18 @@ public class HomeActivity extends FragmentActivity {
                  fragment = new MyMessagesFragment();
                  break;
              }
+
 		case 4:
-             {
-                 fragment = new MyClientsFragment();
-                 break;
-             }
-		case 5:
              {
                  fragment = new SettingsFragment();
                  break;
              }
+
+        case 5:
+            {
+                fragment = new MyClientsFragment();
+                break;
+            }
 
       // conditional fragments
         case 6:

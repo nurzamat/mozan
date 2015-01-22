@@ -37,8 +37,8 @@
         <item>Мои объявления</item>
         <item>Мой аккаунт</item>
         <item>Мои сообщения</item>
-        <item>Мои клиенты</item>
         <item>Настройки</item>
+        <item>Мои клиенты</item>
         <item>Добавить обьявление</item>
         <item>Поиск</item>
     </string-array>
@@ -63,8 +63,8 @@
         <item>@drawable/ic_action_post</item>
         <item>@drawable/ic_action_user</item>
         <item>@drawable/ic_action_mail</item>
-        <item>@drawable/ic_communities</item>
         <item>@drawable/ic_action_settings</item>
+        <item>@drawable/ic_communities</item>
     </array>
 
     <!-- Content Description -->

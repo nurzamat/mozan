@@ -65,6 +65,7 @@ public class AddPostFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         context = getActivity();
         this.mode =  GlobalVar.Mode;
         //for set text
@@ -200,14 +201,14 @@ public class AddPostFragment extends Fragment {
 
     private void postButton() {
         // TODO Auto-generated method stub
-
+        progressBar.setVisibility(View.VISIBLE);
         if(!validate())
         {
             Toast.makeText(context, "Заполните все поля", Toast.LENGTH_LONG).show();
+            progressBar.setVisibility(View.GONE);
         }
         else
         {
-            progressBar.setVisibility(View.VISIBLE);
             if (mode)
             {
                 HttpAsyncTask task = new HttpAsyncTask();
@@ -359,8 +360,6 @@ public class AddPostFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-
         }
 
         @Override

@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.mozan.R;
@@ -19,10 +21,14 @@ import org.json.JSONObject;
 
 public class EditImageActivity extends Activity {
 
+    private ProgressBar spin;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        spin = new ProgressBar(EditImageActivity.this);
+        spin.setVisibility(View.GONE);
 
         HttpAsyncTask task = new HttpAsyncTask();
         task.execute(ApiHelper.SEND_POST_URL);
@@ -30,12 +36,10 @@ public class EditImageActivity extends Activity {
     }
 
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {
-        private ProgressDialog dialog;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-          // dialog = ProgressDialog.show(EditImageActivity.this, "", "Загрузка фото...", true);
+            spin.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -48,7 +52,8 @@ public class EditImageActivity extends Activity {
                 if(length > 0)
                 {
                     JSONObject jobj;
-                    for (int i = 0; i <length; i++) {
+                    for (int i = 0; i <length; i++)
+                    {
                         jobj = api.sendImage(GlobalVar._Post.getId(), GlobalVar.image_paths.get(i));
                         if(jobj.has("id"))
                             continue;
@@ -66,7 +71,7 @@ public class EditImageActivity extends Activity {
         @Override
         protected void onPostExecute(String result)
         {
-//            dialog.dismiss();
+            spin.setVisibility(View.GONE);
             if(!result.equals(""))
             {
                 Toast.makeText(EditImageActivity.this, result, Toast.LENGTH_SHORT).show();
