@@ -44,7 +44,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dip"
-        android:hint="Текст обьявления"
+        android:hint="Текст объявления"
         android:singleLine="false"
         android:textColorHint="@color/blue_light"
         android:maxLength="81"

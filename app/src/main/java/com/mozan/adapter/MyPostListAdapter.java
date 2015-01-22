@@ -178,7 +178,7 @@ public class MyPostListAdapter extends BaseAdapter {
             alertDialog.setTitle("Удаление");
 
             // Setting Dialog Message
-            alertDialog.setMessage("Вы действительно хотите удалить обьявление?");
+            alertDialog.setMessage("Вы действительно хотите удалить объявление?");
 
             // Setting Icon to Dialog
             alertDialog.setIcon(R.drawable.ic_menu_delete);

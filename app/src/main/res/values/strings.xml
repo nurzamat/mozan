@@ -18,8 +18,8 @@
     <string name="code_hint">111111</string>
     <string name="search_hint"></string>
     <string name="no_results">Ничего не найдено :(</string>
-    <string name="no_my_posts">У вас нет обьявлений</string>
-    <string name="no_posts">Нет обьявлений</string>
+    <string name="no_my_posts">У вас нет объявлений</string>
+    <string name="no_posts">Нет объявлений</string>
     <string name="no_photo">Нет фото</string>
     <string name="add">Добавить</string>
     <string name="edit">Редактировать</string>
@@ -39,7 +39,7 @@
         <item>Мои сообщения</item>
         <item>Настройки</item>
         <item>Мои клиенты</item>
-        <item>Добавить обьявление</item>
+        <item>Добавить объявление</item>
         <item>Поиск</item>
     </string-array>
 
