@@ -132,13 +132,10 @@ public class MyPostListAdapter extends BaseAdapter {
             // launch full screen activity
             if(_view_id == thumbnail_id)
             {
-                ArrayList<String> _image_urls = ApiHelper.getImageUrls(_m.getImages());
-                if(_image_urls.size() > 0)
+                if(_m.getImages() != null && _m.getImages().size() > 0)
                 {
                     Intent i = new Intent(activity, FullScreenViewActivity.class);
-                    i.putExtra("position", _position);
-                    i.putExtra("id", _m.getId());
-                    i.putExtra("image_urls", _image_urls);
+                    GlobalVar._Post = _m;
                     activity.startActivity(i);
                 }
                 else Toast.makeText(activity, R.string.no_photo, Toast.LENGTH_SHORT).show();

@@ -239,20 +239,15 @@ public class AddPostFragment extends Fragment {
             {
                 dialog = ProgressDialog.show(context, "",
                         "Загрузка...", true);
-                PutRequest dr = new PutRequest(url,
+                PutRequest pr = new PutRequest(url,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
                                 // response
                                 Log.d(TAG, response);
-                                Toast.makeText(context, "Сохранено", Toast.LENGTH_LONG).show();
-                                Intent in = new Intent(context, HomeActivity.class);
-                                in.putExtra("case", 1);
+
+                                Intent in = new Intent(context, EditImageActivity.class);
                                 startActivity(in);
-                                //clear images
-                                GlobalVar._bitmaps.clear();
-                                GlobalVar.image_paths.clear();
-                                GlobalVar._Post = null;
                             }
                         },
                         new Response.ErrorListener() {
@@ -280,7 +275,7 @@ public class AddPostFragment extends Fragment {
 
                 dialog.dismiss();
                 AppController appcon = AppController.getInstance();
-                appcon.addToRequestQueue(dr);
+                appcon.addToRequestQueue(pr);
             }
         }
     }

@@ -16,7 +16,6 @@ public class FullScreenViewActivity extends Activity {
 
     private FullScreenImageAdapter adapter;
     private ViewPager viewPager;
-    private CirclePageIndicator mIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,27 +23,10 @@ public class FullScreenViewActivity extends Activity {
         setContentView(R.layout.activity_fullscreen_view);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
-        int color = getResources().getColor(R.color.blue_dark);
-        Intent i = getIntent();
-        int position = i.getIntExtra("position", 0);
-        String id = i.getStringExtra("id");
-        ArrayList<String> image_urls = i.getStringArrayListExtra("image_urls");
 
-        adapter = new FullScreenImageAdapter(FullScreenViewActivity.this, image_urls);
+        adapter = new FullScreenImageAdapter(FullScreenViewActivity.this);
 
         viewPager.setAdapter(adapter);
-        // displaying selected image first
-        //viewPager.setCurrentItem(position);
-
-        //indicator
-        /*
-        mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
-        mIndicator.setFillColor(color);
-        mIndicator.setStrokeColor(color);
-        mIndicator.setRadius(10);
-        mIndicator.setViewPager(viewPager);
-        mIndicator.setSnap(true);
-        */
     }
 }
 

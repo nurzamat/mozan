@@ -54,6 +54,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
@@ -64,6 +65,14 @@
         <activity
             android:name=".DeletePostActivity"
             android:label="@string/title_activity_delete_post" >
+        </activity>
+        <activity
+            android:name=".DeleteImageActivity"
+            android:label="@string/title_activity_delete_image" >
+        </activity>
+        <activity
+            android:name=".EditImageActivity"
+            android:label="@string/title_activity_edit_image" >
         </activity>
     </application>
 
