@@ -1,8 +1,5 @@
 package com.mozan.util;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * Created by nurzamat on 1/9/15.
  */

@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,7 +18,6 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.mozan.AppController;
 import com.mozan.DeleteImageActivity;
-import com.mozan.DeletePostActivity;
 import com.mozan.R;
 import com.mozan.model.Image;
 import com.mozan.util.GlobalVar;
@@ -64,13 +63,19 @@ public class FullScreenImageAdapter extends PagerAdapter {
             imageLoader = AppController.getInstance().getImageLoader();
 
         imgDisplay = (NetworkImageView) viewLayout.findViewById(R.id.imgDisplay);
+        ProgressBar spin = (ProgressBar) viewLayout.findViewById(R.id.progressBar1);
+        spin.setVisibility(View.VISIBLE);
+
         count = (TextView) viewLayout.findViewById(R.id.text_indicator);
         btnClose = (ImageButton) viewLayout.findViewById(R.id.btnClose);
         btnDelete = (ImageButton) viewLayout.findViewById(R.id.btnDelete);
 
-        imgDisplay.setDefaultImageResId(R.drawable.default_img);
+        // thumbnail image
+        //if(_images.get(position).getUrl().equals(""))
+        //   imgDisplay.setDefaultImageResId(R.drawable.default_img);
         imgDisplay.setImageUrl(_images.get(position).getUrl(),imageLoader);
-
+        if(imgDisplay.getDrawable() != null)
+            spin.setVisibility(View.GONE);
         //indicator text
         int start = position + 1;
         count.setText(start + " из " + _images.size());

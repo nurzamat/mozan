@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.toolbox.ImageLoader;
@@ -26,11 +27,8 @@ import com.mozan.DeletePostActivity;
 import com.mozan.FullScreenViewActivity;
 import com.mozan.HomeActivity;
 import com.mozan.R;
-import com.mozan.model.Image;
 import com.mozan.model.Post;
-import com.mozan.util.ApiHelper;
 import com.mozan.util.GlobalVar;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MyPostListAdapter extends BaseAdapter {
@@ -74,8 +72,10 @@ public class MyPostListAdapter extends BaseAdapter {
 
         if (imageLoader == null)
             imageLoader = AppController.getInstance().getImageLoader();
-        NetworkImageView thumbNail = (NetworkImageView) convertView
-                .findViewById(R.id.thumbnail);
+        NetworkImageView thumbNail = (NetworkImageView) convertView.findViewById(R.id.thumbnail);
+        ProgressBar spin = (ProgressBar) convertView.findViewById(R.id.progressBar1);
+        spin.setVisibility(View.VISIBLE);
+
         TextView content = (TextView) convertView.findViewById(R.id.content);
         TextView username = (TextView) convertView.findViewById(R.id.username);
         TextView category_name = (TextView) convertView.findViewById(R.id.category);
@@ -86,11 +86,13 @@ public class MyPostListAdapter extends BaseAdapter {
         Post m = postItems.get(position);
         String image_url = m.getThumbnailUrl();
         // thumbnail image
-        thumbNail.setDefaultImageResId(R.drawable.default_img);
+        if(image_url.equals(""))
+            thumbNail.setDefaultImageResId(R.drawable.default_img);
         thumbNail.setImageUrl(image_url, imageLoader);
+        if(thumbNail.getDrawable() != null)
+            spin.setVisibility(View.GONE);
         // title
         content.setText(m.getContent());
-
         // username
         username.setText("Username: " + String.valueOf(m.getUsername()));
         category_name.setText(m.getCategoryName());

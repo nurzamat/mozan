@@ -7,8 +7,10 @@ package com.mozan.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.telephony.PhoneNumberUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,11 +27,8 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.mozan.AppController;
 import com.mozan.FullScreenViewActivity;
 import com.mozan.R;
-import com.mozan.model.Image;
 import com.mozan.model.Post;
-import com.mozan.util.ApiHelper;
-
-import java.util.ArrayList;
+import com.mozan.util.GlobalVar;
 import java.util.List;
 
 public class PostListAdapter extends BaseAdapter {
@@ -75,20 +75,24 @@ public class PostListAdapter extends BaseAdapter {
             imageLoader = AppController.getInstance().getImageLoader();
         NetworkImageView thumbNail = (NetworkImageView) convertView
                 .findViewById(R.id.thumbnail);
+        ProgressBar spin = (ProgressBar) convertView.findViewById(R.id.progressBar1);
+        spin.setVisibility(View.VISIBLE);
+
         TextView content = (TextView) convertView.findViewById(R.id.content);
         TextView username = (TextView) convertView.findViewById(R.id.username);
         TextView category_name = (TextView) convertView.findViewById(R.id.category);
         TextView price = (TextView) convertView.findViewById(R.id.price);
-        //ImageButton message = (ImageButton) convertView.findViewById(R.id.btnMessage);
-        //ImageButton call = (ImageButton) convertView.findViewById(R.id.btnCall);
         ImageButton menu = (ImageButton) convertView.findViewById(R.id.btnMenu2);
 
         // getting post data for the row
         Post m = postItems.get(position);
         String image_url = m.getThumbnailUrl();
         // thumbnail image
-        thumbNail.setDefaultImageResId(R.drawable.default_img);
+        if(image_url.equals(""))
+           thumbNail.setDefaultImageResId(R.drawable.default_img);
         thumbNail.setImageUrl(image_url, imageLoader);
+        if(thumbNail.getDrawable() != null)
+           spin.setVisibility(View.GONE);
         // title
         content.setText(m.getContent());
         // username
@@ -96,27 +100,14 @@ public class PostListAdapter extends BaseAdapter {
         username.setText("Username: " + phone);
         category_name.setText(m.getCategoryName());
 
-        // image_urls to string
-        /*
-        String urlsStr = "";
-        for (String str : m.getImageUrls()) {
-            urlsStr += str + ", ";
-        }
-        urlsStr = urlsStr.length() > 0 ? urlsStr.substring(0,
-                urlsStr.length() - 2) : urlsStr;
-        */
-        //
-
         // price
         price.setText(String.valueOf(m.getPrice()));
 
         // image view click listener
         thumbnail_id = thumbNail.getId();
-       // message_id = message.getId();
-       // call_id = call.getId();
         menu_id = menu.getId();
 
-        thumbNail.setOnClickListener(new OnImageClickListener(thumbnail_id, position, m.getId(), ApiHelper.getImageUrls(m.getImages())));
+        thumbNail.setOnClickListener(new OnImageClickListener(thumbnail_id, position, m));
         menu.setOnClickListener(new OnImageClickListener(menu_id, position, m));
 
         return convertView;
@@ -126,8 +117,6 @@ public class PostListAdapter extends BaseAdapter {
     class OnImageClickListener implements View.OnClickListener {
 
         int _position;
-        String _id;
-        ArrayList<String> _image_urls = null;
         int _view_id = 0;
         Post _m;
 
@@ -138,13 +127,6 @@ public class PostListAdapter extends BaseAdapter {
             this._position = _position;
             this._m = m;
         }
-        public OnImageClickListener(int view_id, int position, String id, ArrayList<String> _image_urls)
-        {
-            this._view_id = view_id;
-            this._position = position;
-            this._id = id;
-            this._image_urls = _image_urls;
-        }
 
         @Override
         public void onClick(View v) {
@@ -152,12 +134,10 @@ public class PostListAdapter extends BaseAdapter {
             // launch full screen activity
             if(_view_id == thumbnail_id)
             {
-                if(_image_urls.size() > 0)
+                if(_m.getImages() != null && _m.getImages().size() > 0)
                 {
+                    GlobalVar._Post = _m;
                     Intent i = new Intent(activity, FullScreenViewActivity.class);
-                    i.putExtra("position", _position);
-                    i.putExtra("id", _id);
-                    i.putExtra("image_urls", _image_urls);
                     activity.startActivity(i);
                 }
                 else Toast.makeText(activity, R.string.no_photo, Toast.LENGTH_SHORT).show();
