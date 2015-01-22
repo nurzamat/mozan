@@ -1,9 +1,7 @@
 package com.mozan;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,23 +16,20 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.ImageLoader;
 import com.mozan.adapter.PlaceSlidesFragmentAdapter;
 import com.mozan.lib.CirclePageIndicator;
 import com.mozan.util.ApiHelper;
 import com.mozan.util.GlobalVar;
 import com.mozan.util.PutRequest;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class AddPostFragment extends Fragment {
@@ -57,7 +52,7 @@ public class AddPostFragment extends Fragment {
     boolean mode = true; // add mode = 1, edit mode = 0;
     String url;
     String id = "";
-    private ProgressDialog dialog;
+    private ProgressBar progressBar;
     EditText etContent;
     EditText etPrice;
 
@@ -101,6 +96,8 @@ public class AddPostFragment extends Fragment {
 
         //context = getActivity();
         rootView = inflater.inflate(R.layout.fragment_add_post, container, false);
+        progressBar = (ProgressBar)rootView.findViewById(R.id.progBar);
+        progressBar.setVisibility(View.GONE);
 
         etContent = (EditText) rootView.findViewById(R.id.content);
         etPrice = (EditText) rootView.findViewById(R.id.price);
@@ -121,7 +118,6 @@ public class AddPostFragment extends Fragment {
 
         Button postBtn = (Button) rootView.findViewById(R.id.btnPost);
         ImageButton cameraBtn = (ImageButton) rootView.findViewById(R.id.btnCamera);
-        //final ImageButton delBtn = (ImageButton) rootView.findViewById(R.id.btnDelete);
 
         if(!mode) //edit
         {
@@ -130,12 +126,10 @@ public class AddPostFragment extends Fragment {
             spinner.setSelection(adapter.getPosition(price_currency));
             spinner_category.setSelection(adapter_category.getPosition(category_name));
             postBtn.setText(R.string.save);
-            //delBtn.setVisibility(View.VISIBLE);
         }
         else
         {
             postBtn.setText(R.string.add);
-            //delBtn.setVisibility(View.INVISIBLE);
         }
 
         spinner.setOnItemSelectedListener(
@@ -184,23 +178,6 @@ public class AddPostFragment extends Fragment {
         mIndicator.setRadius(5);
         mIndicator.setViewPager(mPager);
         mIndicator.setSnap(true);
-        /*
-        mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                Toast.makeText(context, "Changed to page " + position, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onPageScrolled(int position,
-                                       float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
-        */
 
         postBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -230,54 +207,74 @@ public class AddPostFragment extends Fragment {
         }
         else
         {
+            progressBar.setVisibility(View.VISIBLE);
             if (mode)
             {
                 HttpAsyncTask task = new HttpAsyncTask();
                 task.execute(ApiHelper.SEND_POST_URL);
             }
             else
-            {
-                dialog = ProgressDialog.show(context, "",
-                        "Загрузка...", true);
-                PutRequest pr = new PutRequest(url,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                // response
-                                Log.d(TAG, response);
-
-                                Intent in = new Intent(context, EditImageActivity.class);
-                                startActivity(in);
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                                // hide the progress dialog
-                            }
-                        }
-                ){
-                    @Override
-                    protected Map<String, String> getParams()
-                    {
-                        Map<String, String>  params = new HashMap<String, String>();
-
-                        params.put("category", ApiHelper.getCategoryId(position));
-                        params.put("content", content);
-                        params.put("price", price);
-                        params.put("price_currency", price_currency);
-                        params.put("api_key", ApiHelper.API_KEY);
-
-                        return params;
-                    }
-                };
-
-                dialog.dismiss();
-                AppController appcon = AppController.getInstance();
-                appcon.addToRequestQueue(pr);
+            {   //use volley or async
+                //VolleyPut();
+                putHttpAsyncTask task = new putHttpAsyncTask();
+                task.execute(url);
             }
+           progressBar.setVisibility(View.GONE);
         }
+    }
+
+    private void VolleyPut() {
+        PutRequest pr = new PutRequest(url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        Log.d(TAG, response);
+                        if(GlobalVar.image_paths.size() > 0)
+                        {
+                            Intent in = new Intent(context, EditImageActivity.class);
+                            startActivity(in);
+                        }
+                        else
+                        {
+                            Toast.makeText(context, "Сохранено", Toast.LENGTH_SHORT).show();
+                            Intent in = new Intent(context, HomeActivity.class);
+                            in.putExtra("case", 1);
+                            startActivity(in);
+
+                            //clear images
+                            GlobalVar._bitmaps.clear();
+                            GlobalVar.image_paths.clear();
+                            GlobalVar._Post = null;
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                        // hide the progress dialog
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(context, "Ошибка", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+
+                params.put("category", ApiHelper.getCategoryId(position));
+                params.put("content", content);
+                params.put("price", price);
+                params.put("price_currency", price_currency);
+                params.put("api_key", ApiHelper.API_KEY);
+
+                return params;
+            }
+        };
+        AppController appcon = AppController.getInstance();
+        appcon.addToRequestQueue(pr);
     }
 
     private boolean validate(){
@@ -288,14 +285,14 @@ public class AddPostFragment extends Fragment {
         return (!content.equals("") && !price.equals("") && !category_name.equals("") && !price_currency.equals(""));
     }
 
+    // add mode
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
-            dialog = ProgressDialog.show(context, "",
-                    "Загрузка...", true);
+
         }
 
         @Override
@@ -346,7 +343,7 @@ public class AddPostFragment extends Fragment {
         @Override
         protected void onPostExecute(String result)
         {
-            dialog.dismiss();
+
             Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
             Intent in = new Intent(context, HomeActivity.class);
             in.putExtra("case", 1);
@@ -354,6 +351,69 @@ public class AddPostFragment extends Fragment {
             //clear images
             GlobalVar._bitmaps.clear();
             GlobalVar.image_paths.clear();
+        }
+    }
+
+    private class putHttpAsyncTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            try
+            {
+                ApiHelper api = new ApiHelper();
+
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("category", ApiHelper.getCategoryId(position));
+                jsonObject.put("content", content);
+                jsonObject.put("price", price);
+                jsonObject.put("price_currency", price_currency);
+                jsonObject.put("api_key", ApiHelper.API_KEY);
+
+                JSONObject obj = api.editPost(url, jsonObject); // will be checked for status ok
+            }
+            catch (Exception ex)
+            {
+                Log.d("AddPostFragment", "Exeption: " + ex.getMessage());
+                return "Ошибка";
+            }
+
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String result)
+        {
+            if(!result.equals(""))
+            {
+                Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                if(GlobalVar.image_paths.size() > 0)
+                {
+                    Intent in = new Intent(context, EditImageActivity.class);
+                    startActivity(in);
+                }
+                else
+                {
+                    Toast.makeText(context, "Сохранено", Toast.LENGTH_SHORT).show();
+                    Intent in = new Intent(context, HomeActivity.class);
+                    in.putExtra("case", 1);
+                    startActivity(in);
+
+                    //clear images
+                    GlobalVar._bitmaps.clear();
+                    GlobalVar.image_paths.clear();
+                    GlobalVar._Post = null;
+                }
+            }
         }
     }
 }

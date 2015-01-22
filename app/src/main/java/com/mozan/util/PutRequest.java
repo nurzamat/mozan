@@ -40,7 +40,9 @@ public class PutRequest extends StringRequest {
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
         Map<String, String>  params = new HashMap<String, String>();
-        params.put("Authorization", "Token " + GlobalVar.Token);
+        params.put("Accept", "application/json");
+        params.put("Content-type", "application/json");
+        //params.put("Authorization", "Token " + GlobalVar.Token);
         return params;
     }
 

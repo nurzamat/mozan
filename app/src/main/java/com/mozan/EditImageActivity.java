@@ -19,7 +19,6 @@ import org.json.JSONObject;
 
 public class EditImageActivity extends Activity {
 
-    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +30,12 @@ public class EditImageActivity extends Activity {
     }
 
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {
-
+        private ProgressDialog dialog;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
-            dialog = ProgressDialog.show(EditImageActivity.this, "",
-                    "Загрузка фото...", true);
+          // dialog = ProgressDialog.show(EditImageActivity.this, "", "Загрузка фото...", true);
         }
 
         @Override
@@ -68,11 +66,10 @@ public class EditImageActivity extends Activity {
         @Override
         protected void onPostExecute(String result)
         {
-            dialog.dismiss();
+//            dialog.dismiss();
             if(!result.equals(""))
             {
                 Toast.makeText(EditImageActivity.this, result, Toast.LENGTH_SHORT).show();
-
             }
             else
             {

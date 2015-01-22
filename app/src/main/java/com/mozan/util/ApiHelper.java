@@ -20,6 +20,7 @@ import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
@@ -45,7 +46,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.KeyStore;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by User on 12.12.2014.
@@ -83,7 +86,7 @@ public class ApiHelper {
 
         Log.i(TAG, "Sending request to: " + CODE_URL);
         //String response = POST(CODE_URL, jsonObject); //for http request
-        HttpResponse response = request(CODE_URL, jsonObject, false); //for https request
+        HttpResponse response = requestPost(CODE_URL, jsonObject, false); //for https request
         Log.i(TAG, "Response: " + response);
         String responseStr = responseToStr(response);
         Log.i(TAG, "ResponseStr: " + responseStr);
@@ -99,7 +102,7 @@ public class ApiHelper {
         jsonObject.put("api_key", API_KEY);
 
         Log.i(TAG, "Sending request to: " + TOKEN_URL);
-        HttpResponse response = request(TOKEN_URL, jsonObject, false);
+        HttpResponse response = requestPost(TOKEN_URL, jsonObject, false);
 
         String responseStr = responseToStr(response);
 
@@ -123,11 +126,22 @@ public class ApiHelper {
             throws ApiException, IOException, JSONException {
 
         Log.i(TAG, "Sending request to: " + SEND_POST_URL);
-        HttpResponse response = request(SEND_POST_URL, jsonObject, true);
+        HttpResponse response = requestPost(SEND_POST_URL, jsonObject, true);
        //HttpResponse response = multipart_request(SEND_POST_URL);
 
         String responseStr = responseToStr(response);
 
+        Log.i(TAG, "Response: " + responseStr);
+        return new JSONObject(responseStr);
+    }
+
+    public JSONObject editPost(String url, JSONObject jsonObject)
+            throws ApiException, IOException, JSONException {
+
+        Log.i(TAG, "Sending request to: " + url);
+        HttpResponse response = requestPut(url, jsonObject, true);
+
+        String responseStr = responseToStr(response);
         Log.i(TAG, "Response: " + responseStr);
         return new JSONObject(responseStr);
     }
@@ -159,60 +173,6 @@ public class ApiHelper {
         }
     }
 
-    public static String convertInputStreamToString(InputStream inputStream) throws IOException{
-        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-        String line = "";
-        String result = "";
-        while((line = bufferedReader.readLine()) != null)
-            result += line;
-
-        inputStream.close();
-        return result;
-    }
-
-    public static String POST(String url, JSONObject jsonObject){
-        InputStream inputStream = null;
-        String result = "";
-        try {
-
-            // 1. create HttpClient
-            HttpClient httpclient = new DefaultHttpClient();
-
-            // 2. make POST request to the given URL
-            HttpPost httpPost = new HttpPost(url);
-
-            String json = jsonObject.toString();
-
-            // 5. set json to StringEntity
-            StringEntity se = new StringEntity(json);
-
-            // 6. set httpPost Entity
-            httpPost.setEntity(se);
-
-            // 7. Set some headers to inform server about the type of the content
-            httpPost.setHeader("Accept", "application/json");
-            httpPost.setHeader("Content-type", "application/json");
-
-            // 8. Execute POST request to the given URL
-            HttpResponse httpResponse = httpclient.execute(httpPost);
-
-            // 9. receive response as inputStream
-            inputStream = httpResponse.getEntity().getContent();
-
-            // 10. convert inputstream to string
-            if(inputStream != null)
-                result = convertInputStreamToString(inputStream);
-            else
-                result = "Did not work!";
-
-        } catch (Exception e) {
-            Log.d("InputStream", e.getLocalizedMessage());
-        }
-
-        // 11. return result
-        return result;
-    }
-
     public  HttpClient getNewHttpClient() {
         try {
             KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
@@ -238,7 +198,7 @@ public class ApiHelper {
         }
     }
 
-    public HttpResponse request(String url, JSONObject json, boolean token_auth)
+    public HttpResponse requestPost(String url, JSONObject json, boolean token_auth)
             throws IOException, IllegalStateException,
             JSONException {
 
@@ -256,6 +216,62 @@ public class ApiHelper {
         return response;
     }
 
+    public HttpResponse requestPut(String url, JSONObject json, boolean token_auth)
+            throws IOException, IllegalStateException,
+            JSONException {
+
+        DefaultHttpClient client = (DefaultHttpClient) getNewHttpClient();
+
+        HttpPut putRequest = new HttpPut(url);
+        StringEntity se = new StringEntity(json.toString(), HTTP.UTF_8);
+        putRequest.setEntity(se);
+        putRequest.setHeader("Accept", "application/json");
+        putRequest.setHeader("Content-type", "application/json");
+        if(token_auth)
+            putRequest.setHeader("Authorization", "Token " + GlobalVar.Token);
+
+        HttpResponse response = client.execute(putRequest);
+        return response;
+    }
+    /*
+    public String RestPutClient(String url, int newValue, int newValue2) {
+        // example url : http://localhost:9898/data/1d3n71f13r.json
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        StringBuilder result = new StringBuilder();
+        try {
+            HttpPut putRequest = new HttpPut(url);
+            putRequest.addHeader("Content-Type", "application/json");
+            putRequest.addHeader("Accept", "application/json");
+            JSONObject keyArg = new JSONObject();
+            keyArg.put("value1", newValue);
+            keyArg.put("value2", newValue2);
+            StringEntity input;
+            try {
+                input = new StringEntity(keyArg.toString());
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+                return success;
+            }
+            putRequest.setEntity(input);
+            HttpResponse response = httpClient.execute(putRequest);
+            if (response.getStatusLine().getStatusCode() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + response.getStatusLine().getStatusCode());
+            }
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    (response.getEntity().getContent())));
+            String output;
+            while ((output = br.readLine()) != null) {
+                result.append(output);
+            }
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result.toString();
+    }
+*/
     public HttpResponse requestGet(String url)
             throws IOException, IllegalStateException,
             JSONException {
