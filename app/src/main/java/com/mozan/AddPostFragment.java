@@ -60,8 +60,6 @@ public class AddPostFragment extends Fragment {
     private ProgressDialog dialog;
     EditText etContent;
     EditText etPrice;
-    int pbitmaps_size;
-    ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
 
     public AddPostFragment()
     {
@@ -94,8 +92,6 @@ public class AddPostFragment extends Fragment {
             {
                 this.price = "";
             }
-            //prepare bitmaps
-           ApiHelper.postImageLoader(GlobalVar._Post);
         }
     }
 
@@ -125,7 +121,7 @@ public class AddPostFragment extends Fragment {
 
         Button postBtn = (Button) rootView.findViewById(R.id.btnPost);
         ImageButton cameraBtn = (ImageButton) rootView.findViewById(R.id.btnCamera);
-        final ImageButton delBtn = (ImageButton) rootView.findViewById(R.id.btnDelete);
+        //final ImageButton delBtn = (ImageButton) rootView.findViewById(R.id.btnDelete);
 
         if(!mode) //edit
         {
@@ -134,12 +130,12 @@ public class AddPostFragment extends Fragment {
             spinner.setSelection(adapter.getPosition(price_currency));
             spinner_category.setSelection(adapter_category.getPosition(category_name));
             postBtn.setText(R.string.save);
-            delBtn.setVisibility(View.VISIBLE);
+            //delBtn.setVisibility(View.VISIBLE);
         }
         else
         {
             postBtn.setText(R.string.add);
-            delBtn.setVisibility(View.INVISIBLE);
+            //delBtn.setVisibility(View.INVISIBLE);
         }
 
         spinner.setOnItemSelectedListener(
@@ -178,11 +174,7 @@ public class AddPostFragment extends Fragment {
         );
 
         int color = getResources().getColor(R.color.blue_dark);
-        bitmaps.addAll(GlobalVar._postBitmaps);
-        bitmaps.addAll(GlobalVar._bitmaps);
-
-        mAdapter = new PlaceSlidesFragmentAdapter(context, bitmaps);
-
+        mAdapter = new PlaceSlidesFragmentAdapter(context);
 
         mPager = (ViewPager) rootView.findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
@@ -192,18 +184,11 @@ public class AddPostFragment extends Fragment {
         mIndicator.setRadius(5);
         mIndicator.setViewPager(mPager);
         mIndicator.setSnap(true);
-
-        pbitmaps_size = GlobalVar._postBitmaps.size();
+        /*
         mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                Toast.makeText(AddPostFragment.this.getActivity(),
-                        "Changed to page " + position,
-                        Toast.LENGTH_SHORT).show();
-
-                if (position > pbitmaps_size - 1)
-                    delBtn.setVisibility(View.INVISIBLE);
-                else if(position != 0) delBtn.setVisibility(View.VISIBLE);
+                Toast.makeText(context, "Changed to page " + position, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -215,6 +200,7 @@ public class AddPostFragment extends Fragment {
             public void onPageScrollStateChanged(int state) {
             }
         });
+        */
 
         postBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -229,25 +215,6 @@ public class AddPostFragment extends Fragment {
             public void onClick(View v) {
                 Intent in = new Intent(context, MultiPhotoSelectActivity.class);
                 startActivity(in);
-            }
-        });
-
-        delBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Toast.makeText(context,
-                        "Pressed ",
-                        Toast.LENGTH_SHORT).show();
-                bitmaps.remove(0);
-
-                mAdapter.destroyItem(null, 0, null);
-
-                //mAdapter.destroyItem();
-                mAdapter.notifyDataSetChanged();
-                //mPager.destroyDrawingCache();
-                mIndicator.notifyDataSetChanged();
-                //mIndicator.destroyDrawingCache();
             }
         });
 
@@ -284,7 +251,6 @@ public class AddPostFragment extends Fragment {
                                 startActivity(in);
                                 //clear images
                                 GlobalVar._bitmaps.clear();
-                                GlobalVar._postBitmaps.clear();
                                 GlobalVar.image_paths.clear();
                                 GlobalVar._Post = null;
                             }
@@ -393,7 +359,6 @@ public class AddPostFragment extends Fragment {
             //clear images
             GlobalVar._bitmaps.clear();
             GlobalVar.image_paths.clear();
-            GlobalVar._postBitmaps.clear();
         }
     }
 }

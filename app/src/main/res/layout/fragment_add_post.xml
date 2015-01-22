@@ -12,18 +12,11 @@
     tools:context="com.mozan.AddPostFragment"
     android:padding="10dp">
 
-    <ImageButton
-        android:id="@+id/btnDelete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ic_action_remove"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"/>
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="wrap_content"
         android:layout_height="150dp"
-        android:layout_below="@+id/btnDelete"/>
+        android:layout_alignParentTop="true"/>
 
     <com.mozan.lib.CirclePageIndicator
         android:id="@+id/indicator"

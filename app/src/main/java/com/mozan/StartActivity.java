@@ -2,18 +2,15 @@ package com.mozan;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
@@ -21,7 +18,6 @@ import com.mozan.model.Category;
 import com.mozan.util.ApiHelper;
 import com.mozan.util.GlobalVar;
 import com.mozan.util.JsonArrayRequest;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,11 +26,13 @@ public class StartActivity extends Activity {
 
     private static final String TAG =  "[CATEGORIES response]";
     private ProgressDialog pDialog;
+    TextView etText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        etText = (TextView) findViewById(R.id.no_internet);
 
         SharedPreferences sp = this.getSharedPreferences(GlobalVar.MOZAN,0);
         GlobalVar.Phone = sp.getString(GlobalVar.MOZAN_PHONE, "");
@@ -43,9 +41,10 @@ public class StartActivity extends Activity {
 
         Log.d("StartActivity", "Phone/token/uid: " + GlobalVar.Phone  + " / " + GlobalVar.Token + " / " + GlobalVar.Uid);
 
-        if(!ApiHelper.isConnected(this)){
-            Toast.makeText(this, "No Internet connection!", Toast.LENGTH_LONG).show();
-            return;
+        if(!ApiHelper.isConnected(StartActivity.this)){
+            Toast.makeText(StartActivity.this, "No Internet connection!", Toast.LENGTH_LONG).show();
+            //return;
+            etText.setText(R.string.connection_problem);
         }
         else
         {
@@ -104,7 +103,7 @@ public class StartActivity extends Activity {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            //pDialog = ProgressDialog.show(StartActivity.this, "", "Loading, please wait...", true);
+            pDialog = ProgressDialog.show(StartActivity.this, "", "Loading, please wait...", true);
         }
 
         @Override
@@ -140,10 +139,11 @@ public class StartActivity extends Activity {
         @Override
         protected void onPostExecute(String result)
         {
-            //pDialog.dismiss();
+            pDialog.dismiss();
             if(!result.equals(""))
             {
                 Toast.makeText(StartActivity.this, result, Toast.LENGTH_SHORT).show();
+                etText.setText(R.string.connection_problem);
             }
             else
             {

@@ -381,7 +381,7 @@ public class ApiHelper {
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
     }
-
+/*
     public static void postImageLoader(Post m)
     {
         if(m != null)
@@ -406,6 +406,7 @@ public class ApiHelper {
             }
         }
     }
+    */
 }
 
 

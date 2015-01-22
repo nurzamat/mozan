@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/start_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center">
 
-    <TextView android:id="@android:id/empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <TextView android:id="@+id/no_internet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textSize="16sp"
         android:gravity="center"
-        android:text="@string/connection_problem"/>
+        android:text=""/>
 </LinearLayout>

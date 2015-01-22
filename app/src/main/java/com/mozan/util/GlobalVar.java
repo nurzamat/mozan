@@ -27,6 +27,5 @@ public class GlobalVar {
     public static boolean isHomeFragment;
     public static SparseBooleanArray mSparseBooleanArray = new SparseBooleanArray();
     public static Post _Post = null;
-    public static ArrayList<Bitmap> _postBitmaps = new ArrayList<Bitmap>();
     public static boolean Mode; // true = add mode, false = edit mode
 }

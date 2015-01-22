@@ -145,9 +145,6 @@ public class MyPostListAdapter extends BaseAdapter {
             }
             if(_view_id == menu_id)
             {
-                if(_m!= GlobalVar._Post)
-                ApiHelper.postImageLoader(_m);
-
                 //Creating the instance of PopupMenu
                 PopupMenu popup = new PopupMenu(activity, v);
                 //Inflating the Popup using xml file
