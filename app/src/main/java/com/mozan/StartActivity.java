@@ -2,8 +2,11 @@ package com.mozan;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,7 +44,7 @@ public class StartActivity extends Activity {
         Log.d("StartActivity", "Phone/token/uid: " + GlobalVar.Phone  + " / " + GlobalVar.Token + " / " + GlobalVar.Uid);
 
         if(!ApiHelper.isConnected(this)){
-            Toast.makeText(getBaseContext(), "No Internet connection!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No Internet connection!", Toast.LENGTH_LONG).show();
             return;
         }
         else
@@ -51,7 +54,6 @@ public class StartActivity extends Activity {
             HttpAsyncTask task = new HttpAsyncTask();
             task.execute(ApiHelper.CATEGORIES_URL);
         }
-        finish();
     }
 
     private void VolleyRequest() {
@@ -81,6 +83,7 @@ public class StartActivity extends Activity {
 
                         Intent in = new Intent(StartActivity.this, HomeActivity.class);
                         startActivity(in);
+                        finish();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -146,6 +149,7 @@ public class StartActivity extends Activity {
             {
                 Intent in = new Intent(StartActivity.this, HomeActivity.class);
                 startActivity(in);
+                finish();
             }
         }
     }

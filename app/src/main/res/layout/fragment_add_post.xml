@@ -4,77 +4,83 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fillViewport="true">
-<FrameLayout
+<RelativeLayout
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:id="@+id/frame_add_adv"
-    tools:context="com.mozan.AddPostFragment">
+    tools:context="com.mozan.AddPostFragment"
+    android:padding="10dp">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ImageButton
+        android:id="@+id/btnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_action_remove"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:layout_below="@+id/btnDelete"/>
+
+    <com.mozan.lib.CirclePageIndicator
+        android:id="@+id/indicator"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pager"/>
+
+    <ImageButton
+        android:id="@+id/btnCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/camera"
+        android:layout_below="@+id/indicator"/>
+
+    <Spinner
+        android:id="@+id/spinner_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dip"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="20dip"
+        android:layout_below="@+id/btnCamera"/>
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
-            android:layout_width="fill_parent"
-            android:layout_height="150dp"
-            android:layout_weight="1" />
-
-        <com.mozan.lib.CirclePageIndicator
-            android:id="@+id/indicator"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnCamera"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dip"
-            android:background="@drawable/camera"
-            android:contentDescription="camera" />
-
-        <Spinner android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinner_category"
-            android:layout_marginTop="10dip"/>
-
-        <EditText android:id="@+id/content"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dip"
-            android:layout_marginBottom="20dip"
-            android:singleLine="false"
-            android:hint="Текст обьявления"
-            android:textColorHint="@color/blue_light"
-            android:maxLength="81"/>
-        <LinearLayout
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:orientation="horizontal">
-            <EditText android:id="@+id/price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:singleLine="false"
-                android:hint="Цена"
-                android:textColorHint="@color/blue_light"
-                android:inputType="numberDecimal"
-                android:maxLength="18"/>
-            <Spinner android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/spinner"/>
-        </LinearLayout>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add"
-            android:id="@+id/btnPost"
-            android:layout_gravity="end"/>
-    </LinearLayout>
-
-</FrameLayout>
-</ScrollView>
+    <EditText android:id="@+id/content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        android:hint="Текст обьявления"
+        android:singleLine="false"
+        android:textColorHint="@color/blue_light"
+        android:maxLength="81"
+        android:layout_below="@+id/spinner_category"/>
+    <EditText android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="Цена"
+        android:singleLine="true"
+        android:textColorHint="@color/blue_light"
+        android:inputType="numberDecimal"
+        android:maxLength="18"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/content"/>
+    <Spinner android:id="@+id/spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/price"
+        android:layout_below="@+id/content"/>
+    <Button
+        android:id="@+id/btnPost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="1dp"
+        android:text="@string/add"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
+</RelativeLayout>
+ </ScrollView>

@@ -34,6 +34,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class AddPostFragment extends Fragment {
@@ -59,6 +60,8 @@ public class AddPostFragment extends Fragment {
     private ProgressDialog dialog;
     EditText etContent;
     EditText etPrice;
+    int pbitmaps_size;
+    ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
 
     public AddPostFragment()
     {
@@ -102,6 +105,7 @@ public class AddPostFragment extends Fragment {
 
         //context = getActivity();
         rootView = inflater.inflate(R.layout.fragment_add_post, container, false);
+
         etContent = (EditText) rootView.findViewById(R.id.content);
         etPrice = (EditText) rootView.findViewById(R.id.price);
         //spinner job
@@ -121,6 +125,7 @@ public class AddPostFragment extends Fragment {
 
         Button postBtn = (Button) rootView.findViewById(R.id.btnPost);
         ImageButton cameraBtn = (ImageButton) rootView.findViewById(R.id.btnCamera);
+        final ImageButton delBtn = (ImageButton) rootView.findViewById(R.id.btnDelete);
 
         if(!mode) //edit
         {
@@ -129,10 +134,12 @@ public class AddPostFragment extends Fragment {
             spinner.setSelection(adapter.getPosition(price_currency));
             spinner_category.setSelection(adapter_category.getPosition(category_name));
             postBtn.setText(R.string.save);
+            delBtn.setVisibility(View.VISIBLE);
         }
         else
         {
             postBtn.setText(R.string.add);
+            delBtn.setVisibility(View.INVISIBLE);
         }
 
         spinner.setOnItemSelectedListener(
@@ -171,7 +178,12 @@ public class AddPostFragment extends Fragment {
         );
 
         int color = getResources().getColor(R.color.blue_dark);
-        mAdapter = new PlaceSlidesFragmentAdapter(context);
+        bitmaps.addAll(GlobalVar._postBitmaps);
+        bitmaps.addAll(GlobalVar._bitmaps);
+
+        mAdapter = new PlaceSlidesFragmentAdapter(context, bitmaps);
+
+
         mPager = (ViewPager) rootView.findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
         mIndicator = (CirclePageIndicator) rootView.findViewById(R.id.indicator);
@@ -180,27 +192,30 @@ public class AddPostFragment extends Fragment {
         mIndicator.setRadius(5);
         mIndicator.setViewPager(mPager);
         mIndicator.setSnap(true);
-        /*
-        mIndicator
-                .setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                    @Override
-                    public void onPageSelected(int position) {
-                        Toast.makeText(AddPostFragment.this.getActivity(),
-                                "Changed to page " + position,
-                                Toast.LENGTH_SHORT).show();
-                    }
 
-                    @Override
-                    public void onPageScrolled(int position,
-                                               float positionOffset, int positionOffsetPixels) {
-                    }
+        pbitmaps_size = GlobalVar._postBitmaps.size();
+        mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                Toast.makeText(AddPostFragment.this.getActivity(),
+                        "Changed to page " + position,
+                        Toast.LENGTH_SHORT).show();
 
-                    @Override
-                    public void onPageScrollStateChanged(int state) {
-                    }
-                });
+                if (position > pbitmaps_size - 1)
+                    delBtn.setVisibility(View.INVISIBLE);
+                else if(position != 0) delBtn.setVisibility(View.VISIBLE);
+            }
 
-        */
+            @Override
+            public void onPageScrolled(int position,
+                                       float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+
         postBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -214,6 +229,25 @@ public class AddPostFragment extends Fragment {
             public void onClick(View v) {
                 Intent in = new Intent(context, MultiPhotoSelectActivity.class);
                 startActivity(in);
+            }
+        });
+
+        delBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(context,
+                        "Pressed ",
+                        Toast.LENGTH_SHORT).show();
+                bitmaps.remove(0);
+
+                mAdapter.destroyItem(null, 0, null);
+
+                //mAdapter.destroyItem();
+                mAdapter.notifyDataSetChanged();
+                //mPager.destroyDrawingCache();
+                mIndicator.notifyDataSetChanged();
+                //mIndicator.destroyDrawingCache();
             }
         });
 

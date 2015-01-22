@@ -4,12 +4,19 @@
     android:layout_height="fill_parent"
     android:gravity="center"
     android:padding="10dp" >
-
+    <ImageButton
+        android:id="@+id/btnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_action_remove"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"/>
     <ImageView
         android:id="@+id/flag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:background="#ffff"
-        android:padding="1dp" />
+        android:padding="1dp"
+        android:layout_below="@+id/btnDelete"/>
 </RelativeLayout>

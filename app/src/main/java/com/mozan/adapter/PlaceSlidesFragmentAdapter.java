@@ -23,15 +23,17 @@ public class PlaceSlidesFragmentAdapter extends PagerAdapter {
     // Declare Variables
     Context context;
     LayoutInflater inflater;
-    int size;
     ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
+    int size;
+    public ViewPager collection;
 
-    public PlaceSlidesFragmentAdapter(Context context) {
+    public PlaceSlidesFragmentAdapter(Context context, ArrayList<Bitmap> _bitmaps) {
 
-        bitmaps.clear();
-        bitmaps.addAll(GlobalVar._postBitmaps);
-        bitmaps.addAll(GlobalVar._bitmaps);
+        //bitmaps.clear();
+        //bitmaps.addAll(GlobalVar._postBitmaps);
+        //bitmaps.addAll(GlobalVar._bitmaps);
         this.context = context;
+        this.bitmaps = _bitmaps;
         this.size = bitmaps.size();
     }
 
@@ -51,6 +53,7 @@ public class PlaceSlidesFragmentAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
 
+        this.collection = (ViewPager)container;
         View itemView;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -76,7 +79,7 @@ public class PlaceSlidesFragmentAdapter extends PagerAdapter {
         }
 
         // Add viewpager_item.xml to ViewPager
-        ((ViewPager) container).addView(itemView);
+        collection.addView(itemView);
 
         return itemView;
     }
@@ -84,7 +87,12 @@ public class PlaceSlidesFragmentAdapter extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         // Remove viewpager_item.xml from ViewPager
-        ((ViewPager) container).removeView((RelativeLayout) object);
+       // ((ViewPager) container).removeView((RelativeLayout) object);
+        collection.removeViewAt(position);
+    }
 
+    @Override
+    public int getItemPosition(Object object){
+        return PagerAdapter.POSITION_NONE;
     }
 }
