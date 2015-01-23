@@ -159,6 +159,17 @@ public class ApiHelper {
         return new JSONObject(responseStr);
     }
 
+    public JSONObject editProfile(String url, JSONObject jsonObject)
+            throws ApiException, IOException, JSONException {
+
+        Log.i(TAG, "Sending request to: " + url);
+        HttpResponse response = requestPut(url, jsonObject, true);
+
+        String responseStr = responseToStr(response);
+        Log.i(TAG, "Response: " + responseStr);
+        return new JSONObject(responseStr);
+    }
+
     public JSONObject sendImage(String id, String image_path)
             throws ApiException, IOException, JSONException {
 
@@ -246,45 +257,7 @@ public class ApiHelper {
         HttpResponse response = client.execute(putRequest);
         return response;
     }
-    /*
-    public String RestPutClient(String url, int newValue, int newValue2) {
-        // example url : http://localhost:9898/data/1d3n71f13r.json
-        DefaultHttpClient httpClient = new DefaultHttpClient();
-        StringBuilder result = new StringBuilder();
-        try {
-            HttpPut putRequest = new HttpPut(url);
-            putRequest.addHeader("Content-Type", "application/json");
-            putRequest.addHeader("Accept", "application/json");
-            JSONObject keyArg = new JSONObject();
-            keyArg.put("value1", newValue);
-            keyArg.put("value2", newValue2);
-            StringEntity input;
-            try {
-                input = new StringEntity(keyArg.toString());
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-                return success;
-            }
-            putRequest.setEntity(input);
-            HttpResponse response = httpClient.execute(putRequest);
-            if (response.getStatusLine().getStatusCode() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + response.getStatusLine().getStatusCode());
-            }
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    (response.getEntity().getContent())));
-            String output;
-            while ((output = br.readLine()) != null) {
-                result.append(output);
-            }
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result.toString();
-    }
-*/
+
     public HttpResponse requestGet(String url)
             throws IOException, IllegalStateException,
             JSONException {
