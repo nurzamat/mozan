@@ -210,7 +210,10 @@ public class HomeActivity extends FragmentActivity {
                  else
                  {
                      GlobalVar.adv_position = true;
-                     Intent in = new Intent(context, CodeActivity.class);
+                     Intent in;
+                     if(GlobalVar.isCodeSent)
+                         in = new Intent(context, RegisterActivity.class);
+                     else in = new Intent(context, CodeActivity.class);
                      startActivity(in);
                  }
                  break;

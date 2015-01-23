@@ -25,6 +25,7 @@ public class GlobalVar {
     public static boolean adv_position;
     public static String query = "";
     public static boolean isHomeFragment;
+    public static boolean isCodeSent = false;
     public static SparseBooleanArray mSparseBooleanArray = new SparseBooleanArray();
     public static Post _Post = null;
     public static boolean Mode; // true = add mode, false = edit mode

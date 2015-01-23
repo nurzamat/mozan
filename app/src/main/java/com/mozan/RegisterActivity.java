@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -75,14 +73,11 @@ public class RegisterActivity extends Activity {
                     GlobalVar.Uid = obj.getString("uid");
                 }
                 else
-                {
                     result = api.responseText(obj.getString("status"));
-                    //result = obj.getString("response");  //problems with utf
-                }
             }
             catch (Exception ex)
             {
-                return ex.getMessage();
+                return "Ошибка";
             }
 
             return result;
@@ -92,7 +87,6 @@ public class RegisterActivity extends Activity {
         protected void onPostExecute(String result)
         {
             dialog.dismiss();
-
             if(!GlobalVar.Token.equals(""))
             {
                 SharedPreferences sp = getSharedPreferences(GlobalVar.MOZAN, 0);
@@ -106,9 +100,7 @@ public class RegisterActivity extends Activity {
                 if(GlobalVar.adv_position)
                     in.putExtra("case", 6);
                 startActivity(in);
-                //Intent in2 = new Intent(RegisterActivity.this, CodeActivity.class);
-                //in.putExtra("EXIT", true);
-                //startActivity(in2);
+                GlobalVar.isCodeSent = false;
                 CodeActivity.fa.finish();
                 finish();
             }

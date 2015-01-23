@@ -177,7 +177,10 @@ public class HomeFragment extends Fragment {
                 } else {
 
                     GlobalVar.adv_position = true;
-                    Intent in = new Intent(getActivity(), CodeActivity.class);
+                    Intent in;
+                    if(GlobalVar.isCodeSent)
+                      in = new Intent(getActivity(), RegisterActivity.class);
+                    else in = new Intent(getActivity(), CodeActivity.class);
                     startActivity(in);
                 }
             }

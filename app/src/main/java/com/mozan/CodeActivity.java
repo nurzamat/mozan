@@ -127,6 +127,8 @@ public class CodeActivity extends Activity {
             {
                 Intent in = new Intent(CodeActivity.this, RegisterActivity.class);
                 startActivity(in);
+                if(status.equals("ACTIVATION_CODE_SENT"))
+                    GlobalVar.isCodeSent = true;
             }
         }
     }
