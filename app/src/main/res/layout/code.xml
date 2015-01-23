@@ -16,12 +16,15 @@
 		  android:layout_height="wrap_content"
 		  android:padding="10dip"
 		  android:layout_marginTop="100dp">
-		  <!--  Email Label -->
-		  <TextView android:layout_width="fill_parent"
+		  <!--  Phone Label -->
+		<!--  <TextView android:layout_width="fill_parent"
 		  		android:layout_height="wrap_content"
 		  		android:textColor="#372c24"
 		  		android:text="Номер телефона"/>
-
+		  		-->
+            <LinearLayout android:focusable="true"
+                android:focusableInTouchMode="true" android:layout_width="0px"
+                android:layout_height="0px" />
             <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="horizontal"
@@ -41,15 +44,20 @@
 		  		android:singleLine="false"
                 android:inputType="number"
                 android:maxLength="15"
-                android:hint="@string/phone_hint"
-                android:textColorHint="#ffffff"
+                android:hint="@string/phone_hint_text"
+                android:textColorHint="@color/blue_light"
               style="@style/AppTheme" />
             </LinearLayout>
+            <TextView
+                android:id="@+id/phone_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/phone_text"/>
 		  <!-- Login button -->
 		  <Button android:id="@+id/btnCode"
 		  		android:layout_width="fill_parent"
 		  		android:layout_height="wrap_content"
-		  		android:layout_marginTop="10dip"
+		  		android:layout_marginTop="20dip"
 		  		android:text="Получить код"
 				android:onClick="clickButton"/>
 		  <!-- Link to Registration Screen -->

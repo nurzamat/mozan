@@ -15,6 +15,7 @@
     <string name="drawer_open">Slider Menu Opened</string>
     <string name="drawer_close">Slider Menu Closed</string>
     <string name="phone_hint">111111111111111</string>
+    <string name="phone_hint_text">Номер телефона</string>
     <string name="code_hint">111111</string>
     <string name="search_hint"></string>
     <string name="no_results">Ничего не найдено :(</string>
@@ -30,6 +31,7 @@
     <string name="select">Выбрать</string>
     <string name="loading">Загрузка...</string>
     <string name="connection_problem">Check Internet connection</string>
+    <string name="phone_text">Введите пожалуйста Ваш номер телефона в международном формате</string>
 
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">

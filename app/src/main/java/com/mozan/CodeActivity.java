@@ -12,14 +12,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.mozan.util.ApiHelper;
 import com.mozan.util.GlobalVar;
-
 import org.json.JSONObject;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class CodeActivity extends Activity {
 
@@ -34,7 +29,8 @@ public class CodeActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getIntent().getBooleanExtra("EXIT", false)) {
+        if (getIntent().getBooleanExtra("EXIT", false))
+        {
             finish();
         }
         fa = this;
