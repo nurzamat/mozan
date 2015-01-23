@@ -56,6 +56,7 @@ import java.util.Map;
 public class ApiHelper {
 
     public static final String TAG = "[API]";
+    public static final String MOZAN_URL = "https://mozan.trade/";
     public static final String CODE_URL = "https://mozan.trade/api/user/registration/";
     public static final String TOKEN_URL = "https://mozan.trade/api/user/registration/";
     public static final String MEDIA_URL = "https://mozan.trade/media/";
@@ -111,6 +112,18 @@ public class ApiHelper {
     }
 
     public JSONArray getCategories()
+            throws ApiException, IOException, JSONException {
+
+        Log.i(TAG, "Sending request to: " + CATEGORIES_URL);
+        HttpResponse response = requestGet(CATEGORIES_URL);
+
+        String responseStr = responseToStr(response);
+
+        Log.i(TAG, "Response: " + responseStr);
+        return new JSONArray(responseStr);
+    }
+
+    public JSONArray getProfile(String url)
             throws ApiException, IOException, JSONException {
 
         Log.i(TAG, "Sending request to: " + CATEGORIES_URL);

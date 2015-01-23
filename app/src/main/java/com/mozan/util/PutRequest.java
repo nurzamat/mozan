@@ -42,7 +42,7 @@ public class PutRequest extends StringRequest {
         Map<String, String>  params = new HashMap<String, String>();
         params.put("Accept", "application/json");
         params.put("Content-type", "application/json");
-        //params.put("Authorization", "Token " + GlobalVar.Token);
+        params.put("Authorization", "Token " + GlobalVar.Token);
         return params;
     }
 

@@ -220,7 +220,7 @@ public class HomeActivity extends FragmentActivity {
              }
 		case 2:
              {
-                fragment = new MyAcountFragment();
+                fragment = new MyProfileFragment();
                 break;
              }
 		case 3:
