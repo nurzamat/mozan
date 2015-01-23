@@ -49,8 +49,8 @@ public class HomeActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
         Intent i = getIntent();
+        context = getApplicationContext();
 		mTitle = mDrawerTitle = getTitle();
-
 		// load slide menu items
 		navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
 
@@ -83,7 +83,7 @@ public class HomeActivity extends FragmentActivity {
 		mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
 
 		// setting the nav drawer list adapter
-		adapter = new NavDrawerListAdapter(getApplicationContext(),
+		adapter = new NavDrawerListAdapter(context,
 				navDrawerItems);
 		mDrawerList.setAdapter(adapter);
 
@@ -148,7 +148,6 @@ public class HomeActivity extends FragmentActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_main, menu);
         // Associate searchable configuration with the SearchView
-        context = getApplicationContext();
         SearchManager searchManager = (SearchManager) getSystemService(context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search)
                 .getActionView();
@@ -204,7 +203,16 @@ public class HomeActivity extends FragmentActivity {
              }
 		case 1:
              {
-                 fragment = new MyPostsFragment();
+                 if (!GlobalVar.Phone.equals("") && !GlobalVar.Token.equals(""))
+                 {
+                     fragment = new MyPostsFragment();
+                 }
+                 else
+                 {
+                     GlobalVar.adv_position = true;
+                     Intent in = new Intent(context, CodeActivity.class);
+                     startActivity(in);
+                 }
                  break;
              }
 		case 2:
