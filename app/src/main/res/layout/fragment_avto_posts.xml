@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.mozan.RealtyPosts"
+    tools:context="com.mozan.AvtoPosts"
     android:background="#e5e5e5">
     <ListView
         android:id="@+id/list"

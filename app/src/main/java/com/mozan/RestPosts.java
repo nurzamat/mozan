@@ -51,7 +51,7 @@ public class RestPosts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_rent_posts, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_rest_posts, container, false);
 
         try
         {

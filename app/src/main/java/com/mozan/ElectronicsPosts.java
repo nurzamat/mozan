@@ -47,7 +47,7 @@ public class ElectronicsPosts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_house_holder_posts, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_electronics_posts, container, false);
         try
         {
             Activity context = getActivity();

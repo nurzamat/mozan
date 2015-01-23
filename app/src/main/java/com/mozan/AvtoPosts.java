@@ -51,7 +51,7 @@ public class AvtoPosts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_transport_posts, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_avto_posts, container, false);
         try
         {
             Activity context = getActivity();
