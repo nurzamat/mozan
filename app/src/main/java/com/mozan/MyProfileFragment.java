@@ -2,7 +2,6 @@ package com.mozan;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
@@ -23,8 +21,11 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.mozan.util.ApiHelper;
 import com.mozan.util.GlobalVar;
 import com.mozan.util.JsonObjectRequest;
+import com.mozan.util.PutRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MyProfileFragment extends Fragment {
 
@@ -40,6 +41,7 @@ public class MyProfileFragment extends Fragment {
     String user;
     private ProgressDialog pDialog;
     ProgressBar spin;
+    AppController appcon;
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
 	public MyProfileFragment(){}
@@ -96,15 +98,17 @@ public class MyProfileFragment extends Fragment {
             }
         });
         // Adding request to request queue
-        AppController appcon = AppController.getInstance();
+        appcon = AppController.getInstance();
         appcon.addToRequestQueue(jsonObjReq);
 
         Button btnSave = (Button) rootView.findViewById(R.id.btnSave);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                putHttpAsyncTask task = new putHttpAsyncTask();
-                task.execute(url);
+                //use asynctask or volley put
+                //putHttpAsyncTask task = new putHttpAsyncTask();
+                //task.execute(url);
+                VolleyPut();
             }
         });
 
@@ -115,6 +119,42 @@ public class MyProfileFragment extends Fragment {
             pDialog.dismiss();
             pDialog = null;
         }
+    }
+
+    private void VolleyPut() {
+        PutRequest pr = new PutRequest(url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        Log.d(TAG, response);
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                        // hide the progress dialog
+                        Toast.makeText(context, "Ошибка", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("displayed_name", displayed_name);
+                //jsonObject.put("user", phone);
+                //jsonObject.put("avatar_original_image", avatar_original_image);
+                //jsonObject.put("avatar_30", avatar_30);
+                //jsonObject.put("api_key", ApiHelper.API_KEY);
+                //params.put("api_key", ApiHelper.API_KEY);
+
+                return params;
+            }
+        };
+        appcon.addToRequestQueue(pr);
     }
 
     private class putHttpAsyncTask extends AsyncTask<String, Void, String> {
@@ -137,6 +177,7 @@ public class MyProfileFragment extends Fragment {
 
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("displayed_name", displayed_name);
+                //jsonObject.put("user", phone);
                 //jsonObject.put("avatar_original_image", avatar_original_image);
                 //jsonObject.put("avatar_30", avatar_30);
                 //jsonObject.put("api_key", ApiHelper.API_KEY);
