@@ -29,4 +29,6 @@ public class GlobalVar {
     public static SparseBooleanArray mSparseBooleanArray = new SparseBooleanArray();
     public static Post _Post = null;
     public static boolean Mode; // true = add mode, false = edit mode
+    public static boolean profile_edit = false;
+    public static String DisplayedName;
 }

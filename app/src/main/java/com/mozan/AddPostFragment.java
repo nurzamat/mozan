@@ -84,7 +84,7 @@ public class AddPostFragment extends Fragment {
             if (raw_price.contains("."))
             {
                 String[] parts = raw_price.split(Pattern.quote("."));
-                this.price = parts[0] + "." + parts[1].replaceAll("\\D+","");
+                this.price = parts[0].replaceAll("\\D+","") + "." + parts[1].replaceAll("\\D+","");
             }
             else
             {

@@ -2,6 +2,7 @@ package com.mozan;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.android.volley.Response;
@@ -32,6 +34,7 @@ public class MyProfileFragment extends Fragment {
     private static final String TAG =  "[my profile response]";
     EditText dname, phone;
     NetworkImageView avatar;
+    ImageView btnEdit;
     View rootView;
     String url;
     Context context;
@@ -57,58 +60,78 @@ public class MyProfileFragment extends Fragment {
         phone = (EditText) rootView.findViewById(R.id.phone);
         phone.setEnabled(false);
         avatar = (NetworkImageView) rootView.findViewById(R.id.avatar);
-
+        btnEdit = (ImageView) rootView.findViewById(R.id.edit_image);
         spin = (ProgressBar) rootView.findViewById(R.id.spinAvatar);
         spin.setVisibility(View.VISIBLE);
 
-        if (imageLoader == null)
-            imageLoader = AppController.getInstance().getImageLoader();
+        if(!GlobalVar.profile_edit)
+        {
+            if (imageLoader == null)
+                imageLoader = AppController.getInstance().getImageLoader();
 
+            JsonObjectRequest jsonObjReq = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
 
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Log.d("url", url);
+                    Log.d(TAG, response.toString());
+                    try {
+                        avatar_original_image = response.getString("avatar_original_image");
+                        displayed_name = response.getString("displayed_name");
+                        user = response.getString("user");
+                        avatar_30 = response.getString("avatar_30");
 
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.d("url", url);
-                Log.d(TAG, response.toString());
-                try {
-                      avatar_original_image = response.getString("avatar_original_image");
-                      displayed_name = response.getString("displayed_name");
-                      user = response.getString("user");
-                      avatar_30 = response.getString("avatar_30");
+                        dname.setText(displayed_name);
+                        phone.setText(user);
+                        avatar.setImageUrl(ApiHelper.MOZAN_URL + avatar_30, imageLoader);
+                        if(avatar.getDrawable() != null)
+                            spin.setVisibility(View.GONE);
 
-                    dname.setText(displayed_name);
-                    phone.setText(user);
-                    avatar.setImageUrl(ApiHelper.MOZAN_URL + avatar_30, imageLoader);
-                    if(avatar.getDrawable() != null)
-                        spin.setVisibility(View.GONE);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    hidePDialog();
                 }
-                hidePDialog();
-            }
-        }, new Response.ErrorListener() {
+            }, new Response.ErrorListener() {
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                // hide the progress dialog
-                hidePDialog();
-            }
-        });
-        // Adding request to request queue
-        appcon = AppController.getInstance();
-        appcon.addToRequestQueue(jsonObjReq);
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    VolleyLog.d(TAG, "Error: " + error.getMessage());
+                    // hide the progress dialog
+                    hidePDialog();
+                }
+            });
+            // Adding request to request queue
+            appcon = AppController.getInstance();
+            appcon.addToRequestQueue(jsonObjReq);
+        }
+        else
+        {
+            dname.setText(GlobalVar.DisplayedName);
+            phone.setText(GlobalVar.Phone);
+            avatar.setImageBitmap(GlobalVar._bitmaps.get(0));
+        }
 
         Button btnSave = (Button) rootView.findViewById(R.id.btnSave);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                GlobalVar.profile_edit = false;
+                GlobalVar.DisplayedName = "";
                 //use asynctask or volley put
-                //putHttpAsyncTask task = new putHttpAsyncTask();
-                //task.execute(url);
-                VolleyPut();
+                putHttpAsyncTask task = new putHttpAsyncTask();
+                task.execute(url);
+                //VolleyPut();
+            }
+        });
+
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GlobalVar.profile_edit = true;
+                GlobalVar.DisplayedName = dname.getText().toString();
+                Intent in = new Intent(context, MultiPhotoSelectActivity.class);
+                startActivity(in);
             }
         });
 
@@ -176,11 +199,8 @@ public class MyProfileFragment extends Fragment {
                 ApiHelper api = new ApiHelper();
 
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("displayed_name", displayed_name);
-                //jsonObject.put("user", phone);
-                //jsonObject.put("avatar_original_image", avatar_original_image);
-                //jsonObject.put("avatar_30", avatar_30);
-                //jsonObject.put("api_key", ApiHelper.API_KEY);
+                jsonObject.put("displayed_name", dname.getText());
+                //jsonObject.put("user", phone.getText());
 
                 JSONObject obj = api.editProfile(url, jsonObject); // will be checked for status ok
             }

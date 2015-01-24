@@ -4,11 +4,6 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fillViewport="true">
-
-    <LinearLayout android:focusable="true"
-        android:focusableInTouchMode="true" android:layout_width="0px"
-        android:layout_height="0px" />
-
 <RelativeLayout
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,6 +11,11 @@
     android:id="@+id/frame_add_adv"
     tools:context="com.mozan.AddPostFragment"
     android:padding="10dp">
+
+    <LinearLayout android:focusable="true"
+        android:focusableInTouchMode="true" android:layout_width="0px"
+        android:layout_height="0px" />
+
     <ProgressBar
         android:id="@+id/progBar"
         android:layout_width="wrap_content"

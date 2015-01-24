@@ -133,7 +133,9 @@ public class MultiPhotoSelectActivity extends Activity {
             Log.d("SelectedImages", selectImages);
 
             Intent in = new Intent(MultiPhotoSelectActivity.this, HomeActivity.class);
-            in.putExtra("case", 6);
+            if(GlobalVar.profile_edit)
+            in.putExtra("case", 2); //profile
+            else in.putExtra("case", 6); //post
             startActivity(in);
         }
     }

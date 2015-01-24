@@ -127,6 +127,10 @@ public class HomeActivity extends FragmentActivity {
             {
                 displayView(1);  //my posts
             }
+            else if(_case == 2)
+            {
+                displayView(2);  //my profile
+            }
             else displayView(0); // home
 		}
 	}
