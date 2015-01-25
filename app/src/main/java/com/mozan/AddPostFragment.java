@@ -314,13 +314,13 @@ public class AddPostFragment extends Fragment {
                 JSONObject obj = api.sendPost(jsonObject);
                 if(obj.has("id"))
                 {
-                    String id = obj.getString("id");
+                    String url = ApiHelper.POST_URL + obj.getString("id") + "/images/";
                     int length = GlobalVar.image_paths.size();
                     if(length > 0)
                     {
                         JSONObject jobj;
                         for (int i = 0; i <length; i++) {
-                            jobj = api.sendImage(id, GlobalVar.image_paths.get(i));
+                            jobj = api.sendImage(url, GlobalVar.image_paths.get(i), true);
                             if(jobj.has("id"))
                                 continue;
                         }

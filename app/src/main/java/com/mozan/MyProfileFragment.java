@@ -19,8 +19,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.mozan.util.ApiHelper;
+import com.mozan.util.CustomNetworkImageView;
 import com.mozan.util.GlobalVar;
 import com.mozan.util.JsonObjectRequest;
 import com.mozan.util.PutRequest;
@@ -33,15 +33,12 @@ public class MyProfileFragment extends Fragment {
 
     private static final String TAG =  "[my profile response]";
     EditText dname, phone;
-    NetworkImageView avatar;
+    CustomNetworkImageView avatar;
     ImageView btnEdit;
     View rootView;
     String url;
     Context context;
-    String avatar_original_image;
-    String displayed_name;
-    String avatar_30;
-    String user;
+    String avatar_original_image, displayed_name, avatar_30, user;
     private ProgressDialog pDialog;
     ProgressBar spin;
     AppController appcon;
@@ -59,7 +56,7 @@ public class MyProfileFragment extends Fragment {
         dname = (EditText) rootView.findViewById(R.id.dname);
         phone = (EditText) rootView.findViewById(R.id.phone);
         phone.setEnabled(false);
-        avatar = (NetworkImageView) rootView.findViewById(R.id.avatar);
+        avatar = (CustomNetworkImageView) rootView.findViewById(R.id.avatar);
         btnEdit = (ImageView) rootView.findViewById(R.id.edit_image);
         spin = (ProgressBar) rootView.findViewById(R.id.spinAvatar);
         spin.setVisibility(View.VISIBLE);
@@ -85,9 +82,10 @@ public class MyProfileFragment extends Fragment {
                         phone.setText(user);
                         avatar.setImageUrl(ApiHelper.MOZAN_URL + avatar_30, imageLoader);
                         if(avatar.getDrawable() != null)
-                            spin.setVisibility(View.GONE);
+                           spin.setVisibility(View.GONE);
 
-                    } catch (JSONException e) {
+                    } catch (JSONException e)
+                    {
                         e.printStackTrace();
                     }
                     hidePDialog();
@@ -109,7 +107,8 @@ public class MyProfileFragment extends Fragment {
         {
             dname.setText(GlobalVar.DisplayedName);
             phone.setText(GlobalVar.Phone);
-            avatar.setImageBitmap(GlobalVar._bitmaps.get(0));
+            if(GlobalVar._bitmaps.size() > 0)
+               avatar.setLocalImageBitmap(GlobalVar._bitmaps.get(0));
         }
 
         Button btnSave = (Button) rootView.findViewById(R.id.btnSave);
@@ -201,8 +200,10 @@ public class MyProfileFragment extends Fragment {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("displayed_name", dname.getText());
                 //jsonObject.put("user", phone.getText());
-
                 JSONObject obj = api.editProfile(url, jsonObject); // will be checked for status ok
+
+                if(GlobalVar.image_paths.size() > 0)
+                   obj = api.sendImage(url, GlobalVar.image_paths.get(0), false); // will be checked for status ok
             }
             catch (Exception ex)
             {

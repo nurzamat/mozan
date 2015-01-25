@@ -170,14 +170,13 @@ public class ApiHelper {
         return new JSONObject(responseStr);
     }
 
-    public JSONObject sendImage(String id, String image_path)
+    public JSONObject sendImage(String url, String image_path, boolean mode)
             throws ApiException, IOException, JSONException {
 
         Log.i(TAG, "Image path : " + image_path);
-        String url = POST_URL + id + "/images/";
 
         Log.i(TAG, "Sending request to: " + url);
-        HttpResponse response = multipart_request(url, image_path);
+        HttpResponse response = multipart_request(url, image_path, mode);
 
         String responseStr = responseToStr(response);
 
@@ -271,13 +270,10 @@ public class ApiHelper {
         return response;
     }
 
-    public HttpResponse multipart_request(String url, String path) {
+    public HttpResponse multipart_request(String url, String path, boolean mode) {
 
         DefaultHttpClient client = (DefaultHttpClient) getNewHttpClient();
         try {
-
-            HttpPost httppost = new HttpPost(url);
-
             FileBody bin = new FileBody(new File(path));
             //StringBody comment = new StringBody("A binary file of some kind", ContentType.TEXT_PLAIN);
 
@@ -290,18 +286,36 @@ public class ApiHelper {
             ByteArrayBody bab = new ByteArrayBody(data, "nokia.jpg");
             */
             //end bitmap
-            HttpEntity reqEntity = MultipartEntityBuilder.create()
-                    .addPart("original_image", bin)
-                    //.addPart("comment", comment)
-                    //.addPart("original_image",bab)   //for sending bitmap
-                    .build();
+            HttpResponse response;
+              if(mode)               // mode = true = Post
+              {
+                  HttpPost httppost = new HttpPost(url);
+                  HttpEntity reqEntity = MultipartEntityBuilder.create()
+                          .addPart("original_image", bin)
+                                  //.addPart("comment", comment)
+                                  //.addPart("original_image",bab)   //for sending bitmap
+                          .build();
 
-            httppost.setEntity(reqEntity);
-            httppost.setHeader("Authorization", "Token " + GlobalVar.Token);
+                  httppost.setEntity(reqEntity);
+                  httppost.setHeader("Authorization", "Token " + GlobalVar.Token);
 
-            Log.d("executing request", httppost.getRequestLine().toString());
+                  Log.d("executing request", httppost.getRequestLine().toString());
 
-            HttpResponse response = client.execute(httppost);
+                  response = client.execute(httppost);
+              }
+              else               // mode = false = Put
+              {
+                  HttpPut httpput = new HttpPut(url);
+                  HttpEntity reqEntity = MultipartEntityBuilder.create()
+                          .addPart("avatar_original_image", bin)
+                          //.addPart("avatar_30", bin)
+                          .build();
+
+                  httpput.setEntity(reqEntity);
+                  httpput.setHeader("Authorization", "Token " + GlobalVar.Token);
+
+                  response = client.execute(httpput);
+              }
             return response;
         }
         catch (Exception ex)

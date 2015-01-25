@@ -59,9 +59,10 @@ public class EditImageActivity extends Activity {
                 if(length > 0)
                 {
                     JSONObject jobj;
+                    String url = ApiHelper.POST_URL + GlobalVar._Post.getId() + "/images/";
                     for (int i = 0; i <length; i++)
                     {
-                        jobj = api.sendImage(GlobalVar._Post.getId(), GlobalVar.image_paths.get(i));
+                        jobj = api.sendImage(url, GlobalVar.image_paths.get(i), true);
                         if(jobj.has("id"))
                             continue;
                     }
