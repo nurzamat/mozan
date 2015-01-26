@@ -17,9 +17,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.mozan.adapter.PostListAdapter;
+import com.mozan.model.Category;
 import com.mozan.model.Image;
 import com.mozan.model.Post;
 import com.mozan.util.ApiHelper;
+import com.mozan.util.GlobalVar;
 import com.mozan.util.JsonObjectRequest;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -162,49 +164,54 @@ public class ElectronicsPosts extends Fragment {
 
     public void ButtonClick()
     {
-        Button btn1 = (Button) rootView.findViewById(R.id.btn1);
-        Button btn2 = (Button) rootView.findViewById(R.id.btn2);
+        try
+        {
+            ArrayList<Category> categories = new ArrayList<Category>();
 
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try
-                {
+            for(Iterator<Category> i = GlobalVar._categories.iterator(); i.hasNext(); ) {
+                Category item = i.next();
+                if(item.getParent().equals("6")) // 6 - Электроника и техника
+                    categories.add(item);
+            }
+
+            Button btn1 = (Button) rootView.findViewById(R.id.btn1);
+            Button btn2 = (Button) rootView.findViewById(R.id.btn2);
+            final Category category1 = categories.get(0);
+            final Category category2 = categories.get(1);
+            btn1.setText(category1.getName());
+            btn2.setText(category2.getName());
+
+            btn1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     postList.clear();
                     for(Iterator<Post> i = mainList.iterator(); i.hasNext(); ) {
                         Post item = i.next();
-                        if(item.getCategory().equals("4")) // 4 - Бытовая техника
+                        if(item.getCategory().equals(category1.getId())) // 4 - Бытовая техника
                             postList.add(item);
                     }
                     adapter.notifyDataSetChanged();
                 }
-                catch (Exception ex)
-                {
-                    ex.printStackTrace();
-                }
-            }
-        });
+            });
 
-        btn2.setOnClickListener(new View.OnClickListener() {
+            btn2.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                try
-                {
+                @Override
+                public void onClick(View v) {
                     postList.clear();
                     for(Iterator<Post> i = mainList.iterator(); i.hasNext(); ) {
                         Post item = i.next();
-                        if(item.getCategory().equals("14")) // 14 - Сотовые телефоны
+                        if(item.getCategory().equals(category2.getId())) // 14 - Сотовые телефоны
                             postList.add(item);
                     }
                     adapter.notifyDataSetChanged();
                 }
-                catch (Exception ex)
-                {
-                    ex.printStackTrace();
-                }
-            }
-        });
+            });
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
 

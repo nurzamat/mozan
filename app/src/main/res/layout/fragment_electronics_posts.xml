@@ -23,7 +23,6 @@
             android:layout_marginRight="4dp"
             android:layout_weight="1"
             android:textSize="14dp"
-            android:text="@string/house_holder_ru"
             android:background="@drawable/btn_selector"
             android:textColor = "@android:color/white"/>
         <Button
@@ -36,7 +35,6 @@
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
             android:textSize="14dp"
-            android:text="@string/cell_phones_ru"
             android:background="@drawable/btn_selector"
             android:textColor = "@android:color/white"/>
     </LinearLayout>
