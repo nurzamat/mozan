@@ -6,6 +6,41 @@
     android:orientation="vertical"
     tools:context="com.mozan.ElectronicsPosts"
     android:background="#e5e5e5">
+
+    <LinearLayout
+        android:id="@+id/layout_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn1"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="4dp"
+            android:layout_weight="1"
+            android:textSize="14dp"
+            android:text="@string/house_holder_ru"
+            android:background="@drawable/btn_selector"
+            android:textColor = "@android:color/white" />
+        <Button
+            android:id="@+id/btn2"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:textSize="14dp"
+            android:text="@string/cell_phones_ru"
+            android:background="@drawable/btn_selector"
+            android:textColor = "@android:color/white" />
+    </LinearLayout>
+
     <ListView
         android:id="@+id/list"
         android:layout_marginLeft="2dp"

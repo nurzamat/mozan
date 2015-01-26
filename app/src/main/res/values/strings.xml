@@ -59,6 +59,8 @@
     <string name="service_parts_ru">Запчасти</string>
     <string name="avto_ru">Авто</string>
     <string name="rest_ru">Заведения, отдых</string>
+    <string name="house_holder_ru">Бытовая техника</string>
+    <string name="cell_phones_ru">Сотовые телефоны</string>
 
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.android.volley.Response;
@@ -54,6 +55,7 @@ public class ElectronicsPosts extends Fragment {
             listView = (ListView) rootView.findViewById(R.id.list);
             emptyText = (TextView) rootView.findViewById(android.R.id.empty);
             listView.setEmptyView(emptyText);
+
             adapter = new PostListAdapter(context, postList);
             listView.setAdapter(adapter);
 
