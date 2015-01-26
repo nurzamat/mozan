@@ -78,6 +78,7 @@ public class SearchResultsFragment extends Fragment {
 
             @Override
             public void onResponse(JSONObject response) {
+                Log.d("url", url);
                 Log.d(TAG, response.toString());
 
                 try {

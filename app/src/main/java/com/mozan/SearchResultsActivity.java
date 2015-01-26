@@ -8,6 +8,9 @@ import android.os.Bundle;
 
 import com.mozan.util.GlobalVar;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class SearchResultsActivity extends Activity {
 
     @Override
@@ -35,7 +38,14 @@ public class SearchResultsActivity extends Activity {
             String query = intent.getStringExtra(SearchManager.QUERY);
         if(!query.equals(""))
         {
-            GlobalVar.query = query;
+            try
+            {
+                GlobalVar.query = URLEncoder.encode(query, "UTF-8");
+            }
+            catch (UnsupportedEncodingException ex)
+            {
+                ex.printStackTrace();
+            }
             Intent in = new Intent(SearchResultsActivity.this, HomeActivity.class);
             in.putExtra("case", 7);
             startActivity(in);
