@@ -25,6 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ElectronicsPosts extends Fragment {
@@ -37,9 +38,12 @@ public class ElectronicsPosts extends Fragment {
     private static final String url = ApiHelper.ELECTRONICS_URL;
     private ProgressDialog pDialog;
     private List<Post> postList = new ArrayList<Post>();
+    private List<Post> mainList = new ArrayList<Post>();
     private ListView listView;
     private PostListAdapter adapter;
     private TextView emptyText;
+    private View rootView;
+
     public ElectronicsPosts() {
         // Required empty public constructor
     }
@@ -48,7 +52,7 @@ public class ElectronicsPosts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_electronics_posts, container, false);
+        rootView = inflater.inflate(R.layout.fragment_electronics_posts, container, false);
         try
         {
             Activity context = getActivity();
@@ -119,6 +123,7 @@ public class ElectronicsPosts extends Fragment {
                                 post.setImages(images);
                             }
                             postList.add(post);
+                            mainList.add(post);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -149,10 +154,59 @@ public class ElectronicsPosts extends Fragment {
         AppController appcon = AppController.getInstance();
         appcon.addToRequestQueue(jsonObjReq);
 
+        ButtonClick();
 
         // Inflate the layout for this fragment
         return rootView;
     }
+
+    public void ButtonClick()
+    {
+        Button btn1 = (Button) rootView.findViewById(R.id.btn1);
+        Button btn2 = (Button) rootView.findViewById(R.id.btn2);
+
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try
+                {
+                    postList.clear();
+                    for(Iterator<Post> i = mainList.iterator(); i.hasNext(); ) {
+                        Post item = i.next();
+                        if(item.getCategory().equals("4")) // 4 - Бытовая техника
+                            postList.add(item);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        btn2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                try
+                {
+                    postList.clear();
+                    for(Iterator<Post> i = mainList.iterator(); i.hasNext(); ) {
+                        Post item = i.next();
+                        if(item.getCategory().equals("14")) // 14 - Сотовые телефоны
+                            postList.add(item);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                }
+            }
+        });
+    }
+
 
     private void hidePDialog() {
         if (pDialog != null) {
