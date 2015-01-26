@@ -10,15 +10,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.mozan.adapter.PostListAdapter;
+import com.mozan.model.Category;
 import com.mozan.model.Image;
 import com.mozan.model.Post;
 import com.mozan.util.ApiHelper;
+import com.mozan.util.GlobalVar;
 import com.mozan.util.JsonObjectRequest;
 
 import org.json.JSONArray;
@@ -26,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -39,9 +43,11 @@ public class AvtoPosts extends Fragment {
     private static final String url = ApiHelper.AVTO_URL;
     private ProgressDialog pDialog;
     private List<Post> postList = new ArrayList<Post>();
+    private List<Post> mainList = new ArrayList<Post>();
     private ListView listView;
     private PostListAdapter adapter;
     private TextView emptyText;
+    private View rootView;
 
     public AvtoPosts() {
         // Required empty public constructor
@@ -51,7 +57,7 @@ public class AvtoPosts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_avto_posts, container, false);
+        rootView = inflater.inflate(R.layout.fragment_avto_posts, container, false);
         try
         {
             Activity context = getActivity();
@@ -119,6 +125,7 @@ public class AvtoPosts extends Fragment {
                                 post.setImages(images);
                             }
                             postList.add(post);
+                            mainList.add(post);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -148,7 +155,7 @@ public class AvtoPosts extends Fragment {
         // Adding request to request queue
         AppController appcon = AppController.getInstance();
         appcon.addToRequestQueue(jsonObjReq);
-
+        ButtonClick();
         // Inflate the layout for this fragment
         return rootView;
     }
@@ -157,6 +164,90 @@ public class AvtoPosts extends Fragment {
         if (pDialog != null) {
             pDialog.dismiss();
             pDialog = null;
+        }
+    }
+
+    public void ButtonClick()
+    {
+        try
+        {
+            ArrayList<Category> categories = new ArrayList<Category>();
+
+            for(Iterator<Category> i = GlobalVar._categories.iterator(); i.hasNext(); ) {
+                Category item = i.next();
+                if(item.getParent().equals("2")) // 1 - Авто
+                    categories.add(item);
+            }
+
+            Button btn1 = (Button) rootView.findViewById(R.id.btn1);
+            Button btn2 = (Button) rootView.findViewById(R.id.btn2);
+            Button btn3 = (Button) rootView.findViewById(R.id.btn3);
+            Button btn4 = (Button) rootView.findViewById(R.id.btn4);
+            final Category category1 = categories.get(0);
+            final Category category2 = categories.get(1);
+            final Category category3 = categories.get(2);
+            final Category category4 = categories.get(3);
+            btn1.setText(category1.getName());
+            btn2.setText(category2.getName());
+            btn3.setText(category3.getName());
+            btn4.setText(category4.getName());
+
+            btn1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    postList.clear();
+                    for(Iterator<Post> i = mainList.iterator(); i.hasNext(); ) {
+                        Post item = i.next();
+                        if(item.getCategory().equals(category1.getId()))
+                            postList.add(item);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            });
+
+            btn2.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    postList.clear();
+                    for(Iterator<Post> i = mainList.iterator(); i.hasNext(); ) {
+                        Post item = i.next();
+                        if(item.getCategory().equals(category2.getId()))
+                            postList.add(item);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            });
+            btn3.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    postList.clear();
+                    for(Iterator<Post> i = mainList.iterator(); i.hasNext(); ) {
+                        Post item = i.next();
+                        if(item.getCategory().equals(category3.getId()))
+                            postList.add(item);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            });
+            btn4.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    postList.clear();
+                    for(Iterator<Post> i = mainList.iterator(); i.hasNext(); ) {
+                        Post item = i.next();
+                        if(item.getCategory().equals(category4.getId()))
+                            postList.add(item);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
         }
     }
 }

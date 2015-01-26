@@ -126,7 +126,6 @@ public class ElectronicsPosts extends Fragment {
                             }
                             postList.add(post);
                             mainList.add(post);
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
