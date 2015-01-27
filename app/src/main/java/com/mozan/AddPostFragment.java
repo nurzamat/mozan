@@ -43,7 +43,7 @@ public class AddPostFragment extends Fragment {
     View rootView;
     CirclePageIndicator mIndicator;
     String content;
-    String category;
+    String category = "";
     String category_name = "";
     String price;
     String price_currency;
@@ -270,7 +270,7 @@ public class AddPostFragment extends Fragment {
         content = etContent.getText().toString().trim();
         price = etPrice.getText().toString().trim();
 
-        return (!content.equals("") && !price.equals("") && !category_name.equals("") && !price_currency.equals(""));
+        return (!content.equals("") && !price.equals("") && !category.equals("") && !price_currency.equals(""));
     }
 
     // add mode

@@ -177,6 +177,7 @@ public class MyPostsFragment extends Fragment {
             public void onClick(View v) {
                 GlobalVar.Mode = true;
                 GlobalVar._Post = null;
+                GlobalVar.SelectedCategory = null;
                 GlobalVar._bitmaps.clear();
                 GlobalVar.image_paths.clear();
                 GlobalVar.mSparseBooleanArray.clear();
