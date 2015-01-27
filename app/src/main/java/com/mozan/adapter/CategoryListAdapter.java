@@ -2,18 +2,18 @@ package com.mozan.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
+import com.mozan.HomeActivity;
 import com.mozan.R;
 import com.mozan.model.Category;
-import com.mozan.model.Post;
 import com.mozan.util.ApiHelper;
+import com.mozan.util.GlobalVar;
 
 import java.util.List;
 
@@ -80,7 +80,11 @@ public class CategoryListAdapter extends BaseAdapter {
         @Override
         public void onClick(View v)
         {
-            Toast.makeText(activity, category.getName(), Toast.LENGTH_SHORT).show();
+            GlobalVar.SelectedCategory = category;
+
+            Intent in = new Intent(activity, HomeActivity.class);
+            in.putExtra("case", 8); //categories
+            activity.startActivity(in);
         }
     }
 }

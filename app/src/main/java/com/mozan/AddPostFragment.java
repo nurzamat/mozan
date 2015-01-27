@@ -43,9 +43,8 @@ public class AddPostFragment extends Fragment {
     View rootView;
     CirclePageIndicator mIndicator;
     String content;
-    int position;
     String category;
-    String category_name;
+    String category_name = "";
     String price;
     String price_currency;
     String result;
@@ -71,7 +70,7 @@ public class AddPostFragment extends Fragment {
         ctx = context;
         this.mode =  GlobalVar.Mode;
         //for set text
-        if(!mode)
+        if(!mode) //edit
         {
             this.id = GlobalVar._Post.getId();
             this.url = ApiHelper.POST_URL + id + "/";
@@ -115,6 +114,15 @@ public class AddPostFragment extends Fragment {
         spinner.setAdapter(adapter);
         Button postBtn = (Button) rootView.findViewById(R.id.btnPost);
         Button categoryBtn = (Button) rootView.findViewById(R.id.btnCategory);
+        if(GlobalVar.SelectedCategory != null)
+        {
+            categoryBtn.setText(GlobalVar.SelectedCategory.getName());
+            this.category = GlobalVar.SelectedCategory.getId();
+        }
+        else if(!category_name.equals(""))
+        {
+            categoryBtn.setText(category_name);
+        }
 
         if(!mode) //edit
         {
@@ -168,7 +176,7 @@ public class AddPostFragment extends Fragment {
         categoryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                GlobalVar.SelectedCategory = null;
                 Intent in = new Intent(context, HomeActivity.class);
                 in.putExtra("case", 8); //categories
                 startActivity(in);
@@ -244,7 +252,7 @@ public class AddPostFragment extends Fragment {
             {
                 Map<String, String>  params = new HashMap<String, String>();
 
-                params.put("category", ApiHelper.getCategoryId(position));
+                params.put("category", category);
                 params.put("content", content);
                 params.put("price", price);
                 params.put("price_currency", price_currency);
@@ -285,7 +293,7 @@ public class AddPostFragment extends Fragment {
                 ApiHelper api = new ApiHelper();
 
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("category", ApiHelper.getCategoryId(position));
+                jsonObject.put("category", category);
                 jsonObject.put("content", content);
                 jsonObject.put("price", price);
                 jsonObject.put("price_currency", price_currency);
@@ -354,7 +362,7 @@ public class AddPostFragment extends Fragment {
                 ApiHelper api = new ApiHelper();
 
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("category", ApiHelper.getCategoryId(position));
+                jsonObject.put("category", category);
                 jsonObject.put("content", content);
                 jsonObject.put("price", price);
                 jsonObject.put("price_currency", price_currency);

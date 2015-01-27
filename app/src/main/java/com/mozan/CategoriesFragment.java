@@ -22,6 +22,7 @@ public class CategoriesFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private ListView listView;
+    ArrayList<Category> categories = new ArrayList<Category>();
     private CategoryListAdapter adapter;
     private View rootView;
 
@@ -39,14 +40,28 @@ public class CategoriesFragment extends Fragment {
             Activity context = getActivity();
             listView = (ListView) rootView.findViewById(R.id.list);
 
-            ArrayList<Category> categories = new ArrayList<Category>();
-
-            for(Iterator<Category> i = GlobalVar._categories.iterator(); i.hasNext(); ) {
-                Category item = i.next();
-                if(item.getParent().equals(null) || item.getParent().equals("null")) // parent categories
-                    categories.add(item);
+            if(GlobalVar.SelectedCategory != null)
+            {
+                for(Iterator<Category> i = GlobalVar._categories.iterator(); i.hasNext(); ) {
+                    Category item = i.next();
+                    if(item.getParent().equals(GlobalVar.SelectedCategory.getId()))
+                        categories.add(item);
+                }
+                if(categories.size() == 0)
+                {
+                    Intent in = new Intent(getActivity(), HomeActivity.class);
+                    in.putExtra("case", 6); //
+                    getActivity().startActivity(in);
+                }
             }
-
+            else
+            {
+                for(Iterator<Category> i = GlobalVar._categories.iterator(); i.hasNext(); ) {
+                    Category item = i.next();
+                    if(item.getParent().equals(null) || item.getParent().equals("null")) // parent categories
+                        categories.add(item);
+                }
+            }
             adapter = new CategoryListAdapter(context, categories);
             listView.setAdapter(adapter);
             // changing action bar color

@@ -31,4 +31,5 @@ public class GlobalVar {
     public static boolean Mode; // true = add mode, false = edit mode
     public static boolean profile_edit = false;
     public static String DisplayedName;
+    public static Category SelectedCategory = null;
 }
