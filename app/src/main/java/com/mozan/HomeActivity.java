@@ -131,6 +131,10 @@ public class HomeActivity extends FragmentActivity {
             {
                 displayView(2);  //my profile
             }
+            else if(_case == 8)
+            {
+                displayView(8);  //categories
+            }
             else displayView(0); // home
 		}
 	}
@@ -254,6 +258,11 @@ public class HomeActivity extends FragmentActivity {
         case 7:
             {
                 fragment = new SearchResultsFragment();
+                break;
+            }
+        case 8:
+            {
+                fragment = new CategoriesFragment();
                 break;
             }
 		default:

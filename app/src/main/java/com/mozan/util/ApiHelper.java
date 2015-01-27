@@ -10,6 +10,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageLoader;
 import com.mozan.AppController;
+import com.mozan.R;
 import com.mozan.model.Category;
 import com.mozan.model.Image;
 import com.mozan.model.Post;
@@ -375,6 +376,39 @@ public class ApiHelper {
         }
         return "";
     }
+
+    public static int getCategoryImage(String id)
+    {
+        if(id.equals("2"))           //Авто
+            return R.drawable.ic_pages;
+        if(id.equals("5"))           //Автомобили
+            return R.drawable.ic_pages;
+        if(id.equals("10"))            //Грузовики
+            return R.drawable.ic_pages;
+        if(id.equals("11"))            //Другое
+            return R.drawable.ic_pages;
+        if(id.equals("8"))              //Запчасти
+            return R.drawable.ic_pages;
+        if(id.equals("9"))              //Заведения, отдых
+            return R.drawable.ic_pages;
+        if(id.equals("1"))              //Недвижимость
+            return R.drawable.ic_pages;
+        if(id.equals("3"))              //Аренда
+            return R.drawable.ic_pages;
+        if(id.equals("12"))              //Продажа
+            return R.drawable.ic_pages;
+        if(id.equals("7"))              //Строительство и ремонт
+            return R.drawable.ic_pages;
+        if(id.equals("6"))              //Электроника и техника
+            return R.drawable.ic_pages;
+        if(id.equals("4"))              //Бытовая техника
+            return R.drawable.ic_pages;
+        if(id.equals("14"))              //Сотовые телефоны
+            return R.drawable.ic_pages;
+
+        return R.drawable.car;
+    }
+
     public static ArrayList<String> getImageUrls(ArrayList<Image> images)
     {
         ArrayList<String> urls = new ArrayList<String>();

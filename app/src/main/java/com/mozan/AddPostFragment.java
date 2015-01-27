@@ -114,6 +114,7 @@ public class AddPostFragment extends Fragment {
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
         Button postBtn = (Button) rootView.findViewById(R.id.btnPost);
+        Button categoryBtn = (Button) rootView.findViewById(R.id.btnCategory);
 
         if(!mode) //edit
         {
@@ -161,6 +162,16 @@ public class AddPostFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 postButton();
+            }
+        });
+
+        categoryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent in = new Intent(context, HomeActivity.class);
+                in.putExtra("case", 8); //categories
+                startActivity(in);
             }
         });
 
