@@ -61,6 +61,7 @@
     <string name="rest_ru">Заведения, отдых</string>
     <string name="house_holder_ru">Бытовая техника</string>
     <string name="cell_phones_ru">Сотовые телефоны</string>
+    <string name="choose_category_ru">Выберите категорию</string>
 
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->

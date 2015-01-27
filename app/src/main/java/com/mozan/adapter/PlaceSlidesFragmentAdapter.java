@@ -1,6 +1,5 @@
 package com.mozan.adapter;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,8 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
-import com.mozan.HomeActivity;
+import com.mozan.MultiPhotoSelectActivity;
 import com.mozan.R;
 import com.mozan.util.GlobalVar;
 
@@ -77,6 +75,8 @@ public class PlaceSlidesFragmentAdapter extends PagerAdapter {
         // Add viewpager_item.xml to ViewPager
         ((ViewPager)container).addView(itemView);
 
+        itemView.setOnClickListener(new OnImageClickListener());
+
         return itemView;
     }
 
@@ -90,4 +90,23 @@ public class PlaceSlidesFragmentAdapter extends PagerAdapter {
     public int getItemPosition(Object object){
         return PagerAdapter.POSITION_NONE;
     }
+
+
+    class OnImageClickListener implements View.OnClickListener {
+
+        // constructor
+        public OnImageClickListener()
+        {
+
+        }
+
+        @Override
+        public void onClick(View v)
+        {
+            Intent in = new Intent(context, MultiPhotoSelectActivity.class);
+            context.startActivity(in);
+        }
+
+    }
+
 }

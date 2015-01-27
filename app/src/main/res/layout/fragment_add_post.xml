@@ -27,28 +27,23 @@
         android:layout_width="wrap_content"
         android:layout_height="150dp"
         android:layout_alignParentTop="true"/>
-
     <com.mozan.lib.CirclePageIndicator
         android:id="@+id/indicator"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/pager"/>
-
-    <ImageButton
-        android:id="@+id/btnCamera"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/camera"
-        android:layout_below="@+id/indicator"/>
-
-    <Spinner
-        android:id="@+id/spinner_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/pager"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/btnCategory"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:layout_marginTop="20dip"
-        android:layout_below="@+id/btnCamera"/>
+        android:textSize="14dp"
+        android:text="@string/choose_category_ru"
+        android:background="@drawable/btn_selector"
+        android:textColor = "@android:color/white"
+        android:layout_below="@+id/indicator"/>
 
     <EditText android:id="@+id/content"
         android:layout_width="fill_parent"
@@ -58,7 +53,8 @@
         android:singleLine="false"
         android:textColorHint="@color/blue_light"
         android:maxLength="81"
-        android:layout_below="@+id/spinner_category"/>
+        android:layout_below="@+id/btnCategory"/>
+
     <EditText android:id="@+id/price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

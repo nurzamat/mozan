@@ -103,7 +103,6 @@ public class AddPostFragment extends Fragment {
         etPrice = (EditText) rootView.findViewById(R.id.price);
         //spinner job
         Spinner spinner = (Spinner) rootView.findViewById(R.id.spinner);
-        Spinner spinner_category = (Spinner) rootView.findViewById(R.id.spinner_category);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,
                 R.array.price_currencies, android.R.layout.simple_spinner_item);
@@ -114,17 +113,13 @@ public class AddPostFragment extends Fragment {
         adapter_category.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
-        spinner_category.setAdapter(adapter_category);
-
         Button postBtn = (Button) rootView.findViewById(R.id.btnPost);
-        ImageButton cameraBtn = (ImageButton) rootView.findViewById(R.id.btnCamera);
 
         if(!mode) //edit
         {
             etContent.setText(content);
             etPrice.setText(price);
             spinner.setSelection(adapter.getPosition(price_currency));
-            spinner_category.setSelection(adapter_category.getPosition(category_name));
             postBtn.setText(R.string.save);
         }
         else
@@ -149,23 +144,6 @@ public class AddPostFragment extends Fragment {
                     }
                 }
         );
-        spinner_category.setOnItemSelectedListener(
-                new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view,
-                                               int pos, long id) {
-
-                        position = pos;
-                        category_name = parent.getItemAtPosition(pos).toString();
-                        // Showing selected spinner item
-                       //Toast.makeText(parent.getContext(), "Selected: " + category_name, Toast.LENGTH_LONG).show();
-                    }
-                    @Override
-                    public void onNothingSelected(AdapterView<?> arg0) {
-                        // TODO Auto-generated method stub
-                    }
-                }
-        );
 
         int color = getResources().getColor(R.color.blue_dark);
         mAdapter = new PlaceSlidesFragmentAdapter(context);
@@ -183,15 +161,6 @@ public class AddPostFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 postButton();
-            }
-        });
-
-        cameraBtn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent in = new Intent(context, MultiPhotoSelectActivity.class);
-                startActivity(in);
             }
         });
 
