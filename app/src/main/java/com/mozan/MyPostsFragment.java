@@ -12,8 +12,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -46,6 +48,10 @@ public class MyPostsFragment extends Fragment {
     public static MyPostListAdapter adapter;
     private TextView emptyText;
     private View rootView;
+    AppController appcon;
+    private int total;
+    private String next = null;
+    ProgressBar spin;
     Fragment fragment = null;
 
     public MyPostsFragment() {
@@ -66,20 +72,29 @@ public class MyPostsFragment extends Fragment {
             listView.setEmptyView(emptyText);
             adapter = new MyPostListAdapter(context, this, postList);
             listView.setAdapter(adapter);
-
-            pDialog = new ProgressDialog(context);
-            // Showing progress dialog before making http request
-            pDialog.setMessage("Загрузка...");
-            pDialog.show();
+            spin = (ProgressBar) rootView.findViewById(R.id.loading);
             // changing action bar color
             context.getActionBar().setBackgroundDrawable(
                     new ColorDrawable(Color.parseColor("#1b1b1b")));
+
+            configureAddButton();
+
+            appcon = AppController.getInstance();
+
+            VolleyRequest(url);
+            listView.setOnScrollListener(new EndlessScrollListener(1));
         }
         catch (NullPointerException e)
         {
             e.printStackTrace();
         }
+        // Inflate the layout for this fragment
+        return rootView;
+    }
 
+    private void VolleyRequest(String url)
+    {
+        spin.setVisibility(View.VISIBLE);
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
 
             @Override
@@ -88,8 +103,8 @@ public class MyPostsFragment extends Fragment {
 
                 try {
 
-                    int count = response.getInt("count");
-                    String next = response.getString("next");
+                    total = response.getInt("count");
+                    next = response.getString("next");
                     String previous = response.getString("previous");
                     JSONArray jarray =  response.getJSONArray("results");
                     JSONArray jimages;
@@ -137,10 +152,11 @@ public class MyPostsFragment extends Fragment {
                     if(!(postList.size() > 0))
                         emptyText.setText(R.string.no_my_posts);
 
+                    spin.setVisibility(View.GONE);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                hidePDialog();
             }
         }, new Response.ErrorListener() {
 
@@ -148,23 +164,12 @@ public class MyPostsFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 // hide the progress dialog
-                hidePDialog();
+                spin.setVisibility(View.GONE);
             }
         });
         // Adding request to request queue
-        AppController appcon = AppController.getInstance();
+        appcon = AppController.getInstance();
         appcon.addToRequestQueue(jsonObjReq);
-
-        configureAddButton();
-        // Inflate the layout for this fragment
-        return rootView;
-    }
-
-    private void hidePDialog() {
-        if (pDialog != null) {
-            pDialog.dismiss();
-            pDialog = null;
-        }
     }
 
     private void configureAddButton() {
@@ -207,5 +212,40 @@ public class MyPostsFragment extends Fragment {
             }
         });
 
+    }
+
+    public class EndlessScrollListener implements AbsListView.OnScrollListener {
+
+        private int visibleThreshold = 5;
+        private int currentPage = 0;
+        private int previousTotal = 0;
+        private boolean loading = true;
+
+        public EndlessScrollListener() {
+        }
+        public EndlessScrollListener(int visibleThreshold) {
+            this.visibleThreshold = visibleThreshold;
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem,
+                             int visibleItemCount, int totalItemCount) {
+            if (loading) {
+                if (totalItemCount > previousTotal) {
+                    loading = false;
+                    previousTotal = totalItemCount;
+                    currentPage++;
+                }
+            }
+            if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+                if(next != null && !next.equals("null"))
+                    VolleyRequest(next);
+                loading = true;
+            }
+        }
+
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+        }
     }
 }
