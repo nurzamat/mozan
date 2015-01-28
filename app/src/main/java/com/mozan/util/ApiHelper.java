@@ -66,6 +66,7 @@ public class ApiHelper {
     public static final String SEND_POST_URL = "https://mozan.trade/api/post/create/";
     public static final String SEARCH_POST_URL = "https://mozan.trade/api/search/?q=";
     public static final String USER_URL = "https://mozan.trade/api/user/";
+    public static final String HITCOUNT_URL = "https://mozan.trade/counter/ajax/hit/";
     //Categories
     public static final String CATEGORY_URL = "https://mozan.trade/api/category/";
     public static final String CATEGORIES_URL = "https://mozan.trade/api/category/list/";
@@ -146,6 +147,15 @@ public class ApiHelper {
 
         String responseStr = responseToStr(response);
 
+        Log.i(TAG, "Response: " + responseStr);
+        return new JSONObject(responseStr);
+    }
+    public JSONObject sendHitcount(JSONObject jsonObject)
+            throws ApiException, IOException, JSONException {
+
+        Log.i(TAG, "Sending request to: " + HITCOUNT_URL);
+        HttpResponse response = requestPost(HITCOUNT_URL, jsonObject, false);
+        String responseStr = responseToStr(response);
         Log.i(TAG, "Response: " + responseStr);
         return new JSONObject(responseStr);
     }

@@ -6,8 +6,9 @@ import java.util.ArrayList;
  * Created by User on 16.12.2014.
  */
 public class Post{
-    private String id, content, username, category, category_name;
+    private String id, content, username, category, category_name, user_id, displayed_name, hitcount, hitcount_id;
     private String thumbnailUrl = "";
+    private String avatarUrl = "";
     private String price, price_currency = "";
     //private ArrayList<String> image_urls;
     private ArrayList<Image> images;
@@ -51,6 +52,14 @@ public class Post{
         return thumbnailUrl;
     }
 
+    public void setAvatarUrl(String url) {
+        this.avatarUrl = url;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
     public void setThumbnailUrl(String thumbnailUrl) {
         this.thumbnailUrl = thumbnailUrl;
     }
@@ -86,6 +95,38 @@ public class Post{
     public void setImages(ArrayList<Image> _images)
     {
         this.images = _images;
+    }
+
+    public String getUserId() {
+        return user_id;
+    }
+
+    public void setUserId(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getDisplayedName() {
+        return displayed_name;
+    }
+
+    public void setDisplayedName(String displayed_name) {
+        this.displayed_name = displayed_name;
+    }
+
+    public String getHitcount() {
+        return hitcount;
+    }
+
+    public void setHitcount(String count) {
+        this.hitcount = count;
+    }
+
+    public String getHitcountId() {
+        return hitcount_id;
+    }
+
+    public void setHitcountId(String id) {
+        this.hitcount_id = id;
     }
 
 }

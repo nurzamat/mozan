@@ -34,29 +34,28 @@
         android:textSize="@dimen/content"
         android:textStyle="bold"
         android:layout_marginTop="1dip"
+        android:layout_marginBottom="2dip"
         android:layout_below="@+id/layout"
         android:layout_centerHorizontal="true"/>
-
-    <!-- Username -->
-    <TextView
-        android:id="@+id/username"
+    <!-- Eyes -->
+    <ImageView
+        android:id="@+id/eye"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/username"
-        android:layout_marginTop="2dip"
-        android:layout_below="@+id/content"
-        android:layout_centerHorizontal="true"/>
-
-    <!-- Genre -->
+        android:background="@drawable/eyes"
+        android:layout_marginBottom="3dip"
+        android:layout_above="@+id/separator"
+        android:layout_alignParentLeft="true"/>
+    <!-- Counter -->
     <TextView
-        android:id="@+id/category"
+        android:id="@+id/hitcount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/genre"
+        android:textColor="@color/price"
+        android:layout_marginLeft="5dip"
         android:textSize="@dimen/genre"
-        android:layout_marginTop="1dip"
-        android:layout_below="@+id/username"
-        android:layout_centerHorizontal="true"/>
+        android:layout_above="@+id/separator"
+        android:layout_toRightOf="@+id/eye"/>
 
     <!-- Price -->
     <TextView
@@ -65,15 +64,53 @@
         android:layout_height="wrap_content"
         android:textColor="@color/price"
         android:textSize="@dimen/price"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/content"
         android:layout_alignParentRight="true"/>
 
-    <ImageButton
+    <View android:id="@+id/separator"
+        android:background="@color/price"
+        android:layout_width = "fill_parent"
+        android:layout_height="0.5dip"
+        android:layout_below="@+id/price"/>
+
+    <RelativeLayout
+        android:id="@+id/layout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btnMenu2"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:background="@drawable/ic_communities"/>
+        android:layout_below="@+id/separator">
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnMenu2"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/ic_action_phone"/>
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/btnMenu2"/>
+
+        <!-- displayed_name -->
+        <TextView
+            android:id="@+id/displayed_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/username"
+            android:layout_toRightOf="@+id/avatar"/>
+
+        <!-- Genre -->
+        <TextView
+            android:id="@+id/category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/genre"
+            android:textSize="@dimen/genre"
+            android:layout_below="@+id/displayed_name"
+            android:layout_toRightOf="@+id/avatar"/>
+    </RelativeLayout>
+
 </RelativeLayout>
 </FrameLayout>

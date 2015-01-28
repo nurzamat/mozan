@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -40,7 +41,6 @@ public class PostListAdapter extends BaseAdapter {
     //views
     private int thumbnail_id;
     private int menu_id;
-    private String phone;
 
     public PostListAdapter(Activity activity, List<Post> postItems) {
         this.activity = activity;
@@ -75,11 +75,16 @@ public class PostListAdapter extends BaseAdapter {
             imageLoader = AppController.getInstance().getImageLoader();
         NetworkImageView thumbNail = (NetworkImageView) convertView
                 .findViewById(R.id.thumbnail);
+        NetworkImageView avatar = (NetworkImageView) convertView
+                .findViewById(R.id.avatar);
+        ImageView eye = (ImageView) convertView
+                .findViewById(R.id.eye);
         ProgressBar spin = (ProgressBar) convertView.findViewById(R.id.progressBar1);
         spin.setVisibility(View.VISIBLE);
 
         TextView content = (TextView) convertView.findViewById(R.id.content);
-        TextView username = (TextView) convertView.findViewById(R.id.username);
+        TextView hitcount = (TextView) convertView.findViewById(R.id.hitcount);
+        TextView displayed_name = (TextView) convertView.findViewById(R.id.displayed_name);
         TextView category_name = (TextView) convertView.findViewById(R.id.category);
         TextView price = (TextView) convertView.findViewById(R.id.price);
         ImageButton menu = (ImageButton) convertView.findViewById(R.id.btnMenu2);
@@ -93,11 +98,15 @@ public class PostListAdapter extends BaseAdapter {
         thumbNail.setImageUrl(image_url, imageLoader);
         if(thumbNail.getDrawable() != null)
            spin.setVisibility(View.GONE);
+
+        avatar.setImageUrl(m.getAvatarUrl(), imageLoader);
         // title
         content.setText(m.getContent());
+        hitcount.setText(m.getHitcount());
         // username
-        phone = m.getUsername();
-        username.setText("Username: " + phone);
+        if(!m.getDisplayedName().equals(""))
+        displayed_name.setText(m.getDisplayedName());
+        else displayed_name.setText(m.getUsername());
         category_name.setText(m.getCategoryName());
 
         // price
@@ -164,7 +173,7 @@ public class PostListAdapter extends BaseAdapter {
                             if(isPhone)
                             {
                                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                                intent.setData(Uri.parse("tel:"+phone));
+                                intent.setData(Uri.parse("tel:"+"+"+phone));
                                 activity.startActivity(intent);
                             }
                             else Toast.makeText(activity, "call pressed /"+phone+"/", Toast.LENGTH_SHORT).show();

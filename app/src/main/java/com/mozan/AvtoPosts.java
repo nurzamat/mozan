@@ -111,6 +111,7 @@ public class AvtoPosts extends Fragment {
                     JSONArray jarray =  response.getJSONArray("results");
                     JSONArray jimages;
                     String category_id;
+                    JSONObject owner;
                     for (int i = 0; i < jarray.length(); i++) {
                         try {
 
@@ -118,9 +119,15 @@ public class AvtoPosts extends Fragment {
                             Post post = new Post();
                             post.setId(obj.getString("id"));
                             post.setContent(obj.getString("content"));
+                            post.setHitcount(obj.getJSONObject("hitcount").getString("counter"));
+                            post.setHitcountId(obj.getJSONObject("hitcount").getString("id"));
                             post.setPrice(obj.getString("price"));
                             post.setPriceCurrency(obj.getString("price_currency"));
-                            post.setUsername(obj.getJSONObject("owner").getString("username"));
+                            owner = obj.getJSONObject("owner");
+                            post.setUsername(owner.getString("username"));
+                            post.setUserId(owner.getString("id"));
+                            post.setDisplayedName(owner.getJSONObject("profile").getString("displayed_name"));
+                            post.setAvatarUrl(ApiHelper.MOZAN_URL + owner.getJSONObject("profile").getString("avatar_30"));
                             category_id = obj.getString("category");
                             post.setCategory(category_id);
                             post.setCategoryName(ApiHelper.getCategoryName(category_id));
