@@ -73,11 +73,13 @@ public class MyPostListAdapter extends BaseAdapter {
         if (imageLoader == null)
             imageLoader = AppController.getInstance().getImageLoader();
         NetworkImageView thumbNail = (NetworkImageView) convertView.findViewById(R.id.thumbnail);
+        NetworkImageView avatar = (NetworkImageView) convertView.findViewById(R.id.avatar);
         ProgressBar spin = (ProgressBar) convertView.findViewById(R.id.progressBar1);
         spin.setVisibility(View.VISIBLE);
 
         TextView content = (TextView) convertView.findViewById(R.id.content);
-        TextView username = (TextView) convertView.findViewById(R.id.username);
+        TextView hitcount = (TextView) convertView.findViewById(R.id.hitcount);
+        TextView displayed_name = (TextView) convertView.findViewById(R.id.displayed_name);
         TextView category_name = (TextView) convertView.findViewById(R.id.category);
         TextView price = (TextView) convertView.findViewById(R.id.price);
         ImageButton menu = (ImageButton) convertView.findViewById(R.id.btnMenu);
@@ -91,10 +93,15 @@ public class MyPostListAdapter extends BaseAdapter {
         thumbNail.setImageUrl(image_url, imageLoader);
         if(thumbNail.getDrawable() != null)
             spin.setVisibility(View.GONE);
+
+        avatar.setImageUrl(m.getAvatarUrl(), imageLoader);
         // title
         content.setText(m.getContent());
+        hitcount.setText(m.getHitcount());
         // username
-        username.setText("Username: " + String.valueOf(m.getUsername()));
+        if(!m.getDisplayedName().equals(""))
+            displayed_name.setText(m.getDisplayedName());
+        else displayed_name.setText(m.getUsername());
         category_name.setText(m.getCategoryName());
         // price
         price.setText(String.valueOf(m.getPrice()));

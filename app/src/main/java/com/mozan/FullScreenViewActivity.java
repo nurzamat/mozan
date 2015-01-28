@@ -38,9 +38,11 @@ public class FullScreenViewActivity extends Activity {
         adapter = new FullScreenImageAdapter(FullScreenViewActivity.this);
 
         viewPager.setAdapter(adapter);
-
-        HttpAsyncTask task = new HttpAsyncTask();
-        task.execute(ApiHelper.HITCOUNT_URL);
+        if(!p.getUsername().equals(GlobalVar.Phone))
+        {
+            HttpAsyncTask task = new HttpAsyncTask();
+            task.execute(ApiHelper.HITCOUNT_URL);
+        }
     }
 
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {

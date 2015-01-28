@@ -77,8 +77,6 @@ public class PostListAdapter extends BaseAdapter {
                 .findViewById(R.id.thumbnail);
         NetworkImageView avatar = (NetworkImageView) convertView
                 .findViewById(R.id.avatar);
-        ImageView eye = (ImageView) convertView
-                .findViewById(R.id.eye);
         ProgressBar spin = (ProgressBar) convertView.findViewById(R.id.progressBar1);
         spin.setVisibility(View.VISIBLE);
 
