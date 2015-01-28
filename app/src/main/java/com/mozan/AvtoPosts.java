@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,15 +47,14 @@ public class AvtoPosts extends Fragment {
     private static final String url = ApiHelper.AVTO_URL;
     private ProgressDialog pDialog;
     private List<Post> postList = new ArrayList<Post>();
-    private List<Post> mainList = new ArrayList<Post>();
     private ListView listView;
     private PostListAdapter adapter;
     private TextView emptyText;
     private View rootView;
-    Activity context;
     AppController appcon;
     private int total;
     private String next;
+    ProgressBar spin;
 
     public AvtoPosts() {
         // Required empty public constructor
@@ -67,13 +67,14 @@ public class AvtoPosts extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_avto_posts, container, false);
         try
         {
-            context = getActivity();
+            Activity context = getActivity();
             listView = (ListView) rootView.findViewById(R.id.list);
             emptyText = (TextView)rootView.findViewById(android.R.id.empty);
             listView.setEmptyView(emptyText);
             adapter = new PostListAdapter(context, postList);
             listView.setAdapter(adapter);
 
+            spin = (ProgressBar) rootView.findViewById(R.id.loading);
             // changing action bar color
             context.getActionBar().setBackgroundDrawable(
                     new ColorDrawable(Color.parseColor("#1b1b1b")));
@@ -81,14 +82,8 @@ public class AvtoPosts extends Fragment {
             ButtonClick();
 
             appcon = AppController.getInstance();
-            pDialog = new ProgressDialog(context);
-            // Showing progress dialog before making http request
-            pDialog.setMessage("Загрузка...");
-            pDialog.show();
-            VolleyRequest(url, appcon);
-            // hide the progress dialog
-            hidePDialog();
 
+            VolleyRequest(url);
             listView.setOnScrollListener(new EndlessScrollListener(1));
 
         }
@@ -101,7 +96,8 @@ public class AvtoPosts extends Fragment {
         return rootView;
     }
 
-    private void VolleyRequest(String url, AppController appcon) {
+    private void VolleyRequest(String url) {
+        spin.setVisibility(View.VISIBLE);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
 
@@ -147,18 +143,18 @@ public class AvtoPosts extends Fragment {
                                 post.setImages(images);
                             }
                             postList.add(post);
-                            mainList.add(post);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
-
                     // notifying list adapter about data changes
                     // so that it renders the list view with updated data
                     adapter.notifyDataSetChanged();
                     if(!(postList.size() > 0))
                         emptyText.setText(R.string.no_posts);
+
+                    spin.setVisibility(View.GONE);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -169,17 +165,11 @@ public class AvtoPosts extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
+                spin.setVisibility(View.GONE);
             }
         });
         // Adding request to request queue
         appcon.addToRequestQueue(jsonObjReq);
-    }
-
-    private void hidePDialog() {
-        if (pDialog != null) {
-            pDialog.dismiss();
-            pDialog = null;
-        }
     }
 
     public void ButtonClick()
@@ -211,12 +201,8 @@ public class AvtoPosts extends Fragment {
                 @Override
                 public void onClick(View v) {
                     postList.clear();
-                    for(Iterator<Post> i = mainList.iterator(); i.hasNext(); ) {
-                        Post item = i.next();
-                        if(item.getCategory().equals(category1.getId()))
-                            postList.add(item);
-                    }
-                    adapter.notifyDataSetChanged();
+                    next = null;
+                    VolleyRequest(ApiHelper.CATEGORY_URL + category1.getId() + "/");
                 }
             });
 
@@ -225,12 +211,8 @@ public class AvtoPosts extends Fragment {
                 @Override
                 public void onClick(View v) {
                     postList.clear();
-                    for(Iterator<Post> i = mainList.iterator(); i.hasNext(); ) {
-                        Post item = i.next();
-                        if(item.getCategory().equals(category2.getId()))
-                            postList.add(item);
-                    }
-                    adapter.notifyDataSetChanged();
+                    next = null;
+                    VolleyRequest(ApiHelper.CATEGORY_URL + category2.getId() + "/");
                 }
             });
             btn3.setOnClickListener(new View.OnClickListener() {
@@ -238,12 +220,8 @@ public class AvtoPosts extends Fragment {
                 @Override
                 public void onClick(View v) {
                     postList.clear();
-                    for(Iterator<Post> i = mainList.iterator(); i.hasNext(); ) {
-                        Post item = i.next();
-                        if(item.getCategory().equals(category3.getId()))
-                            postList.add(item);
-                    }
-                    adapter.notifyDataSetChanged();
+                    next = null;
+                    VolleyRequest(ApiHelper.CATEGORY_URL + category3.getId() + "/");
                 }
             });
             btn4.setOnClickListener(new View.OnClickListener() {
@@ -251,12 +229,8 @@ public class AvtoPosts extends Fragment {
                 @Override
                 public void onClick(View v) {
                     postList.clear();
-                    for(Iterator<Post> i = mainList.iterator(); i.hasNext(); ) {
-                        Post item = i.next();
-                        if(item.getCategory().equals(category4.getId()))
-                            postList.add(item);
-                    }
-                    adapter.notifyDataSetChanged();
+                    next = null;
+                    VolleyRequest(ApiHelper.CATEGORY_URL + category4.getId() + "/");
                 }
             });
         }
@@ -293,8 +267,8 @@ public class AvtoPosts extends Fragment {
                 // I load the next page of gigs using a background task,
                 // but you can call any function here.
                 //new LoadGigsTask().execute(currentPage + 1);
-                 if(!next.equals("null") || next != null)
-                     VolleyRequest(next, appcon);
+                 if(!next.equals("null") && next != null)
+                     VolleyRequest(next);
                 loading = true;
             }
         }

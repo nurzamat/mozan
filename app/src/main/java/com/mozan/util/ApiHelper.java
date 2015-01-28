@@ -67,6 +67,7 @@ public class ApiHelper {
     public static final String SEARCH_POST_URL = "https://mozan.trade/api/search/?q=";
     public static final String USER_URL = "https://mozan.trade/api/user/";
     //Categories
+    public static final String CATEGORY_URL = "https://mozan.trade/api/category/";
     public static final String CATEGORIES_URL = "https://mozan.trade/api/category/list/";
     public static final String REALTY_URL = "https://mozan.trade/api/category/1/";
     public static final String AVTO_URL = "https://mozan.trade/api/category/2/";
