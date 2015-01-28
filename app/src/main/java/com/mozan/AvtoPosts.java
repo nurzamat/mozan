@@ -10,9 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
@@ -48,6 +51,10 @@ public class AvtoPosts extends Fragment {
     private PostListAdapter adapter;
     private TextView emptyText;
     private View rootView;
+    Activity context;
+    AppController appcon;
+    private int total;
+    private String next;
 
     public AvtoPosts() {
         // Required empty public constructor
@@ -60,26 +67,41 @@ public class AvtoPosts extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_avto_posts, container, false);
         try
         {
-            Activity context = getActivity();
+            context = getActivity();
             listView = (ListView) rootView.findViewById(R.id.list);
             emptyText = (TextView)rootView.findViewById(android.R.id.empty);
             listView.setEmptyView(emptyText);
             adapter = new PostListAdapter(context, postList);
             listView.setAdapter(adapter);
 
+            // changing action bar color
+            context.getActionBar().setBackgroundDrawable(
+                    new ColorDrawable(Color.parseColor("#1b1b1b")));
+
+            ButtonClick();
+
+            appcon = AppController.getInstance();
             pDialog = new ProgressDialog(context);
             // Showing progress dialog before making http request
             pDialog.setMessage("Загрузка...");
             pDialog.show();
+            VolleyRequest(url, appcon);
+            // hide the progress dialog
+            hidePDialog();
 
-            // changing action bar color
-            context.getActionBar().setBackgroundDrawable(
-                    new ColorDrawable(Color.parseColor("#1b1b1b")));
+            listView.setOnScrollListener(new EndlessScrollListener(1));
+
         }
         catch (NullPointerException e)
         {
             e.printStackTrace();
         }
+
+        // Inflate the layout for this fragment
+        return rootView;
+    }
+
+    private void VolleyRequest(String url, AppController appcon) {
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
 
@@ -89,8 +111,8 @@ public class AvtoPosts extends Fragment {
 
                 try {
 
-                    int count = response.getInt("count");
-                    String next = response.getString("next");
+                    total = response.getInt("count");
+                    next = response.getString("next");
                     String previous = response.getString("previous");
                     JSONArray jarray =  response.getJSONArray("results");
                     JSONArray jimages;
@@ -141,23 +163,16 @@ public class AvtoPosts extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                hidePDialog();
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                // hide the progress dialog
-                hidePDialog();
             }
         });
         // Adding request to request queue
-        AppController appcon = AppController.getInstance();
         appcon.addToRequestQueue(jsonObjReq);
-        ButtonClick();
-        // Inflate the layout for this fragment
-        return rootView;
     }
 
     private void hidePDialog() {
@@ -248,6 +263,44 @@ public class AvtoPosts extends Fragment {
         catch (Exception ex)
         {
             ex.printStackTrace();
+        }
+    }
+
+    public class EndlessScrollListener implements AbsListView.OnScrollListener {
+
+        private int visibleThreshold = 5;
+        private int currentPage = 0;
+        private int previousTotal = 0;
+        private boolean loading = true;
+
+        public EndlessScrollListener() {
+        }
+        public EndlessScrollListener(int visibleThreshold) {
+            this.visibleThreshold = visibleThreshold;
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem,
+                             int visibleItemCount, int totalItemCount) {
+            if (loading) {
+                if (totalItemCount > previousTotal) {
+                    loading = false;
+                    previousTotal = totalItemCount;
+                    currentPage++;
+                }
+            }
+            if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+                // I load the next page of gigs using a background task,
+                // but you can call any function here.
+                //new LoadGigsTask().execute(currentPage + 1);
+                 if(!next.equals("null") || next != null)
+                     VolleyRequest(next, appcon);
+                loading = true;
+            }
+        }
+
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
         }
     }
 }
