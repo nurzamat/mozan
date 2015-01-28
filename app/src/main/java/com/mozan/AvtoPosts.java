@@ -15,8 +15,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
@@ -53,7 +51,7 @@ public class AvtoPosts extends Fragment {
     private View rootView;
     AppController appcon;
     private int total;
-    private String next;
+    private String next = null;
     ProgressBar spin;
 
     public AvtoPosts() {
@@ -267,8 +265,8 @@ public class AvtoPosts extends Fragment {
                 // I load the next page of gigs using a background task,
                 // but you can call any function here.
                 //new LoadGigsTask().execute(currentPage + 1);
-                 if(!next.equals("null") && next != null)
-                     VolleyRequest(next);
+                if(next != null && !next.equals("null"))
+                    VolleyRequest(next);
                 loading = true;
             }
         }

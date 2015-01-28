@@ -51,7 +51,7 @@ public class RealtyPosts extends Fragment {
     View rootView;
     AppController appcon;
     private int total;
-    private String next;
+    private String next = null;
     ProgressBar spin;
 
     public RealtyPosts() {
@@ -236,7 +236,7 @@ public class RealtyPosts extends Fragment {
                 }
             }
             if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
-                if(!next.equals("null") && next != null)
+                if(next != null && !next.equals("null"))
                     VolleyRequest(next);
                 loading = true;
             }

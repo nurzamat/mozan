@@ -48,7 +48,7 @@ public class ElectronicsPosts extends Fragment {
     private View rootView;
     AppController appcon;
     private int total;
-    private String next;
+    private String next = null;
     ProgressBar spin;
 
     public ElectronicsPosts() {
@@ -235,10 +235,7 @@ public class ElectronicsPosts extends Fragment {
                 }
             }
             if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
-                // I load the next page of gigs using a background task,
-                // but you can call any function here.
-                //new LoadGigsTask().execute(currentPage + 1);
-                if(!next.equals("null") && next != null)
+                if(next != null && !next.equals("null"))
                     VolleyRequest(next);
                 loading = true;
             }
