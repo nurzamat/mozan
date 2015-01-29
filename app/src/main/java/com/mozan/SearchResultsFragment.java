@@ -10,7 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -41,6 +43,10 @@ public class SearchResultsFragment extends Fragment {
     private ListView listView;
     private PostListAdapter adapter;
     private TextView emptyText;
+    AppController appcon;
+    private int total;
+    private String next = null;
+    ProgressBar spin;
 
     public SearchResultsFragment() {
         // Required empty public constructor
@@ -59,49 +65,61 @@ public class SearchResultsFragment extends Fragment {
             listView.setEmptyView(emptyText);
             adapter = new PostListAdapter(context, postList);
             listView.setAdapter(adapter);
-
-            pDialog = new ProgressDialog(context);
-            // Showing progress dialog before making http request
-            pDialog.setMessage("Загрузка...");
-            pDialog.show();
-
+            spin = (ProgressBar) rootView.findViewById(R.id.loading);
             // changing action bar color
             context.getActionBar().setBackgroundDrawable(
                     new ColorDrawable(Color.parseColor("#1b1b1b")));
+
+            appcon = AppController.getInstance();
+
+            VolleyRequest(url);
+            listView.setOnScrollListener(new EndlessScrollListener(1));
         }
         catch (NullPointerException e)
         {
             e.printStackTrace();
         }
+        // Inflate the layout for this fragment
+        return rootView;
+    }
 
+    private void VolleyRequest(String url)
+    {
+        spin.setVisibility(View.VISIBLE);
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
-                Log.d("url", url);
                 Log.d(TAG, response.toString());
 
                 try {
 
-                    int count = response.getInt("count");
+                    total = response.getInt("count");
                     int start_index = response.getInt("start_index");
                     int end_index = response.getInt("end_index");
                     int num_pages = response.getInt("num_pages");
-
-                    String next = response.getString("next");
+                    next = response.getString("next");
                     String previous = response.getString("previous");
                     JSONArray jarray =  response.getJSONArray("results");
                     JSONArray jimages;
                     String category_id;
+                    JSONObject owner;
                     for (int i = 0; i < jarray.length(); i++) {
                         try {
+
                             JSONObject obj = jarray.getJSONObject(i).getJSONObject("object");
                             Post post = new Post();
                             post.setId(obj.getString("id"));
                             post.setContent(obj.getString("content"));
+                            post.setHitcount(obj.getJSONObject("hitcount").getString("counter"));
+                            post.setHitcountId(obj.getJSONObject("hitcount").getString("id"));
                             post.setPrice(obj.getString("price"));
                             post.setPriceCurrency(obj.getString("price_currency"));
-                            post.setUsername(obj.getJSONObject("owner").getString("username"));
+                            owner = obj.getJSONObject("owner");
+                            post.setUsername(owner.getString("username"));
+                            post.setUserId(owner.getString("id"));
+                            post.setDisplayedName(owner.getJSONObject("profile").getString("displayed_name"));
+                            post.setAvatarUrl(ApiHelper.MOZAN_URL + owner.getJSONObject("profile").getString("avatar_30"));
                             category_id = obj.getString("category");
                             post.setCategory(category_id);
                             post.setCategoryName(ApiHelper.getCategoryName(category_id));
@@ -123,7 +141,9 @@ public class SearchResultsFragment extends Fragment {
                             }
                             postList.add(post);
 
-                        } catch (JSONException e) {
+                        } catch (JSONException e)
+                        {
+                            Log.d("search result", "Exeption: " + e.getMessage());
                             e.printStackTrace();
                         }
                     }
@@ -137,7 +157,7 @@ public class SearchResultsFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                hidePDialog();
+                spin.setVisibility(View.GONE);
             }
         }, new Response.ErrorListener() {
 
@@ -145,21 +165,45 @@ public class SearchResultsFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 // hide the progress dialog
-                hidePDialog();
+                spin.setVisibility(View.GONE);
             }
         });
-        // Adding request to request queue
-        AppController appcon = AppController.getInstance();
-        appcon.addToRequestQueue(jsonObjReq);
 
-        // Inflate the layout for this fragment
-        return rootView;
+        appcon.addToRequestQueue(jsonObjReq);
     }
 
-    private void hidePDialog() {
-        if (pDialog != null) {
-            pDialog.dismiss();
-            pDialog = null;
+    public class EndlessScrollListener implements AbsListView.OnScrollListener {
+
+        private int visibleThreshold = 5;
+        private int currentPage = 0;
+        private int previousTotal = 0;
+        private boolean loading = true;
+
+        public EndlessScrollListener() {
+        }
+        public EndlessScrollListener(int visibleThreshold) {
+            this.visibleThreshold = visibleThreshold;
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem,
+                             int visibleItemCount, int totalItemCount) {
+            if (loading) {
+                if (totalItemCount > previousTotal) {
+                    loading = false;
+                    previousTotal = totalItemCount;
+                    currentPage++;
+                }
+            }
+            if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+                if(next != null && !next.equals("null"))
+                    VolleyRequest(next);
+                loading = true;
+            }
+        }
+
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
         }
     }
 }
