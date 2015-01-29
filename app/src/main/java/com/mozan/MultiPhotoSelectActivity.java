@@ -223,8 +223,10 @@ public class MultiPhotoSelectActivity extends Activity {
             CheckBox mCheckBox = (CheckBox) convertView.findViewById(R.id.checkBox1);
             final ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView1);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageLoader.displayImage("file://"+imageUrls.get(position), imageView, options, new SimpleImageLoadingListener() {
-
+            if(position != 0)
+            {
+                imageLoader.displayImage("file://"+imageUrls.get(position), imageView, options, new SimpleImageLoadingListener()
+                {
                 /*
                 @Override
                 public void onLoadingComplete(Bitmap loadedImage) {
@@ -233,10 +235,17 @@ public class MultiPhotoSelectActivity extends Activity {
                     anim.start();
                 }
                 */
-            });
-            mCheckBox.setTag(position);
-            mCheckBox.setChecked(GlobalVar.mSparseBooleanArray.get(position));
-            mCheckBox.setOnCheckedChangeListener(mCheckedChangeListener);
+                });
+                mCheckBox.setTag(position);
+                mCheckBox.setChecked(GlobalVar.mSparseBooleanArray.get(position));
+                mCheckBox.setOnCheckedChangeListener(mCheckedChangeListener);
+            }
+            else
+            {
+                imageView.setImageResource(R.drawable.camera);
+                mCheckBox.setVisibility(View.INVISIBLE);
+            }
+
             return convertView;
         }
         OnCheckedChangeListener mCheckedChangeListener = new OnCheckedChangeListener() {
