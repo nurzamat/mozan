@@ -23,6 +23,7 @@ public class GlobalVar {
     public static ArrayList<Bitmap> _bitmaps = new ArrayList<Bitmap>();
     public static ArrayList<String> image_paths = new ArrayList<String>();
     public static boolean adv_position;
+    public static boolean profile_position;
     public static String query = "";
     public static boolean isHomeFragment;
     public static boolean isCodeSent = false;

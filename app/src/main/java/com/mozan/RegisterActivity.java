@@ -99,6 +99,8 @@ public class RegisterActivity extends Activity {
                 Intent in = new Intent(RegisterActivity.this, HomeActivity.class);
                 if(GlobalVar.adv_position)
                     in.putExtra("case", 6);
+                if(GlobalVar.profile_position)
+                    in.putExtra("case", 2);
                 startActivity(in);
                 GlobalVar.isCodeSent = false;
                 CodeActivity.fa.finish();

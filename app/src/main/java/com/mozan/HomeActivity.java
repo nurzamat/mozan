@@ -130,6 +130,7 @@ public class HomeActivity extends FragmentActivity {
             else if(_case == 2)
             {
                 displayView(2);  //my profile
+                GlobalVar.profile_position = false;
             }
             else if(_case == 8)
             {
@@ -218,6 +219,7 @@ public class HomeActivity extends FragmentActivity {
                  else
                  {
                      GlobalVar.adv_position = true;
+                    // GlobalVar.profile_position = false;
                      Intent in;
                      if(GlobalVar.isCodeSent)
                          in = new Intent(context, RegisterActivity.class);
@@ -228,8 +230,21 @@ public class HomeActivity extends FragmentActivity {
              }
 		case 2:
              {
-                fragment = new MyProfileFragment();
-                break;
+                 if (!GlobalVar.Phone.equals("") && !GlobalVar.Token.equals(""))
+                 {
+                     fragment = new MyProfileFragment();
+                 }
+                 else
+                 {
+                     GlobalVar.profile_position = true;
+                    // GlobalVar.adv_position = false;
+                     Intent in;
+                     if(GlobalVar.isCodeSent)
+                         in = new Intent(context, RegisterActivity.class);
+                     else in = new Intent(context, CodeActivity.class);
+                     startActivity(in);
+                 }
+                 break;
              }
 		case 3:
              {
