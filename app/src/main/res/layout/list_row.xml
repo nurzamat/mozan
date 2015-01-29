@@ -71,46 +71,43 @@
         android:background="@color/price"
         android:layout_width = "fill_parent"
         android:layout_height="0.5dip"
+        android:layout_marginBottom="2dp"
         android:layout_below="@+id/price"/>
 
-    <RelativeLayout
-        android:id="@+id/layout2"
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/separator">
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnMenu2"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/ic_action_phone"/>
-        <com.android.volley.toolbox.NetworkImageView
-            android:id="@+id/avatar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/btnMenu2"/>
+        android:id="@+id/btnMenu2"
+        android:layout_below="@+id/separator"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/ic_action_phone"/>
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/avatar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="2dp"
+        android:layout_below="@+id/separator"
+        android:layout_toRightOf="@+id/btnMenu2"/>
 
-        <!-- displayed_name -->
-        <TextView
-            android:id="@+id/displayed_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/username"
-            android:layout_toRightOf="@+id/avatar"/>
+    <!-- displayed_name -->
+    <TextView
+        android:id="@+id/displayed_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/separator"
+        android:textSize="@dimen/username"
+        android:layout_toRightOf="@+id/avatar"/>
 
-        <!-- Genre -->
-        <TextView
-            android:id="@+id/category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/genre"
-            android:textSize="@dimen/genre"
-            android:layout_below="@+id/displayed_name"
-            android:layout_toRightOf="@+id/avatar"/>
-    </RelativeLayout>
+    <!-- Genre -->
+    <TextView
+        android:id="@+id/category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/genre"
+        android:textSize="@dimen/genre"
+        android:layout_below="@+id/displayed_name"
+        android:layout_toRightOf="@+id/avatar"/>
 
 </RelativeLayout>
 </FrameLayout>
