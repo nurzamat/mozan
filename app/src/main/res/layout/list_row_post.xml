@@ -80,9 +80,8 @@
             android:id="@+id/btnMenu"
             android:layout_below="@+id/separator"
             android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/ic_menu_edit"/>
+            android:layout_alignParentRight="true"
+            android:background="@drawable/show_menu"/>
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/avatar"
             android:layout_width="30dp"
@@ -90,7 +89,7 @@
             android:layout_marginRight="5dp"
             android:layout_marginTop="2dp"
             android:layout_below="@+id/separator"
-            android:layout_toRightOf="@+id/btnMenu"/>
+            android:layout_alignParentLeft="true"/>
 
         <!-- displayed_name -->
         <TextView

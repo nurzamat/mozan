@@ -75,12 +75,13 @@
         android:layout_below="@+id/price"/>
 
     <ImageButton
-        android:layout_width="wrap_content"
+        android:layout_width="1dp"
         android:layout_height="wrap_content"
         android:id="@+id/btnMenu2"
+        android:visibility="invisible"
         android:layout_below="@+id/separator"
         android:layout_alignParentLeft="true"
-        android:background="@drawable/ic_action_phone"/>
+        android:background="@drawable/show_menu"/>
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/avatar"
         android:layout_width="30dp"
@@ -109,5 +110,22 @@
         android:layout_below="@+id/displayed_name"
         android:layout_toRightOf="@+id/avatar"/>
 
+    <ImageButton
+        android:id="@+id/show_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/show_phone"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/separator"
+        android:layout_toLeftOf="@+id/show_chat"/>
+    <ImageButton
+        android:id="@+id/show_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/show_chat"
+        android:layout_marginTop="2dp"
+        android:layout_below="@+id/separator"
+        android:layout_alignParentRight="true"/>
 </RelativeLayout>
 </FrameLayout>

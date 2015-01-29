@@ -41,6 +41,8 @@ public class PostListAdapter extends BaseAdapter {
     //views
     private int thumbnail_id;
     private int menu_id;
+    private int call_id;
+    private int chat_id;
 
     public PostListAdapter(Activity activity, List<Post> postItems) {
         this.activity = activity;
@@ -86,6 +88,8 @@ public class PostListAdapter extends BaseAdapter {
         TextView category_name = (TextView) convertView.findViewById(R.id.category);
         TextView price = (TextView) convertView.findViewById(R.id.price);
         ImageButton menu = (ImageButton) convertView.findViewById(R.id.btnMenu2);
+        ImageButton call = (ImageButton) convertView.findViewById(R.id.show_phone);
+        ImageButton chat = (ImageButton) convertView.findViewById(R.id.show_chat);
 
         // getting post data for the row
         Post m = postItems.get(position);
@@ -113,9 +117,13 @@ public class PostListAdapter extends BaseAdapter {
         // image view click listener
         thumbnail_id = thumbNail.getId();
         menu_id = menu.getId();
+        call_id = call.getId();
+        chat_id = chat.getId();
 
         thumbNail.setOnClickListener(new OnImageClickListener(thumbnail_id, position, m));
         menu.setOnClickListener(new OnImageClickListener(menu_id, position, m));
+        call.setOnClickListener(new OnImageClickListener(call_id, position, m));
+        chat.setOnClickListener(new OnImageClickListener(chat_id, position, m));
 
         return convertView;
     }
@@ -148,6 +156,22 @@ public class PostListAdapter extends BaseAdapter {
                     activity.startActivity(i);
                 }
                 else Toast.makeText(activity, R.string.no_photo, Toast.LENGTH_SHORT).show();
+            }
+            if(_view_id == call_id)
+            {
+                String phone = _m.getUsername();
+                boolean isPhone = PhoneNumberUtils.isGlobalPhoneNumber("+"+phone);
+                if(isPhone)
+                {
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse("tel:"+"+"+phone));
+                    activity.startActivity(intent);
+                }
+                else Toast.makeText(activity, "call pressed /"+phone+"/", Toast.LENGTH_SHORT).show();
+            }
+            if(_view_id == chat_id)
+            {
+                Toast.makeText(activity, "message pressed", Toast.LENGTH_SHORT).show();
             }
             if(_view_id == menu_id)
             {

@@ -197,7 +197,10 @@ public class SearchResultsFragment extends Fragment {
             }
             if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
                 if(next != null && !next.equals("null"))
+                {
+                    Log.d("next", next);
                     VolleyRequest(next);
+                }
                 loading = true;
             }
         }
