@@ -15,6 +15,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -91,12 +92,15 @@ public class MultiPhotoSelectActivity extends Activity {
                 .build();
         imageAdapter = new ImageAdapter(this, imageUrls);
         gridView.setAdapter(imageAdapter);
-        //gridView.setOnItemClickListener(new OnItemClickListener() {
-        // @Override
-        //public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        // startImageGalleryActivity(position);
-        // }
-        //});
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+          @Override
+          public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+          {
+           // startImageGalleryActivity(position);
+            Toast.makeText(getApplicationContext(), "position = "+position, Toast.LENGTH_LONG).show();
+          }
+          });
 
     }
 
@@ -220,7 +224,12 @@ public class MultiPhotoSelectActivity extends Activity {
             CheckBox mCheckBox = (CheckBox) convertView.findViewById(R.id.checkBox1);
             final ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView1);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            if(position != 0)
+            imageView.setTag(position);
+            mCheckBox.setTag(position);
+
+            if(position == 0)
+                imageView.setImageResource(R.drawable.camera59);
+            else
             {
                 imageLoader.displayImage("file://"+imageUrls.get(position), imageView, options, new SimpleImageLoadingListener()
                 {
@@ -233,24 +242,29 @@ public class MultiPhotoSelectActivity extends Activity {
                 }
                 */
                 });
-                mCheckBox.setTag(position);
+            }
+
+            if(mCheckBox.getTag().equals(0))
+                mCheckBox.setVisibility(View.INVISIBLE);
+            else
+            {
+                mCheckBox.setVisibility(View.VISIBLE);
                 mCheckBox.setChecked(GlobalVar.mSparseBooleanArray.get(position));
                 mCheckBox.setOnCheckedChangeListener(mCheckedChangeListener);
             }
-            else
-            {
-                imageView.setImageResource(R.drawable.camera59);
-                mCheckBox.setVisibility(View.INVISIBLE);
-                imageView.setOnClickListener(new View.OnClickListener() {
 
-                    @Override
-                    public void onClick(View v)
+            imageView.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v)
+                {
+                    if(v.getTag().equals(0))
                     {
                         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(cameraIntent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
                     }
-                });
-            }
+                }
+            });
 
             return convertView;
         }
@@ -293,13 +307,23 @@ public class MultiPhotoSelectActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            //Bundle extras = data.getExtras();
-            //Bitmap imageBitmap = (Bitmap) extras.get("data");
-            //mImageView.setImageBitmap(imageBitmap);
+        /*
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK)
+        {
             Intent in = new Intent(MultiPhotoSelectActivity.this, MultiPhotoSelectActivity.class);
             MultiPhotoSelectActivity.this.startActivity(in);
             finish();
+        }
+         */
+        try
+        {
+            Intent in = new Intent(MultiPhotoSelectActivity.this, MultiPhotoSelectActivity.class);
+            MultiPhotoSelectActivity.this.startActivity(in);
+            finish();
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
         }
     }
 }

@@ -6,10 +6,11 @@
     android:id='@+id/imageView1'
     android:layout_width='100dp'
     android:layout_height='100dp'
-    android:src='@drawable/ic_launcher' />
+    android:src='@drawable/ic_action_search' />
 <CheckBox
     android:id='@+id/checkBox1'
     android:layout_width='wrap_content'
     android:layout_height='wrap_content'
+    android:button="@drawable/custom_checkbox"
     android:layout_alignRight='@+id/imageView1'/>
-    </RelativeLayout>
+</RelativeLayout>
