@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class PlaceSlidesFragmentAdapter extends PagerAdapter {
     // Declare Variables
-    Context context;
+    public static Context context;
     LayoutInflater inflater;
     ArrayList<Bitmap> bitmaps;
     int size;

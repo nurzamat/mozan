@@ -70,7 +70,7 @@ public class AddPostFragment extends Fragment {
         ctx = context;
         this.mode =  GlobalVar.Mode;
         //for set text
-        if(!mode) //edit
+        if(!mode && GlobalVar._Post != null) //edit
         {
             this.id = GlobalVar._Post.getId();
             this.url = ApiHelper.POST_URL + id + "/";

@@ -24,6 +24,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.mozan.adapter.PlaceSlidesFragmentAdapter;
 import com.mozan.util.AppConstant;
 import com.mozan.util.GlobalVar;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -92,15 +93,15 @@ public class MultiPhotoSelectActivity extends Activity {
                 .build();
         imageAdapter = new ImageAdapter(this, imageUrls);
         gridView.setAdapter(imageAdapter);
+        /*
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
           @Override
           public void onItemClick(AdapterView<?> parent, View view, int position, long id)
           {
            // startImageGalleryActivity(position);
-            Toast.makeText(getApplicationContext(), "position = "+position, Toast.LENGTH_LONG).show();
           }
           });
+          */
 
     }
 
@@ -317,8 +318,10 @@ public class MultiPhotoSelectActivity extends Activity {
          */
         try
         {
-            Intent in = new Intent(MultiPhotoSelectActivity.this, MultiPhotoSelectActivity.class);
-            MultiPhotoSelectActivity.this.startActivity(in);
+            GlobalVar.mSparseBooleanArray.clear();
+            Context context = PlaceSlidesFragmentAdapter.context;
+            Intent in = new Intent(context, MultiPhotoSelectActivity.class);
+            context.startActivity(in);
             finish();
         }
         catch (Exception ex)
