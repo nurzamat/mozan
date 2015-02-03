@@ -7,27 +7,24 @@ package com.mozan.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.telephony.PhoneNumberUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.mozan.AppController;
 import com.mozan.FullScreenViewActivity;
 import com.mozan.R;
+import com.mozan.SplashActivity;
 import com.mozan.model.Post;
 import com.mozan.util.GlobalVar;
 import java.util.List;
@@ -171,7 +168,8 @@ public class PostListAdapter extends BaseAdapter {
             }
             if(_view_id == chat_id)
             {
-                Toast.makeText(activity, "message pressed", Toast.LENGTH_SHORT).show();
+                Intent in = new Intent(activity, SplashActivity.class);
+                activity.startActivity(in);
             }
             if(_view_id == menu_id)
             {
