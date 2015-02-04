@@ -16,17 +16,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@+id/chatSendButton"
-            android:autoText="true"
-            android:hint="message text" />
+            android:autoText="false"
+            android:layout_toStartOf="@+id/companionLabel"
+            android:layout_alignTop="@+id/chatSendButton"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/chatSendButton" />
 
-        <Button
+        <ImageButton
             android:id="@+id/chatSendButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:src="@drawable/send32"
             android:layout_alignParentRight="true"
-            android:text="Send" />
+            android:layout_alignParentEnd="false"
+            android:contentDescription="Отправить"
+            android:soundEffectsEnabled="true"
+            android:layout_gravity="right"
+            android:layout_alignWithParentIfMissing="false"
+            android:clickable="false" />
 
         <ListView
             android:id="@+id/messagesContainer"

@@ -30,8 +30,8 @@ public class SplashActivity extends Activity {
     private static final String AUTH_KEY = "r94hby9Rp-MHUO8";
     private static final String AUTH_SECRET = "AbgGep9pUV9JH8P";
     //
-    private static final String USER_LOGIN = "996772143126";
-    private static final String USER_PASSWORD = "4cce8f6b5d4ff3b069c9a0404d111314d919abc7";
+    private static final String USER_LOGIN = "996550559996";
+    private static final String USER_PASSWORD = "a44c955de727e45a22dc97a10db77b06e8c89c35";
     //
 
     static final int AUTO_PRESENCE_INTERVAL_IN_SECONDS = 30;

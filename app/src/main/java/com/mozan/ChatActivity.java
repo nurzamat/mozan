@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -41,7 +41,7 @@ public class ChatActivity extends Activity {
 
     private EditText messageEditText;
     private ListView messagesContainer;
-    private Button sendButton;
+    private ImageButton sendButton;
     private ProgressBar progressBar;
 
     private Mode mode = Mode.PRIVATE;
@@ -77,7 +77,7 @@ public class ChatActivity extends Activity {
     private void initViews() {
         messagesContainer = (ListView) findViewById(R.id.messagesContainer);
         messageEditText = (EditText) findViewById(R.id.messageEdit);
-        sendButton = (Button) findViewById(R.id.chatSendButton);
+        sendButton = (ImageButton) findViewById(R.id.chatSendButton);
 
         TextView meLabel = (TextView) findViewById(R.id.meLabel);
         TextView companionLabel = (TextView) findViewById(R.id.companionLabel);
