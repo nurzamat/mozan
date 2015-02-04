@@ -4,16 +4,23 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
+import com.mozan.util.ApiHelper;
 import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.model.QBSession;
 import com.quickblox.chat.QBChatService;
+import com.quickblox.chat.model.QBDialog;
+import com.quickblox.chat.model.QBDialogType;
 import com.quickblox.core.QBEntityCallbackImpl;
 import com.quickblox.core.QBSettings;
 import com.quickblox.users.model.QBUser;
 
 import org.jivesoftware.smack.SmackException;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SplashActivity extends Activity {
@@ -24,24 +31,32 @@ public class SplashActivity extends Activity {
     //
     private static final String USER_LOGIN = "bobbobbob";
     private static final String USER_PASSWORD = "bobbobbob";
+
+
+    '{"session":{"_id":"54d23b65535c12de130022e2","application_id":18797,"created_at":"2015-02-04T15:31:49Z","device_id":0,"nonce":1324688332,"token":"6610226296f5f62f395e1abcfb61ac941dca4d75","ts":1423063905,"updated_at":"2015-02-04T15:31:49Z","user_id":2273055,"id":34183}}'
+
   */
     //
     private static final String APP_ID = "18797";
     private static final String AUTH_KEY = "r94hby9Rp-MHUO8";
     private static final String AUTH_SECRET = "AbgGep9pUV9JH8P";
     //
-    private static final String USER_LOGIN = "996550559996";
-    private static final String USER_PASSWORD = "a44c955de727e45a22dc97a10db77b06e8c89c35";
+    private static final String USER_LOGIN = "996772143126";
+    private static final String USER_PASSWORD = "4cce8f6b5d4ff3b069c9a0404d111314d919abc7";
+
+    //private static final String USER_LOGIN = "996550559996";
+    //private static final String USER_PASSWORD = "a44c955de727e45a22dc97a10db77b06e8c89c35";
     //
 
     static final int AUTO_PRESENCE_INTERVAL_IN_SECONDS = 30;
-
     private QBChatService chatService;
+    private QBDialog dialog;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        //setContentView(R.layout.activity_splash);
 
         // Init Chat
         //
@@ -62,10 +77,10 @@ public class SplashActivity extends Activity {
         QBAuth.createSession(user, new QBEntityCallbackImpl<QBSession>() {
             @Override
             public void onSuccess(QBSession session, Bundle args) {
-
                 // save current user
                 //
                 user.setId(session.getUserId());
+                token = session.getToken();
                 ((AppController) getApplication()).setCurrentUser(user);
 
                 // login to Chat
@@ -86,19 +101,105 @@ public class SplashActivity extends Activity {
         chatService.login(user, new QBEntityCallbackImpl() {
             @Override
             public void onSuccess() {
-
+                Log.d("splash activity", "success1");
                 // Start sending presences
                 //
                 try {
                     chatService.startAutoSendPresence(AUTO_PRESENCE_INTERVAL_IN_SECONDS);
-                } catch (SmackException.NotLoggedInException e) {
+
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("type", 3);
+                    jsonObject.put("name", "test");
+                    jsonObject.put("occupants_ids", "2273049");
+
+                    ApiHelper api = new ApiHelper();
+                    JSONObject result = api.createDialog("https://api.quickblox.com/chat/Dialog.json", jsonObject, token);
+                    Log.d("dialog result", result.toString());
+
+                    dialog = new QBDialog();
+                    dialog.setDialogId(result.getString("_id"));
+                    dialog.setLastMessage(result.getString("last_message"));
+                    dialog.setLastMessageUserId(result.getInt("last_message_user_id"));
+                    dialog.setName(result.getString("name"));
+                    dialog.setPhoto(result.getString("photo"));
+
+                    ArrayList<Integer> ids = new ArrayList<Integer>();
+                    try
+                    {
+                        for (int i = 0; i < result.getJSONArray("occupants_ids").length(); i++)
+                            {
+                                ids.add(result.getJSONArray("occupants_ids").getInt(i));
+                            }
+                    }
+                    catch (Exception ex)
+                    {
+                      ex.printStackTrace();
+                    }
+
+                    dialog.setOccupantsIds(ids);
+                    dialog.setType(QBDialogType.PRIVATE);
+                    dialog.setRoomJid(result.getString("xmpp_room_jid"));
+                    dialog.setUnreadMessageCount(result.getInt("unread_messages_count"));
+                    dialog.setUserId(result.getInt("user_id"));
+
+                } catch (Exception e)
+                {
                     e.printStackTrace();
                 }
 
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(ChatActivity.EXTRA_MODE, ChatActivity.Mode.PRIVATE);
+                bundle.putSerializable(ChatActivity.EXTRA_DIALOG, dialog);
+
+
+                ChatActivity.start(SplashActivity.this, bundle);
                 // go to Dialogs screen
                 //
-                Intent intent = new Intent(SplashActivity.this, DialogsActivity.class);
-                startActivity(intent);
+                // Intent intent = new Intent(SplashActivity.this, DialogsActivity.class);
+                //startActivity(intent);
+
+
+                /*
+                QBUser user1 = new QBUser();
+                user1.setId(2273055);
+
+                QBUser user2 = new QBUser();
+                user1.setId(2273049);
+                ArrayList<QBUser> users = new ArrayList<QBUser>();
+                users.add(user);
+                users.add(user);
+
+                ((AppController)getApplication()).addDialogsUsers(users);
+
+                // Create new group dialog
+                //
+                ArrayList<Integer> ids = new ArrayList<Integer>();
+                ids.add(2273055);
+                ids.add(2273049);
+
+                QBDialog dialogToCreate = new QBDialog();
+                dialogToCreate.setName("Test name");
+                dialogToCreate.setType(QBDialogType.PRIVATE);
+                dialogToCreate.setOccupantsIds(ids);
+                QBChatService.getInstance().getGroupChatManager().createDialog(dialogToCreate, new QBEntityCallbackImpl<QBDialog>() {
+                    @Override
+                    public void onSuccess(QBDialog dialog, Bundle args) {
+                        Log.d("splash activity", "success");
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable(ChatActivity.EXTRA_MODE, ChatActivity.Mode.PRIVATE);
+                        bundle.putSerializable(ChatActivity.EXTRA_DIALOG, dialog);
+
+
+                        ChatActivity.start(SplashActivity.this, bundle);
+                    }
+
+                    @Override
+                    public void onError(List<String> errors) {
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(SplashActivity.this);
+                        dialog.setMessage("dialog creation errors: " + errors).create().show();
+                    }
+                });
+*/
                 finish();
             }
 

@@ -183,6 +183,18 @@ public class ApiHelper {
         return new JSONObject(responseStr);
     }
 
+    public JSONObject createDialog(String url, JSONObject obj, String token)
+            throws ApiException, IOException, JSONException {
+
+        Log.i(TAG, "Sending request to: " + url);
+        HttpResponse response = Dialog(url, obj, token);
+
+        String responseStr = responseToStr(response);
+
+        Log.i(TAG, "Response: " + responseStr);
+        return new JSONObject(responseStr);
+    }
+
     public static String responseToStr(HttpResponse response) throws IOException
     {
        //return EntityUtils.toString(response.getEntity());
@@ -428,6 +440,23 @@ public class ApiHelper {
         ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
+    }
+
+    public  HttpResponse Dialog(String url, JSONObject json, String token)
+            throws IOException, IllegalStateException,
+            JSONException {
+
+        DefaultHttpClient client = (DefaultHttpClient) getNewHttpClient();
+
+        HttpPost post = new HttpPost(url);
+        StringEntity se = new StringEntity(json.toString(), HTTP.UTF_8);
+        post.setEntity(se);
+        post.setHeader("Accept", "application/json");
+        post.setHeader("Content-type", "application/json");
+        post.setHeader("QB-Token", token);
+
+        HttpResponse response = client.execute(post);
+        return response;
     }
 /*
     public static void postImageLoader(Post m)

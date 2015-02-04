@@ -89,7 +89,6 @@ public class ChatActivity extends Activity {
         // Get chat dialog
         //
         dialog = (QBDialog)intent.getSerializableExtra(EXTRA_DIALOG);
-
         mode = (Mode) intent.getSerializableExtra(EXTRA_MODE);
         switch (mode) {
             case GROUP:
@@ -123,8 +122,8 @@ public class ChatActivity extends Activity {
 
                 chat = new PrivateChatManagerImpl(this, opponentID);
 
-                companionLabel.setText(((AppController)getApplication()).getDialogsUsers().get(opponentID).getLogin());
-
+                //companionLabel.setText(((AppController)getApplication()).getDialogsUsers().get(opponentID).getLogin());
+                companionLabel.setText("test");
                 // Load CHat history
                 //
                 loadChatHistory();
@@ -172,7 +171,6 @@ public class ChatActivity extends Activity {
             @Override
             public void onSuccess(ArrayList<QBChatMessage> messages, Bundle args) {
                 history = messages;
-
                 adapter = new ChatAdapter(ChatActivity.this, new ArrayList<QBChatMessage>());
                 messagesContainer.setAdapter(adapter);
 
