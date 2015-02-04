@@ -25,11 +25,9 @@ import com.mozan.model.Post;
 import com.mozan.util.ApiHelper;
 import com.mozan.util.GlobalVar;
 import com.mozan.util.JsonObjectRequest;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
