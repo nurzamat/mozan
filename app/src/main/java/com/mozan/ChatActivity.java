@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.mozan.adapter.ChatAdapter;
 import com.mozan.util.ChatManager;
 import com.mozan.util.GroupChatManagerImpl;
@@ -26,7 +25,6 @@ import com.quickblox.core.QBEntityCallbackImpl;
 import com.quickblox.core.request.QBRequestGetBuilder;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,6 +46,7 @@ public class ChatActivity extends Activity {
     private ChatManager chat;
     private ChatAdapter adapter;
     private QBDialog dialog;
+    private ArrayList<QBChatMessage> messages;
 
     private ArrayList<QBChatMessage> history;
 
@@ -118,8 +117,8 @@ public class ChatActivity extends Activity {
 
                 break;
             case PRIVATE:
-                Integer opponentID = ((AppController)getApplication()).getOpponentIDForPrivateDialog(dialog);
-
+                //Integer opponentID = ((AppController)getApplication()).getOpponentIDForPrivateDialog(dialog);
+                Integer opponentID = 2273049;
                 chat = new PrivateChatManagerImpl(this, opponentID);
 
                 //companionLabel.setText(((AppController)getApplication()).getDialogsUsers().get(opponentID).getLogin());
@@ -163,10 +162,10 @@ public class ChatActivity extends Activity {
     }
 
     private void loadChatHistory(){
+
         QBRequestGetBuilder customObjectRequestBuilder = new QBRequestGetBuilder();
         customObjectRequestBuilder.setPagesLimit(100);
         customObjectRequestBuilder.sortDesc("date_sent");
-
         QBChatService.getDialogMessages(dialog, customObjectRequestBuilder, new QBEntityCallbackImpl<ArrayList<QBChatMessage>>() {
             @Override
             public void onSuccess(ArrayList<QBChatMessage> messages, Bundle args) {
@@ -188,6 +187,60 @@ public class ChatActivity extends Activity {
                 dialog.setMessage("load chat history errors: " + errors).create().show();
             }
         });
+                    /*
+            messages = new ArrayList<QBChatMessage>();
+            String url = "https://api.quickblox.com/chat/Message.json?sort_desc=date_sent&limit=100&chat_dialog_id="+dialog.getDialogId();
+            JsonObjectRequest jsonObjReq = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
+
+                @Override
+                public void onResponse(JSONObject response) {
+                    Log.d(TAG + "messages", response.toString());
+
+                    try {
+                        JSONArray jarray =  response.getJSONArray("items");
+                        for (int i = 0; i < jarray.length(); i++) {
+                            try {
+
+                                JSONObject obj = jarray.getJSONObject(i);
+                                QBChatMessage message = new QBChatMessage();
+                                message.setId(obj.getString("_id"));
+                                message.setDialogId(obj.getString("chat_dialog_id"));
+                                message.setBody(obj.getString("message"));
+                                message.setDateSent(obj.getInt("date_sent"));
+                                message.setRecipientId(obj.getInt("recipient_id"));
+                                messages.add(message);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        history = messages;
+                        adapter = new ChatAdapter(ChatActivity.this, new ArrayList<QBChatMessage>());
+                        messagesContainer.setAdapter(adapter);
+
+                        for (int i = messages.size() - 1; i >= 0; --i) {
+                            QBChatMessage msg = messages.get(i);
+                            showMessage(msg);
+                        }
+
+                        progressBar.setVisibility(View.GONE);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    VolleyLog.d(TAG, "Error: " + error.getMessage());
+                }
+            });
+            // Adding request to request queue
+
+            AppController.getInstance().addToRequestQueue(jsonObjReq);
+            */
     }
 
     public void showMessage(QBChatMessage message) {

@@ -5,6 +5,8 @@ import android.util.SparseBooleanArray;
 
 import com.mozan.model.Category;
 import com.mozan.model.Post;
+import com.quickblox.chat.model.QBDialog;
+
 import java.util.ArrayList;
 
 /**
@@ -33,4 +35,7 @@ public class GlobalVar {
     public static boolean profile_edit = false;
     public static String DisplayedName = "";
     public static Category SelectedCategory = null;
+    public static String quickbloxToken = "";
+    public static boolean quickbloxLogin = false;
+    public static QBDialog quickbloxDialog = null;
 }

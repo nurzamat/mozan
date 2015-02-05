@@ -8,7 +8,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.telephony.PhoneNumberUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,11 +24,19 @@ import android.widget.Toast;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.mozan.AppController;
+import com.mozan.ChatActivity;
 import com.mozan.FullScreenViewActivity;
 import com.mozan.R;
 import com.mozan.SplashActivity;
 import com.mozan.model.Post;
+import com.mozan.util.ApiHelper;
 import com.mozan.util.GlobalVar;
+import com.quickblox.chat.model.QBDialog;
+import com.quickblox.chat.model.QBDialogType;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class PostListAdapter extends BaseAdapter {
@@ -168,8 +178,62 @@ public class PostListAdapter extends BaseAdapter {
             }
             if(_view_id == chat_id)
             {
-                Intent in = new Intent(activity, SplashActivity.class);
-                activity.startActivity(in);
+                QBDialog dialog = null;
+                if(!GlobalVar.quickbloxLogin)
+                {
+                    Intent in = new Intent(activity, SplashActivity.class);
+                    activity.startActivity(in);
+                }
+                else
+                {
+                    /*
+                    try {
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("type", 3);
+                        jsonObject.put("name", "test");
+                        jsonObject.put("occupants_ids", "2273049");
+
+                        ApiHelper api = new ApiHelper();
+                        JSONObject result = api.createDialog("https://api.quickblox.com/chat/Dialog.json", jsonObject, GlobalVar.quickbloxToken);
+                        Log.d("dialog result", result.toString());
+
+                        dialog = new QBDialog();
+                        dialog.setDialogId(result.getString("_id"));
+                        dialog.setLastMessage(result.getString("last_message"));
+                        dialog.setLastMessageUserId(result.getInt("last_message_user_id"));
+                        dialog.setName(result.getString("name"));
+                        dialog.setPhoto(result.getString("photo"));
+
+                        ArrayList<Integer> ids = new ArrayList<Integer>();
+                        try
+                        {
+                            for (int i = 0; i < result.getJSONArray("occupants_ids").length(); i++)
+                            {
+                                ids.add(result.getJSONArray("occupants_ids").getInt(i));
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.printStackTrace();
+                        }
+
+                        dialog.setOccupantsIds(ids);
+                        dialog.setType(QBDialogType.PRIVATE);
+                        dialog.setRoomJid(result.getString("xmpp_room_jid"));
+                        dialog.setUnreadMessageCount(result.getInt("unread_messages_count"));
+                        dialog.setUserId(result.getInt("user_id"));
+
+                    } catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+*/
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(ChatActivity.EXTRA_MODE, ChatActivity.Mode.PRIVATE);
+                    bundle.putSerializable(ChatActivity.EXTRA_DIALOG, GlobalVar.quickbloxDialog);
+
+                    ChatActivity.start(activity, bundle);
+                }
             }
             if(_view_id == menu_id)
             {
