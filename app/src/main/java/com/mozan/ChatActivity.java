@@ -121,6 +121,7 @@ public class ChatActivity extends Activity {
                 Integer opponentID = 2273049;
                 chat = new PrivateChatManagerImpl(this, opponentID);
 
+                // TODO: Set 'Displayed_name' or phone number.
                 //companionLabel.setText(((AppController)getApplication()).getDialogsUsers().get(opponentID).getLogin());
                 companionLabel.setText("test");
                 // Load CHat history

@@ -70,11 +70,7 @@ public class ChatAdapter extends BaseAdapter {
         boolean isOutgoing = chatMessage.getSenderId() == null || chatMessage.getSenderId().equals(currentUser.getId());
         setAlignment(holder, isOutgoing);
         holder.txtMessage.setText(chatMessage.getBody());
-        if (chatMessage.getSenderId() != null) {
-            holder.txtInfo.setText(chatMessage.getSenderId() + ": " + getTimeText(chatMessage));
-        } else {
-            holder.txtInfo.setText(getTimeText(chatMessage));
-        }
+        holder.txtInfo.setText(getTimeText(chatMessage));
 
         return convertView;
     }
