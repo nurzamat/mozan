@@ -78,7 +78,7 @@ public class ChatActivity extends Activity {
         messageEditText = (EditText) findViewById(R.id.messageEdit);
         sendButton = (ImageButton) findViewById(R.id.chatSendButton);
 
-        TextView meLabel = (TextView) findViewById(R.id.meLabel);
+        //TextView meLabel = (TextView) findViewById(R.id.meLabel);
         TextView companionLabel = (TextView) findViewById(R.id.companionLabel);
         RelativeLayout container = (RelativeLayout) findViewById(R.id.container);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -92,7 +92,7 @@ public class ChatActivity extends Activity {
         switch (mode) {
             case GROUP:
                 chat = new GroupChatManagerImpl(this);
-                container.removeView(meLabel);
+                //container.removeView(meLabel);
                 container.removeView(companionLabel);
 
                 // Join group chat
