@@ -81,11 +81,8 @@ public class ChatActivity extends Activity {
         dialog = (QBDialog)intent.getSerializableExtra(EXTRA_DIALOG);
         mode = (Mode) intent.getSerializableExtra(EXTRA_MODE);
 
-        if(dialog == null)
-        {
-            HttpAsyncTask task = new HttpAsyncTask();
-            task.execute("https://api.quickblox.com/chat/Dialog.json");
-        }
+        HttpAsyncTask task = new HttpAsyncTask();
+        task.execute("https://api.quickblox.com/chat/Dialog.json");
     }
 
     @Override
@@ -236,41 +233,43 @@ public class ChatActivity extends Activity {
         protected String doInBackground(String... urls) {
 
             try {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("type", 3);
-                jsonObject.put("name", "test");
-                jsonObject.put("occupants_ids", GlobalVar._Post.getQuickbloxId());
-
-                ApiHelper api = new ApiHelper();
-                JSONObject result = api.createDialog(urls[0], jsonObject, GlobalVar.quickbloxToken);
-                Log.d("dialog result", result.toString());
-
-                dialog = new QBDialog();
-                dialog.setDialogId(result.getString("_id"));
-                dialog.setLastMessage(result.getString("last_message"));
-                dialog.setLastMessageUserId(result.getInt("last_message_user_id"));
-                dialog.setName(result.getString("name"));
-                dialog.setPhoto(result.getString("photo"));
-
-                ArrayList<Integer> ids = new ArrayList<Integer>();
-                try
+                if(dialog == null)
                 {
-                    for (int i = 0; i < result.getJSONArray("occupants_ids").length(); i++)
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("type", 3);
+                    jsonObject.put("name", "test");
+                    jsonObject.put("occupants_ids", GlobalVar._Post.getQuickbloxId());
+
+                    ApiHelper api = new ApiHelper();
+                    JSONObject result = api.createDialog(urls[0], jsonObject, GlobalVar.quickbloxToken);
+                    Log.d("dialog result", result.toString());
+
+                    dialog = new QBDialog();
+                    dialog.setDialogId(result.getString("_id"));
+                    dialog.setLastMessage(result.getString("last_message"));
+                    dialog.setLastMessageUserId(result.getInt("last_message_user_id"));
+                    dialog.setName(result.getString("name"));
+                    dialog.setPhoto(result.getString("photo"));
+
+                    ArrayList<Integer> ids = new ArrayList<Integer>();
+                    try
                     {
-                        ids.add(result.getJSONArray("occupants_ids").getInt(i));
+                        for (int i = 0; i < result.getJSONArray("occupants_ids").length(); i++)
+                        {
+                            ids.add(result.getJSONArray("occupants_ids").getInt(i));
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    ex.printStackTrace();
-                }
+                    catch (Exception ex)
+                    {
+                        ex.printStackTrace();
+                    }
 
-                dialog.setOccupantsIds(ids);
-                dialog.setType(QBDialogType.PRIVATE);
-                dialog.setRoomJid(result.getString("xmpp_room_jid"));
-                dialog.setUnreadMessageCount(result.getInt("unread_messages_count"));
-                dialog.setUserId(result.getInt("user_id"));
-
+                    dialog.setOccupantsIds(ids);
+                    dialog.setType(QBDialogType.PRIVATE);
+                    dialog.setRoomJid(result.getString("xmpp_room_jid"));
+                    dialog.setUnreadMessageCount(result.getInt("unread_messages_count"));
+                    dialog.setUserId(result.getInt("user_id"));
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 return "error";
