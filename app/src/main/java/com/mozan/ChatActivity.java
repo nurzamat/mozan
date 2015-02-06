@@ -127,8 +127,11 @@ public class ChatActivity extends Activity {
 
                 break;
             case PRIVATE:
-                //Integer opponentID = ((AppController)getApplication()).getOpponentIDForPrivateDialog(dialog);
-                Integer opponentID = Integer.parseInt(GlobalVar._Post.getQuickbloxId());
+                Integer opponentID;
+                if(dialog != null)
+                    opponentID = ((AppController)getApplication()).getOpponentIDForPrivateDialog(dialog);
+                else opponentID = Integer.parseInt(GlobalVar._Post.getQuickbloxId());
+
                 chat = new PrivateChatManagerImpl(this, opponentID);
 
                 // TODO: Set 'Displayed_name' or phone number.
