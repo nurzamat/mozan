@@ -130,6 +130,17 @@ public class PostListAdapter extends BaseAdapter {
         call_id = call.getId();
         chat_id = chat.getId();
 
+        if(m.getUsername().equals(GlobalVar.Phone))
+        {
+          call.setVisibility(View.INVISIBLE);
+          chat.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+          call.setVisibility(View.VISIBLE);
+          chat.setVisibility(View.VISIBLE);
+        }
+
         thumbNail.setOnClickListener(new OnImageClickListener(thumbnail_id, position, m));
         menu.setOnClickListener(new OnImageClickListener(menu_id, position, m));
         call.setOnClickListener(new OnImageClickListener(call_id, position, m));
@@ -206,7 +217,8 @@ public class PostListAdapter extends BaseAdapter {
                         QBDialog dialog = null;
                         if(GlobalVar.quickbloxDialogs.size() > 0)
                         {
-                            for (QBDialog qdialog : GlobalVar.quickbloxDialogs) {
+                            for (QBDialog qdialog : GlobalVar.quickbloxDialogs)
+                            {
 
                                 if(qdialog.getOccupants().contains(Integer.parseInt(_m.getQuickbloxId())))
                                 {
@@ -218,7 +230,6 @@ public class PostListAdapter extends BaseAdapter {
                         Bundle bundle = new Bundle();
                         bundle.putSerializable(ChatActivity.EXTRA_MODE, ChatActivity.Mode.PRIVATE);
                         bundle.putSerializable(ChatActivity.EXTRA_DIALOG, dialog);
-
                         ChatActivity.start(activity, bundle);
                     }
                 }
