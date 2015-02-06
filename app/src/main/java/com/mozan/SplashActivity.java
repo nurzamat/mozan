@@ -30,7 +30,7 @@ public class SplashActivity extends Activity
 
     static final int AUTO_PRESENCE_INTERVAL_IN_SECONDS = 30;
     private QBChatService chatService;
-    //private QBDialog dialog;
+    private QBDialog dialog;
     private String token;
 
     @Override
@@ -92,18 +92,18 @@ public class SplashActivity extends Activity
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("type", 3);
                     jsonObject.put("name", "test");
-                    jsonObject.put("occupants_ids", "2273049");
+                    jsonObject.put("occupants_ids", GlobalVar._Post.getQuickbloxId());//????
 
                     ApiHelper api = new ApiHelper();
                     JSONObject result = api.createDialog("https://api.quickblox.com/chat/Dialog.json", jsonObject, token);
                     Log.d("dialog result", result.toString());
 
-                    GlobalVar.quickbloxDialog = new QBDialog();
-                    GlobalVar.quickbloxDialog.setDialogId(result.getString("_id"));
-                    GlobalVar.quickbloxDialog.setLastMessage(result.getString("last_message"));
-                    GlobalVar.quickbloxDialog.setLastMessageUserId(result.getInt("last_message_user_id"));
-                    GlobalVar.quickbloxDialog.setName(result.getString("name"));
-                    GlobalVar.quickbloxDialog.setPhoto(result.getString("photo"));
+                    dialog = new QBDialog();
+                    dialog.setDialogId(result.getString("_id"));
+                    dialog.setLastMessage(result.getString("last_message"));
+                    dialog.setLastMessageUserId(result.getInt("last_message_user_id"));
+                    dialog.setName(result.getString("name"));
+                    dialog.setPhoto(result.getString("photo"));
 
                     ArrayList<Integer> ids = new ArrayList<Integer>();
                     try
@@ -118,11 +118,11 @@ public class SplashActivity extends Activity
                       ex.printStackTrace();
                     }
 
-                    GlobalVar.quickbloxDialog.setOccupantsIds(ids);
-                    GlobalVar.quickbloxDialog.setType(QBDialogType.PRIVATE);
-                    GlobalVar.quickbloxDialog.setRoomJid(result.getString("xmpp_room_jid"));
-                    GlobalVar.quickbloxDialog.setUnreadMessageCount(result.getInt("unread_messages_count"));
-                    GlobalVar.quickbloxDialog.setUserId(result.getInt("user_id"));
+                    dialog.setOccupantsIds(ids);
+                    dialog.setType(QBDialogType.PRIVATE);
+                    dialog.setRoomJid(result.getString("xmpp_room_jid"));
+                    dialog.setUnreadMessageCount(result.getInt("unread_messages_count"));
+                    dialog.setUserId(result.getInt("user_id"));
 
                     //GlobalVar.quickbloxDialog = dialog;
 
@@ -133,8 +133,7 @@ public class SplashActivity extends Activity
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(ChatActivity.EXTRA_MODE, ChatActivity.Mode.PRIVATE);
-                bundle.putSerializable(ChatActivity.EXTRA_DIALOG, GlobalVar.quickbloxDialog);
-
+                bundle.putSerializable(ChatActivity.EXTRA_DIALOG, dialog);
 
                 ChatActivity.start(SplashActivity.this, bundle);
                 // go to Dialogs screen

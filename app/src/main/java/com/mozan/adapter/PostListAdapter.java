@@ -29,9 +29,14 @@ import com.mozan.FullScreenViewActivity;
 import com.mozan.R;
 import com.mozan.SplashActivity;
 import com.mozan.model.Post;
+import com.mozan.util.ApiHelper;
 import com.mozan.util.GlobalVar;
 import com.quickblox.chat.model.QBDialog;
+import com.quickblox.chat.model.QBDialogType;
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class PostListAdapter extends BaseAdapter {
@@ -173,6 +178,8 @@ public class PostListAdapter extends BaseAdapter {
             }
             if(_view_id == chat_id)
             {
+                GlobalVar._Post = _m;
+
                 if(!GlobalVar.quickbloxLogin)
                 {
                     Intent in = new Intent(activity, SplashActivity.class);
@@ -181,11 +188,9 @@ public class PostListAdapter extends BaseAdapter {
                 else
                 {
                     QBDialog dialog = null;
-                    if(GlobalVar.quickbloxDialogs != null)
+                    if(GlobalVar.quickbloxDialogs.size() > 0)
                     {
                         for (QBDialog qdialog : GlobalVar.quickbloxDialogs) {
-
-                            Log.d("occupant ids", qdialog.getOccupants().toString());
 
                             if(qdialog.getOccupants().contains(Integer.parseInt(_m.getQuickbloxId())))
                             {
@@ -193,8 +198,7 @@ public class PostListAdapter extends BaseAdapter {
                             }
                         }
                     }
-                    Log.d("dialogs size", "" + GlobalVar.quickbloxDialogs.size());
-                    Log.d("dialog id", dialog.getDialogId());
+
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(ChatActivity.EXTRA_MODE, ChatActivity.Mode.PRIVATE);
                     bundle.putSerializable(ChatActivity.EXTRA_DIALOG, dialog);

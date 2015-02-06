@@ -51,7 +51,7 @@ public class MyMessagesFragment extends Fragment {
             @Override
             public void onSuccess(final ArrayList<QBDialog> dialogs, Bundle args) {
 
-                GlobalVar.quickbloxDialogs = dialogs;
+                GlobalVar.quickbloxDialogs.addAll(dialogs);
                 // collect all occupants ids
                 //
                 List<Integer> usersIDs = new ArrayList<Integer>();

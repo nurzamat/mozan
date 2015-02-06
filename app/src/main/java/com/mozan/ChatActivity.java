@@ -2,8 +2,10 @@ package com.mozan;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,17 +18,30 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.mozan.adapter.ChatAdapter;
+import com.mozan.model.Image;
+import com.mozan.model.Post;
+import com.mozan.util.ApiHelper;
 import com.mozan.util.ChatManager;
+import com.mozan.util.GlobalVar;
 import com.mozan.util.GroupChatManagerImpl;
+import com.mozan.util.JsonObjectRequest;
 import com.mozan.util.PrivateChatManagerImpl;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.model.QBChatMessage;
 import com.quickblox.chat.model.QBDialog;
+import com.quickblox.chat.model.QBDialogType;
 import com.quickblox.core.QBEntityCallbackImpl;
 import com.quickblox.core.request.QBRequestGetBuilder;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -45,7 +60,7 @@ public class ChatActivity extends Activity {
     private Mode mode = Mode.PRIVATE;
     private ChatManager chat;
     private ChatAdapter adapter;
-    private QBDialog dialog;
+    private QBDialog dialog = null;
     private ArrayList<QBChatMessage> messages;
     private ArrayList<QBChatMessage> history;
 
@@ -59,7 +74,18 @@ public class ChatActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        initViews();
+
+        Intent intent = getIntent();
+        // Get chat dialog
+        //
+        dialog = (QBDialog)intent.getSerializableExtra(EXTRA_DIALOG);
+        mode = (Mode) intent.getSerializableExtra(EXTRA_MODE);
+
+        if(dialog == null)
+        {
+            HttpAsyncTask task = new HttpAsyncTask();
+            task.execute("https://api.quickblox.com/chat/Dialog.json");
+        }
     }
 
     @Override
@@ -82,12 +108,6 @@ public class ChatActivity extends Activity {
         RelativeLayout container = (RelativeLayout) findViewById(R.id.container);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        Intent intent = getIntent();
-
-        // Get chat dialog
-        //
-        dialog = (QBDialog)intent.getSerializableExtra(EXTRA_DIALOG);
-        mode = (Mode) intent.getSerializableExtra(EXTRA_MODE);
         switch (mode) {
             case GROUP:
                 chat = new GroupChatManagerImpl(this);
@@ -115,7 +135,8 @@ public class ChatActivity extends Activity {
 
                 break;
             case PRIVATE:
-                Integer opponentID = ((AppController)getApplication()).getOpponentIDForPrivateDialog(dialog);
+                //Integer opponentID = ((AppController)getApplication()).getOpponentIDForPrivateDialog(dialog);
+                Integer opponentID = Integer.parseInt(GlobalVar._Post.getQuickbloxId());
                 chat = new PrivateChatManagerImpl(this, opponentID);
 
                 // TODO: Set 'Displayed_name' or phone number.
@@ -184,60 +205,6 @@ public class ChatActivity extends Activity {
                 Toast.makeText(ChatActivity.this, errors.toString(), Toast.LENGTH_SHORT).show();
             }
         });
-                    /*
-            messages = new ArrayList<QBChatMessage>();
-            String url = "https://api.quickblox.com/chat/Message.json?sort_desc=date_sent&limit=100&chat_dialog_id="+dialog.getDialogId();
-            JsonObjectRequest jsonObjReq = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
-
-                @Override
-                public void onResponse(JSONObject response) {
-                    Log.d(TAG + "messages", response.toString());
-
-                    try {
-                        JSONArray jarray =  response.getJSONArray("items");
-                        for (int i = 0; i < jarray.length(); i++) {
-                            try {
-
-                                JSONObject obj = jarray.getJSONObject(i);
-                                QBChatMessage message = new QBChatMessage();
-                                message.setId(obj.getString("_id"));
-                                message.setDialogId(obj.getString("chat_dialog_id"));
-                                message.setBody(obj.getString("message"));
-                                message.setDateSent(obj.getInt("date_sent"));
-                                message.setRecipientId(obj.getInt("recipient_id"));
-                                messages.add(message);
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        history = messages;
-                        adapter = new ChatAdapter(ChatActivity.this, new ArrayList<QBChatMessage>());
-                        messagesContainer.setAdapter(adapter);
-
-                        for (int i = messages.size() - 1; i >= 0; --i) {
-                            QBChatMessage msg = messages.get(i);
-                            showMessage(msg);
-                        }
-
-                        progressBar.setVisibility(View.GONE);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, new Response.ErrorListener() {
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    VolleyLog.d(TAG, "Error: " + error.getMessage());
-                }
-            });
-            // Adding request to request queue
-
-            AppController.getInstance().addToRequestQueue(jsonObjReq);
-            */
     }
 
     public void showMessage(QBChatMessage message) {
@@ -257,4 +224,69 @@ public class ChatActivity extends Activity {
     }
 
     public static enum Mode {PRIVATE, GROUP}
+
+    private class HttpAsyncTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("type", 3);
+                jsonObject.put("name", "test");
+                jsonObject.put("occupants_ids", GlobalVar._Post.getQuickbloxId());
+
+                ApiHelper api = new ApiHelper();
+                JSONObject result = api.createDialog(urls[0], jsonObject, GlobalVar.quickbloxToken);
+                Log.d("dialog result", result.toString());
+
+                dialog = new QBDialog();
+                dialog.setDialogId(result.getString("_id"));
+                dialog.setLastMessage(result.getString("last_message"));
+                dialog.setLastMessageUserId(result.getInt("last_message_user_id"));
+                dialog.setName(result.getString("name"));
+                dialog.setPhoto(result.getString("photo"));
+
+                ArrayList<Integer> ids = new ArrayList<Integer>();
+                try
+                {
+                    for (int i = 0; i < result.getJSONArray("occupants_ids").length(); i++)
+                    {
+                        ids.add(result.getJSONArray("occupants_ids").getInt(i));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                }
+
+                dialog.setOccupantsIds(ids);
+                dialog.setType(QBDialogType.PRIVATE);
+                dialog.setRoomJid(result.getString("xmpp_room_jid"));
+                dialog.setUnreadMessageCount(result.getInt("unread_messages_count"));
+                dialog.setUserId(result.getInt("user_id"));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "error";
+            }
+
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String result)
+        {
+            // adding dialog to list
+            if(dialog != null)
+            GlobalVar.quickbloxDialogs.add(dialog);
+
+            initViews();
+        }
+    }
 }

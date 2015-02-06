@@ -39,6 +39,5 @@ public class GlobalVar {
     public static Category SelectedCategory = null;
     public static String quickbloxToken = "";
     public static boolean quickbloxLogin = false;
-    public static QBDialog quickbloxDialog = null;
-    public static ArrayList<QBDialog> quickbloxDialogs = null;
+    public static ArrayList<QBDialog> quickbloxDialogs = new ArrayList<QBDialog>();
 }
