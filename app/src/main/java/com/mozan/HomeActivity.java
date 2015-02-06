@@ -190,6 +190,11 @@ public class HomeActivity extends FragmentActivity
                 displayView(2);  //my profile
                 GlobalVar.profile_position = false;
             }
+            else if(_case == 3)
+            {
+                displayView(3);  //my messages
+                GlobalVar.messages_position = false;
+            }
             else if(_case == 8)
             {
                 displayView(8);  //categories
@@ -277,7 +282,9 @@ public class HomeActivity extends FragmentActivity
                  else
                  {
                      GlobalVar.adv_position = true;
-                    // GlobalVar.profile_position = false;
+                     GlobalVar.profile_position = false;
+                     GlobalVar.messages_position = false;
+
                      Intent in;
                      if(GlobalVar.isCodeSent)
                          in = new Intent(context, RegisterActivity.class);
@@ -295,7 +302,9 @@ public class HomeActivity extends FragmentActivity
                  else
                  {
                      GlobalVar.profile_position = true;
-                    // GlobalVar.adv_position = false;
+                     GlobalVar.adv_position = false;
+                     GlobalVar.messages_position = false;
+
                      Intent in;
                      if(GlobalVar.isCodeSent)
                          in = new Intent(context, RegisterActivity.class);
@@ -306,7 +315,22 @@ public class HomeActivity extends FragmentActivity
              }
 		case 3:
              {
-                 fragment = new MyMessagesFragment();
+                 if (!GlobalVar.Phone.equals("") && !GlobalVar.Token.equals(""))
+                 {
+                     fragment = new MyMessagesFragment();
+                 }
+                 else
+                 {
+                     GlobalVar.messages_position = true;
+                     GlobalVar.adv_position = false;
+                     GlobalVar.profile_position = false;
+
+                     Intent in;
+                     if(GlobalVar.isCodeSent)
+                         in = new Intent(context, RegisterActivity.class);
+                     else in = new Intent(context, CodeActivity.class);
+                     startActivity(in);
+                 }
                  break;
              }
 

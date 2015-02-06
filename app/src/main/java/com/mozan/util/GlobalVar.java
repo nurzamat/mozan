@@ -28,6 +28,7 @@ public class GlobalVar {
     public static ArrayList<String> image_paths = new ArrayList<String>();
     public static boolean adv_position;
     public static boolean profile_position;
+    public static boolean messages_position;
     public static String query = "";
     public static boolean isHomeFragment;
     public static boolean isCodeSent = false;

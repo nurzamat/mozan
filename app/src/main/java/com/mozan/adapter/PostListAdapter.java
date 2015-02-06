@@ -25,8 +25,11 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.mozan.AppController;
 import com.mozan.ChatActivity;
+import com.mozan.CodeActivity;
 import com.mozan.FullScreenViewActivity;
+import com.mozan.MyProfileFragment;
 import com.mozan.R;
+import com.mozan.RegisterActivity;
 import com.mozan.SplashActivity;
 import com.mozan.model.Post;
 import com.mozan.util.ApiHelper;
@@ -166,45 +169,68 @@ public class PostListAdapter extends BaseAdapter {
             }
             if(_view_id == call_id)
             {
-                String phone = _m.getUsername();
-                boolean isPhone = PhoneNumberUtils.isGlobalPhoneNumber("+"+phone);
-                if(isPhone)
+                if (!GlobalVar.Phone.equals("") && !GlobalVar.Token.equals(""))
                 {
-                    Intent intent = new Intent(Intent.ACTION_DIAL);
-                    intent.setData(Uri.parse("tel:"+"+"+phone));
-                    activity.startActivity(intent);
-                }
-                else Toast.makeText(activity, "call pressed /"+phone+"/", Toast.LENGTH_SHORT).show();
-            }
-            if(_view_id == chat_id)
-            {
-                GlobalVar._Post = _m;
-
-                if(!GlobalVar.quickbloxLogin)
-                {
-                    Intent in = new Intent(activity, SplashActivity.class);
-                    activity.startActivity(in);
+                    String phone = _m.getUsername();
+                    boolean isPhone = PhoneNumberUtils.isGlobalPhoneNumber("+"+phone);
+                    if(isPhone)
+                    {
+                        Intent intent = new Intent(Intent.ACTION_DIAL);
+                        intent.setData(Uri.parse("tel:"+"+"+phone));
+                        activity.startActivity(intent);
+                    }
+                    else Toast.makeText(activity, "call pressed /"+phone+"/", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    QBDialog dialog = null;
-                    if(GlobalVar.quickbloxDialogs.size() > 0)
-                    {
-                        for (QBDialog qdialog : GlobalVar.quickbloxDialogs) {
+                    Intent in;
+                    if(GlobalVar.isCodeSent)
+                        in = new Intent(activity, RegisterActivity.class);
+                    else in = new Intent(activity, CodeActivity.class);
+                    activity.startActivity(in);
+                }
+            }
+            if(_view_id == chat_id)
+            {
+                if (!GlobalVar.Phone.equals("") && !GlobalVar.Token.equals(""))
+                {
+                    GlobalVar._Post = _m;
 
-                            if(qdialog.getOccupants().contains(Integer.parseInt(_m.getQuickbloxId())))
-                            {
-                                dialog = qdialog;
+                    if(!GlobalVar.quickbloxLogin)
+                    {
+                        Intent in = new Intent(activity, SplashActivity.class);
+                        activity.startActivity(in);
+                    }
+                    else
+                    {
+                        QBDialog dialog = null;
+                        if(GlobalVar.quickbloxDialogs.size() > 0)
+                        {
+                            for (QBDialog qdialog : GlobalVar.quickbloxDialogs) {
+
+                                if(qdialog.getOccupants().contains(Integer.parseInt(_m.getQuickbloxId())))
+                                {
+                                    dialog = qdialog;
+                                }
                             }
                         }
+
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable(ChatActivity.EXTRA_MODE, ChatActivity.Mode.PRIVATE);
+                        bundle.putSerializable(ChatActivity.EXTRA_DIALOG, dialog);
+
+                        ChatActivity.start(activity, bundle);
                     }
-
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(ChatActivity.EXTRA_MODE, ChatActivity.Mode.PRIVATE);
-                    bundle.putSerializable(ChatActivity.EXTRA_DIALOG, dialog);
-
-                    ChatActivity.start(activity, bundle);
                 }
+                else
+                {
+                    Intent in;
+                    if(GlobalVar.isCodeSent)
+                        in = new Intent(activity, RegisterActivity.class);
+                    else in = new Intent(activity, CodeActivity.class);
+                    activity.startActivity(in);
+                }
+
             }
             if(_view_id == menu_id)
             {

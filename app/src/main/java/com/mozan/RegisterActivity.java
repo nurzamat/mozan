@@ -103,6 +103,8 @@ public class RegisterActivity extends Activity {
                     in.putExtra("case", 6);
                 if(GlobalVar.profile_position)
                     in.putExtra("case", 2);
+                if(GlobalVar.messages_position)
+                    in.putExtra("case", 3);
                 startActivity(in);
                 GlobalVar.isCodeSent = false;
                 CodeActivity.fa.finish();
