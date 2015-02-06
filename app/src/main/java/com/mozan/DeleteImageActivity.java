@@ -5,14 +5,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Toast;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.mozan.R;
 import com.mozan.util.ApiHelper;
 import com.mozan.util.DeleteRequest;
 import com.mozan.util.GlobalVar;
@@ -20,7 +16,7 @@ import com.mozan.util.GlobalVar;
 public class DeleteImageActivity extends Activity {
 
     // Log tag
-    private static final String TAG =  "[delete post response]";
+    private static final String TAG =  "[delete image response]";
     private ProgressDialog pDialog;
 
     @Override
@@ -35,7 +31,7 @@ public class DeleteImageActivity extends Activity {
         pDialog.setMessage("Загрузка...");
         pDialog.show();
         String url = ApiHelper.POST_URL + GlobalVar._Post.getId() + "/image/" + image_id;
-        finish();
+        //finish();
         DeleteRequest dr = new DeleteRequest(url,
                 new Response.Listener<String>()
                 {

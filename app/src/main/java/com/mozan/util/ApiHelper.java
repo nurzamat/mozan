@@ -73,6 +73,7 @@ public class ApiHelper {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("phone", phone);
         jsonObject.put("sms_code", "");
+        jsonObject.put("quick_blox_id", "");
         jsonObject.put("api_key", API_KEY);
 
         Log.i(TAG, "Sending request to: " + CODE_URL);
@@ -90,6 +91,7 @@ public class ApiHelper {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("phone", phone);
         jsonObject.put("sms_code", code);
+        jsonObject.put("quick_blox_id", "");
         jsonObject.put("api_key", API_KEY);
 
         Log.i(TAG, "Sending request to: " + TOKEN_URL);
@@ -102,18 +104,6 @@ public class ApiHelper {
     }
 
     public JSONArray getCategories()
-            throws ApiException, IOException, JSONException {
-
-        Log.i(TAG, "Sending request to: " + CATEGORIES_URL);
-        HttpResponse response = requestGet(CATEGORIES_URL);
-
-        String responseStr = responseToStr(response);
-
-        Log.i(TAG, "Response: " + responseStr);
-        return new JSONArray(responseStr);
-    }
-
-    public JSONArray getProfile(String url)
             throws ApiException, IOException, JSONException {
 
         Log.i(TAG, "Sending request to: " + CATEGORIES_URL);
@@ -194,7 +184,6 @@ public class ApiHelper {
         Log.i(TAG, "Response: " + responseStr);
         return new JSONObject(responseStr);
     }
-
     public static String responseToStr(HttpResponse response) throws IOException
     {
        //return EntityUtils.toString(response.getEntity());
