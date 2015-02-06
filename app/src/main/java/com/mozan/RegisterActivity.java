@@ -71,6 +71,7 @@ public class RegisterActivity extends Activity {
                 if(obj.has("token")) {
                     GlobalVar.Token = obj.getString("token");
                     GlobalVar.Uid = obj.getString("uid");
+                    GlobalVar.Qid = obj.getString("quick_blox_id");
                 }
                 else
                     result = api.responseText(obj.getString("status"));
@@ -91,9 +92,10 @@ public class RegisterActivity extends Activity {
             {
                 SharedPreferences sp = getSharedPreferences(GlobalVar.MOZAN, 0);
                 SharedPreferences.Editor Ed = sp.edit();
-                Ed.putString(GlobalVar.MOZAN_PHONE, GlobalVar.Phone);
+                Ed.putString(GlobalVar.MOZAN_PHONE,GlobalVar.Phone);
                 Ed.putString(GlobalVar.MOZAN_TOKEN,GlobalVar.Token);
                 Ed.putString(GlobalVar.MOZAN_UID,GlobalVar.Uid);
+                Ed.putString(GlobalVar.MOZAN_QID,GlobalVar.Qid);
                 Ed.commit();
 
                 Intent in = new Intent(RegisterActivity.this, HomeActivity.class);

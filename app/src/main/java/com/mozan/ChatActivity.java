@@ -36,18 +36,15 @@ public class ChatActivity extends Activity {
     public static final String EXTRA_MODE = "mode";
     public static final String EXTRA_DIALOG = "dialog";
     private final String PROPERTY_SAVE_TO_HISTORY = "save_to_history";
-
     private EditText messageEditText;
     private ListView messagesContainer;
     private ImageButton sendButton;
     private ProgressBar progressBar;
-
     private Mode mode = Mode.PRIVATE;
     private ChatManager chat;
     private ChatAdapter adapter;
     private QBDialog dialog;
     private ArrayList<QBChatMessage> messages;
-
     private ArrayList<QBChatMessage> history;
 
     public static void start(Context context, Bundle bundle) {

@@ -38,6 +38,7 @@ public class StartActivity extends Activity {
         GlobalVar.Phone = sp.getString(GlobalVar.MOZAN_PHONE, "");
         GlobalVar.Token = sp.getString(GlobalVar.MOZAN_TOKEN, "");
         GlobalVar.Uid = sp.getString(GlobalVar.MOZAN_UID, "");
+        GlobalVar.Qid = sp.getString(GlobalVar.MOZAN_QID, "");
 
         Log.d("StartActivity", "Phone/token/uid: " + GlobalVar.Phone  + " / " + GlobalVar.Token + " / " + GlobalVar.Uid);
 

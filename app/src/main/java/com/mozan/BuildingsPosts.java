@@ -119,6 +119,7 @@ public class BuildingsPosts extends Fragment {
                             post.setUserId(owner.getString("id"));
                             post.setDisplayedName(owner.getJSONObject("profile").getString("displayed_name"));
                             post.setAvatarUrl(ApiHelper.MOZAN_URL + owner.getJSONObject("profile").getString("avatar_30"));
+                            post.setQuickbloxId(owner.getJSONObject("profile").getString("quick_blox_id"));
                             category_id = obj.getString("category");
                             post.setCategory(category_id);
                             post.setCategoryName(ApiHelper.getCategoryName(category_id));

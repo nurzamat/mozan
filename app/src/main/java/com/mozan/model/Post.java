@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by User on 16.12.2014.
  */
 public class Post{
-    private String id, content, username, category, category_name, user_id, displayed_name, hitcount, hitcount_id;
+    private String id, content, username, category, category_name, user_id, quickblox_id, displayed_name, hitcount, hitcount_id;
     private String thumbnailUrl = "";
     private String avatarUrl = "";
     private String price, price_currency = "";
@@ -129,4 +129,12 @@ public class Post{
         this.hitcount_id = id;
     }
 
+    //quickblox
+    public String getQuickbloxId() {
+        return quickblox_id;
+    }
+
+    public void setQuickbloxId(String _quickblox_id) {
+        this.quickblox_id = _quickblox_id;
+    }
 }

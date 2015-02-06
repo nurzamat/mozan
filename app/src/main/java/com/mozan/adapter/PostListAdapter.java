@@ -29,14 +29,9 @@ import com.mozan.FullScreenViewActivity;
 import com.mozan.R;
 import com.mozan.SplashActivity;
 import com.mozan.model.Post;
-import com.mozan.util.ApiHelper;
 import com.mozan.util.GlobalVar;
 import com.quickblox.chat.model.QBDialog;
-import com.quickblox.chat.model.QBDialogType;
 
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class PostListAdapter extends BaseAdapter {
@@ -178,7 +173,6 @@ public class PostListAdapter extends BaseAdapter {
             }
             if(_view_id == chat_id)
             {
-                QBDialog dialog = null;
                 if(!GlobalVar.quickbloxLogin)
                 {
                     Intent in = new Intent(activity, SplashActivity.class);
@@ -186,51 +180,21 @@ public class PostListAdapter extends BaseAdapter {
                 }
                 else
                 {
-                    /*
-                    try {
-                        JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("type", 3);
-                        jsonObject.put("name", "test");
-                        jsonObject.put("occupants_ids", "2273049");
-
-                        ApiHelper api = new ApiHelper();
-                        JSONObject result = api.createDialog("https://api.quickblox.com/chat/Dialog.json", jsonObject, GlobalVar.quickbloxToken);
-                        Log.d("dialog result", result.toString());
-
-                        dialog = new QBDialog();
-                        dialog.setDialogId(result.getString("_id"));
-                        dialog.setLastMessage(result.getString("last_message"));
-                        dialog.setLastMessageUserId(result.getInt("last_message_user_id"));
-                        dialog.setName(result.getString("name"));
-                        dialog.setPhoto(result.getString("photo"));
-
-                        ArrayList<Integer> ids = new ArrayList<Integer>();
-                        try
-                        {
-                            for (int i = 0; i < result.getJSONArray("occupants_ids").length(); i++)
+                    QBDialog dialog = null;
+                    if(GlobalVar.quickbloxDialogs != null)
+                    {
+                        for (QBDialog qdialog : GlobalVar.quickbloxDialogs) {
+                            if(qdialog.getOccupants().contains(_m.getQuickbloxId()))
                             {
-                                ids.add(result.getJSONArray("occupants_ids").getInt(i));
+                                dialog = qdialog;
                             }
                         }
-                        catch (Exception ex)
-                        {
-                            ex.printStackTrace();
-                        }
-
-                        dialog.setOccupantsIds(ids);
-                        dialog.setType(QBDialogType.PRIVATE);
-                        dialog.setRoomJid(result.getString("xmpp_room_jid"));
-                        dialog.setUnreadMessageCount(result.getInt("unread_messages_count"));
-                        dialog.setUserId(result.getInt("user_id"));
-
-                    } catch (Exception e)
-                    {
-                        e.printStackTrace();
                     }
-*/
+                    Log.d("dialogs size", "" + GlobalVar.quickbloxDialogs.size());
+                    Log.d("dialog id", dialog.getDialogId());
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(ChatActivity.EXTRA_MODE, ChatActivity.Mode.PRIVATE);
-                    bundle.putSerializable(ChatActivity.EXTRA_DIALOG, GlobalVar.quickbloxDialog);
+                    bundle.putSerializable(ChatActivity.EXTRA_DIALOG, dialog);
 
                     ChatActivity.start(activity, bundle);
                 }

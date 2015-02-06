@@ -20,30 +20,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SplashActivity extends Activity {
-/*
-    private static final String APP_ID = "92";
-    private static final String AUTH_KEY = "wJHdOcQSxXQGWx5";
-    private static final String AUTH_SECRET = "BTFsj7Rtt27DAmT";
-    //
-    private static final String USER_LOGIN = "bobbobbob";
-    private static final String USER_PASSWORD = "bobbobbob";
-
-
-    '{"session":{"_id":"54d23b65535c12de130022e2","application_id":18797,"created_at":"2015-02-04T15:31:49Z","device_id":0,"nonce":1324688332,"token":"6610226296f5f62f395e1abcfb61ac941dca4d75","ts":1423063905,"updated_at":"2015-02-04T15:31:49Z","user_id":2273055,"id":34183}}'
-
-  */
+public class SplashActivity extends Activity
+{
     //
     private static final String APP_ID = "18797";
     private static final String AUTH_KEY = "r94hby9Rp-MHUO8";
     private static final String AUTH_SECRET = "AbgGep9pUV9JH8P";
-    //
-    private static final String USER_LOGIN = "996772143126";
-    private static final String USER_PASSWORD = "4cce8f6b5d4ff3b069c9a0404d111314d919abc7";
-
-    //private static final String USER_LOGIN = "996550559996";
-    //private static final String USER_PASSWORD = "a44c955de727e45a22dc97a10db77b06e8c89c35";
-    //
 
     static final int AUTO_PRESENCE_INTERVAL_IN_SECONDS = 30;
     private QBChatService chatService;
@@ -68,8 +50,8 @@ public class SplashActivity extends Activity {
         // create QB user
         //
         final QBUser user = new QBUser();
-        user.setLogin(USER_LOGIN);
-        user.setPassword(USER_PASSWORD);
+        user.setLogin(GlobalVar.Phone);
+        user.setPassword(GlobalVar.Token);
 
         QBAuth.createSession(user, new QBEntityCallbackImpl<QBSession>() {
             @Override
@@ -94,7 +76,8 @@ public class SplashActivity extends Activity {
         });
     }
 
-    private void loginToChat(final QBUser user){
+    private void loginToChat(final QBUser user)
+    {
 
         chatService.login(user, new QBEntityCallbackImpl() {
             @Override
@@ -159,48 +142,6 @@ public class SplashActivity extends Activity {
                 // Intent intent = new Intent(SplashActivity.this, DialogsActivity.class);
                 //startActivity(intent);
 
-
-                /*
-                QBUser user1 = new QBUser();
-                user1.setId(2273055);
-
-                QBUser user2 = new QBUser();
-                user1.setId(2273049);
-                ArrayList<QBUser> users = new ArrayList<QBUser>();
-                users.add(user);
-                users.add(user);
-
-                ((AppController)getApplication()).addDialogsUsers(users);
-
-                // Create new group dialog
-                //
-                ArrayList<Integer> ids = new ArrayList<Integer>();
-                ids.add(2273055);
-                ids.add(2273049);
-
-                QBDialog dialogToCreate = new QBDialog();
-                dialogToCreate.setName("Test name");
-                dialogToCreate.setType(QBDialogType.PRIVATE);
-                dialogToCreate.setOccupantsIds(ids);
-                QBChatService.getInstance().getGroupChatManager().createDialog(dialogToCreate, new QBEntityCallbackImpl<QBDialog>() {
-                    @Override
-                    public void onSuccess(QBDialog dialog, Bundle args) {
-                        Log.d("splash activity", "success");
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable(ChatActivity.EXTRA_MODE, ChatActivity.Mode.PRIVATE);
-                        bundle.putSerializable(ChatActivity.EXTRA_DIALOG, dialog);
-
-
-                        ChatActivity.start(SplashActivity.this, bundle);
-                    }
-
-                    @Override
-                    public void onError(List<String> errors) {
-                        AlertDialog.Builder dialog = new AlertDialog.Builder(SplashActivity.this);
-                        dialog.setMessage("dialog creation errors: " + errors).create().show();
-                    }
-                });
-*/
                 finish();
             }
 

@@ -73,7 +73,6 @@ public class ApiHelper {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("phone", phone);
         jsonObject.put("sms_code", "");
-        jsonObject.put("quick_blox_id", "");
         jsonObject.put("api_key", API_KEY);
 
         Log.i(TAG, "Sending request to: " + CODE_URL);
@@ -91,7 +90,6 @@ public class ApiHelper {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("phone", phone);
         jsonObject.put("sms_code", code);
-        jsonObject.put("quick_blox_id", "");
         jsonObject.put("api_key", API_KEY);
 
         Log.i(TAG, "Sending request to: " + TOKEN_URL);

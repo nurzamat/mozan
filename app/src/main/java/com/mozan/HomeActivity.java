@@ -1,5 +1,6 @@
 package com.mozan;
 
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -22,10 +23,26 @@ import android.widget.SearchView;
 import com.mozan.adapter.NavDrawerListAdapter;
 import com.mozan.model.NavDrawerItem;
 import com.mozan.util.GlobalVar;
+import com.quickblox.auth.QBAuth;
+import com.quickblox.auth.model.QBSession;
+import com.quickblox.chat.QBChatService;
+import com.quickblox.core.QBEntityCallbackImpl;
+import com.quickblox.core.QBSettings;
+import com.quickblox.users.model.QBUser;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class HomeActivity extends FragmentActivity {
+public class HomeActivity extends FragmentActivity
+{
+    private static final String APP_ID = "18797";
+    private static final String AUTH_KEY = "r94hby9Rp-MHUO8";
+    private static final String AUTH_SECRET = "AbgGep9pUV9JH8P";
+    //
+    static final int AUTO_PRESENCE_INTERVAL_IN_SECONDS = 30;
+    private QBChatService chatService;
+    //
+    //
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
@@ -48,6 +65,46 @@ public class HomeActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
+
+        if(!GlobalVar.quickbloxLogin)
+        {
+            // Init Chat
+            //
+            QBChatService.setDebugEnabled(true);
+            QBSettings.getInstance().fastConfigInit(APP_ID, AUTH_KEY, AUTH_SECRET);
+            if (!QBChatService.isInitialized()) {
+                QBChatService.init(this);
+            }
+            chatService = QBChatService.getInstance();
+
+            // create QB user
+            //
+            final QBUser user = new QBUser();
+            user.setLogin(GlobalVar.Phone);
+            user.setPassword(GlobalVar.Token);
+
+            QBAuth.createSession(user, new QBEntityCallbackImpl<QBSession>() {
+                @Override
+                public void onSuccess(QBSession session, Bundle args) {
+                    // save current user
+                    //
+                    user.setId(session.getUserId());
+                    GlobalVar.quickbloxToken = session.getToken();
+                    ((AppController) getApplication()).setCurrentUser(user);
+
+                    // login to Chat
+                    //
+                    loginToChat(user);
+                }
+
+                @Override
+                public void onError(List<String> errors) {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                    dialog.setMessage("create session errors: " + errors).create().show();
+                }
+            });
+        }
+        //end messages
         Intent i = getIntent();
         context = getApplicationContext();
 		mTitle = mDrawerTitle = getTitle();
@@ -345,5 +402,32 @@ public class HomeActivity extends FragmentActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
+    }
+
+    private void loginToChat(final QBUser user)
+    {
+
+        chatService.login(user, new QBEntityCallbackImpl() {
+            @Override
+            public void onSuccess() {
+                // Start sending presences
+                //
+                try {
+
+                    GlobalVar.quickbloxLogin = true;
+                    chatService.startAutoSendPresence(AUTO_PRESENCE_INTERVAL_IN_SECONDS);
+
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(List errors) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                dialog.setMessage("chat login errors: " + errors).create().show();
+            }
+        });
     }
 }
