@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
+
 import com.mozan.adapter.DialogsAdapter;
 import com.mozan.util.GlobalVar;
 import com.quickblox.chat.QBChatService;
@@ -78,8 +80,7 @@ public class MyMessagesFragment extends Fragment {
 
                     @Override
                     public void onError(List<String> errors) {
-                        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-                        dialog.setMessage("get occupants errors: " + errors).create().show();
+                        Toast.makeText(context, errors.toString(), Toast.LENGTH_SHORT).show();
                     }
 
                 });
@@ -87,8 +88,7 @@ public class MyMessagesFragment extends Fragment {
 
             @Override
             public void onError(List<String> errors) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-                dialog.setMessage("get dialogs errors: " + errors).create().show();
+                Toast.makeText(context, errors.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 

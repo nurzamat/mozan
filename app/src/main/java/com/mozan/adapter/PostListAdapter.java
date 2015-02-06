@@ -184,7 +184,10 @@ public class PostListAdapter extends BaseAdapter {
                     if(GlobalVar.quickbloxDialogs != null)
                     {
                         for (QBDialog qdialog : GlobalVar.quickbloxDialogs) {
-                            if(qdialog.getOccupants().contains(_m.getQuickbloxId()))
+
+                            Log.d("occupant ids", qdialog.getOccupants().toString());
+
+                            if(qdialog.getOccupants().contains(Integer.parseInt(_m.getQuickbloxId())))
                             {
                                 dialog = qdialog;
                             }

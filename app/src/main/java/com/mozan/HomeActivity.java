@@ -20,6 +20,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
+
 import com.mozan.adapter.NavDrawerListAdapter;
 import com.mozan.model.NavDrawerItem;
 import com.mozan.util.GlobalVar;
@@ -66,7 +68,7 @@ public class HomeActivity extends FragmentActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
 
-        if(!GlobalVar.quickbloxLogin)
+        if(!GlobalVar.quickbloxLogin && !GlobalVar.Phone.equals("") && !GlobalVar.Token.equals(""))
         {
             // Init Chat
             //
@@ -99,8 +101,7 @@ public class HomeActivity extends FragmentActivity
 
                 @Override
                 public void onError(List<String> errors) {
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-                    dialog.setMessage("create session errors: " + errors).create().show();
+                    Toast.makeText(HomeActivity.this, errors.toString(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -425,8 +426,7 @@ public class HomeActivity extends FragmentActivity
 
             @Override
             public void onError(List errors) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-                dialog.setMessage("chat login errors: " + errors).create().show();
+                Toast.makeText(HomeActivity.this, errors.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -14,6 +14,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.mozan.adapter.ChatAdapter;
 import com.mozan.util.ChatManager;
 import com.mozan.util.GroupChatManagerImpl;
@@ -107,15 +109,13 @@ public class ChatActivity extends Activity {
 
                     @Override
                     public void onError(List list) {
-                        AlertDialog.Builder dialog = new AlertDialog.Builder(ChatActivity.this);
-                        dialog.setMessage("error when join group chat: " + list.toString()).create().show();
+                        Toast.makeText(ChatActivity.this, list.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
                 break;
             case PRIVATE:
-                //Integer opponentID = ((AppController)getApplication()).getOpponentIDForPrivateDialog(dialog);
-                Integer opponentID = 2273049;
+                Integer opponentID = ((AppController)getApplication()).getOpponentIDForPrivateDialog(dialog);
                 chat = new PrivateChatManagerImpl(this, opponentID);
 
                 // TODO: Set 'Displayed_name' or phone number.
@@ -181,8 +181,7 @@ public class ChatActivity extends Activity {
 
             @Override
             public void onError(List<String> errors) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(ChatActivity.this);
-                dialog.setMessage("load chat history errors: " + errors).create().show();
+                Toast.makeText(ChatActivity.this, errors.toString(), Toast.LENGTH_SHORT).show();
             }
         });
                     /*

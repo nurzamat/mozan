@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.mozan.util.ApiHelper;
 import com.mozan.util.GlobalVar;
@@ -70,8 +71,7 @@ public class SplashActivity extends Activity
 
             @Override
             public void onError(List<String> errors) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(SplashActivity.this);
-                dialog.setMessage("create session errors: " + errors).create().show();
+                Toast.makeText(SplashActivity.this, errors.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -147,8 +147,7 @@ public class SplashActivity extends Activity
 
             @Override
             public void onError(List errors) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(SplashActivity.this);
-                dialog.setMessage("chat login errors: " + errors).create().show();
+                Toast.makeText(SplashActivity.this, errors.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }
