@@ -203,45 +203,51 @@ public class PostListAdapter extends BaseAdapter {
             }
             if(_view_id == chat_id)
             {
-                if (!GlobalVar.Phone.equals("") && !GlobalVar.Token.equals(""))
+                try
                 {
-                    GlobalVar._Post = _m;
-
-                    if(!GlobalVar.quickbloxLogin)
+                    if (!GlobalVar.Phone.equals("") && !GlobalVar.Token.equals(""))
                     {
-                        Intent in = new Intent(activity, SplashActivity.class);
-                        activity.startActivity(in);
+                        GlobalVar._Post = _m;
+
+                        if(!GlobalVar.quickbloxLogin)
+                        {
+                            Intent in = new Intent(activity, SplashActivity.class);
+                            activity.startActivity(in);
+                        }
+                        else
+                        {
+                            QBDialog dialog = null;
+                            if(GlobalVar.quickbloxDialogs.size() > 0)
+                            {
+                                for (QBDialog qdialog : GlobalVar.quickbloxDialogs)
+                                {
+
+                                    if(qdialog.getOccupants().contains(Integer.parseInt(_m.getQuickbloxId())))
+                                    {
+                                        dialog = qdialog;
+                                    }
+                                }
+                            }
+
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable(ChatActivity.EXTRA_MODE, ChatActivity.Mode.PRIVATE);
+                            bundle.putSerializable(ChatActivity.EXTRA_DIALOG, dialog);
+                            ChatActivity.start(activity, bundle);
+                        }
                     }
                     else
                     {
-                        QBDialog dialog = null;
-                        if(GlobalVar.quickbloxDialogs.size() > 0)
-                        {
-                            for (QBDialog qdialog : GlobalVar.quickbloxDialogs)
-                            {
-
-                                if(qdialog.getOccupants().contains(Integer.parseInt(_m.getQuickbloxId())))
-                                {
-                                    dialog = qdialog;
-                                }
-                            }
-                        }
-
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable(ChatActivity.EXTRA_MODE, ChatActivity.Mode.PRIVATE);
-                        bundle.putSerializable(ChatActivity.EXTRA_DIALOG, dialog);
-                        ChatActivity.start(activity, bundle);
+                        Intent in;
+                        if(GlobalVar.isCodeSent)
+                            in = new Intent(activity, RegisterActivity.class);
+                        else in = new Intent(activity, CodeActivity.class);
+                        activity.startActivity(in);
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    Intent in;
-                    if(GlobalVar.isCodeSent)
-                        in = new Intent(activity, RegisterActivity.class);
-                    else in = new Intent(activity, CodeActivity.class);
-                    activity.startActivity(in);
+                    ex.printStackTrace();
                 }
-
             }
             if(_view_id == menu_id)
             {
