@@ -20,7 +20,8 @@
             android:layout_toStartOf="@+id/companionLabel"
             android:layout_alignTop="@+id/chatSendButton"
             android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/chatSendButton" />
+            android:layout_toLeftOf="@+id/chatSendButton"
+            android:inputType="text|textCapSentences|textAutoComplete|textAutoCorrect" />
 
         <ImageButton
             android:id="@+id/chatSendButton"
