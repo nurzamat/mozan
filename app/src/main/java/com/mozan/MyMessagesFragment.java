@@ -122,6 +122,7 @@ public class MyMessagesFragment extends Fragment {
 
                 // Open chat activity
                 //
+                GlobalVar._Post = null;
                 ChatActivity.start(context, bundle);
             }
         });

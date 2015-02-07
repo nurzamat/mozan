@@ -127,20 +127,31 @@ public class ChatActivity extends Activity {
 
                 break;
             case PRIVATE:
-                Integer opponentID;
-                if(dialog != null)
-                    opponentID = ((AppController)getApplication()).getOpponentIDForPrivateDialog(dialog);
-                else opponentID = Integer.parseInt(GlobalVar._Post.getQuickbloxId());
+                try
+                {
+                    Integer opponentID;
+                    if(GlobalVar._Post != null)
+                    {
+                        opponentID = Integer.parseInt(GlobalVar._Post.getQuickbloxId());
+                        // TODO: Set 'Displayed_name' or phone number.
+                        companionLabel.setText(GlobalVar._Post.getUsername());
+                    }
+                    else
+                    {
+                        opponentID = ((AppController)getApplication()).getOpponentIDForPrivateDialog(dialog);
+                        companionLabel.setText(((AppController)getApplication()).getDialogsUsers().get(opponentID).getLogin());
+                    }
 
-                chat = new PrivateChatManagerImpl(this, opponentID);
-
-                // TODO: Set 'Displayed_name' or phone number.
-                //companionLabel.setText(((AppController)getApplication()).getDialogsUsers().get(opponentID).getLogin());
-                companionLabel.setText("test");
-                // Load CHat history
-                //
-                loadChatHistory();
-                break;
+                    chat = new PrivateChatManagerImpl(this, opponentID);
+                    // Load CHat history
+                    //
+                    loadChatHistory();
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                }
         }
 
         sendButton.setOnClickListener(new View.OnClickListener() {
