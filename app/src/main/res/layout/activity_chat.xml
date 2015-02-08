@@ -37,7 +37,7 @@
             android:clickable="false"
             android:background="@android:color/transparent"
             android:layout_alignTop="@+id/messageEdit"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:baselineAlignBottom="false" />
 
