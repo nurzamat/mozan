@@ -1,4 +1,4 @@
-package com.mozan.util;
+package com.mozan;
 
 import android.app.Activity;
 import android.content.ComponentName;

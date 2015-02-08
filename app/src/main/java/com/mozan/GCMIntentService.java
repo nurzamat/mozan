@@ -1,4 +1,4 @@
-package com.mozan.util;
+package com.mozan;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
@@ -41,19 +41,19 @@ public class GCMIntentService extends IntentService {
              * any message types you're not interested in, or that you don't
              * recognize.
              */
-//            if (GoogleCloudMessaging.
-//                    MESSAGE_TYPE_SEND_ERROR.equals(messageType)) {
-//                processNotification(Consts.GCM_SEND_ERROR, extras);
-//            } else if (GoogleCloudMessaging.
-//                    MESSAGE_TYPE_DELETED.equals(messageType)) {
-//                processNotification(Constants.GCM_DELETED_MESSAGE, extras);
-//                // If it's a regular GCM message, do some work.
-//            } else if (GoogleCloudMessaging.
-//                    MESSAGE_TYPE_MESSAGE.equals(messageType)) {
-//                // Post notification of received message.
-//                processNotification(Constants.GCM_RECEIVED, extras);
-//                Log.i(TAG, "Received: " + extras.toString());
-//            }
+            if (GoogleCloudMessaging.
+                    MESSAGE_TYPE_SEND_ERROR.equals(messageType)) {
+                processNotification(Constants.GCM_SEND_ERROR, extras);
+            } else if (GoogleCloudMessaging.
+                    MESSAGE_TYPE_DELETED.equals(messageType)) {
+                processNotification(Constants.GCM_DELETED_MESSAGE, extras);
+                // If it's a regular GCM message, do some work.
+            } else if (GoogleCloudMessaging.
+                    MESSAGE_TYPE_MESSAGE.equals(messageType)) {
+                // Post notification of received message.
+                processNotification(Constants.GCM_RECEIVED, extras);
+                Log.i(TAG, "Received: " + extras.toString());
+            }
         }
         // Release the wake lock provided by the WakefulBroadcastReceiver.
         GcmBroadcastReceiver.completeWakefulIntent(intent);
@@ -62,23 +62,23 @@ public class GCMIntentService extends IntentService {
     // Put the message into a notification and post it.
     // This is just one simple example of what you might choose to do with
     // a GCM message.
-//    private void processNotification(String type, Bundle extras) {
-//        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//
-//        final String messageValue = extras.getString("message");
-//
-//        Intent intent = new Intent(this, MessagesActivity.class);
-//        intent.putExtra(Constants.EXTRA_MESSAGE, messageValue);
-//
-//        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
-//
-//        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this).setSmallIcon(
-//                R.drawable.app_icon).setContentTitle(Constants.GCM_NOTIFICATION).setStyle(
-//                new NotificationCompat.BigTextStyle().bigText(messageValue)).setContentText(messageValue);
-//
-//        mBuilder.setContentIntent(contentIntent);
-//        notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
-//
-//
-//    }
+    private void processNotification(String type, Bundle extras) {
+        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        final String messageValue = extras.getString("message");
+
+        Intent intent = new Intent(this, MessagesActivity.class);
+        intent.putExtra(Constants.EXTRA_MESSAGE, messageValue);
+
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this).setSmallIcon(
+                R.drawable.ic_launcher).setContentTitle(Constants.GCM_NOTIFICATION).setStyle(
+                new NotificationCompat.BigTextStyle().bigText(messageValue)).setContentText(messageValue);
+
+        mBuilder.setContentIntent(contentIntent);
+        notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+
+
+    }
 }

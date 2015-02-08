@@ -1,6 +1,8 @@
 package com.mozan;
 
 import android.app.Application;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
 import com.android.volley.Request;
@@ -116,4 +118,19 @@ public class AppController extends Application {
         }
         return opponentID;
     }
+
+
+    /**
+     * @return Application's version code from the {@code PackageManager}.
+     */
+    public int getAppVersion() {
+        try {
+            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            return packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            // should never happen
+            throw new RuntimeException("Could not get package name: " + e);
+        }
+    }
+
 }
