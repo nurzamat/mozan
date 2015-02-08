@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.mozan.util.ApiHelper;
 import com.mozan.util.GlobalVar;
+import com.mozan.util.Constants;
 import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.model.QBSession;
 import com.quickblox.chat.QBChatService;
@@ -24,11 +25,7 @@ import java.util.List;
 public class SplashActivity extends Activity
 {
     //
-    private static final String APP_ID = "18797";
-    private static final String AUTH_KEY = "r94hby9Rp-MHUO8";
-    private static final String AUTH_SECRET = "AbgGep9pUV9JH8P";
 
-    static final int AUTO_PRESENCE_INTERVAL_IN_SECONDS = 30;
     private QBChatService chatService;
     private QBDialog dialog;
     private String token;
@@ -41,7 +38,7 @@ public class SplashActivity extends Activity
         // Init Chat
         //
         QBChatService.setDebugEnabled(true);
-        QBSettings.getInstance().fastConfigInit(APP_ID, AUTH_KEY, AUTH_SECRET);
+        QBSettings.getInstance().fastConfigInit(Constants.APP_ID, Constants.AUTH_KEY, Constants.AUTH_SECRET);
         if (!QBChatService.isInitialized()) {
             QBChatService.init(this);
         }
@@ -87,7 +84,7 @@ public class SplashActivity extends Activity
                 try {
 
                     GlobalVar.quickbloxLogin = true;
-                    chatService.startAutoSendPresence(AUTO_PRESENCE_INTERVAL_IN_SECONDS);
+                    chatService.startAutoSendPresence(Constants.AUTO_PRESENCE_INTERVAL_IN_SECONDS);
 
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("type", 3);

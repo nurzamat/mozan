@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.mozan.adapter.NavDrawerListAdapter;
 import com.mozan.model.NavDrawerItem;
+import com.mozan.util.Constants;
 import com.mozan.util.GlobalVar;
 import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.model.QBSession;
@@ -37,11 +38,6 @@ import java.util.List;
 
 public class HomeActivity extends FragmentActivity
 {
-    private static final String APP_ID = "18797";
-    private static final String AUTH_KEY = "r94hby9Rp-MHUO8";
-    private static final String AUTH_SECRET = "AbgGep9pUV9JH8P";
-    //
-    static final int AUTO_PRESENCE_INTERVAL_IN_SECONDS = 30;
     private QBChatService chatService;
     //
     //
@@ -73,7 +69,7 @@ public class HomeActivity extends FragmentActivity
             // Init Chat
             //
             QBChatService.setDebugEnabled(true);
-            QBSettings.getInstance().fastConfigInit(APP_ID, AUTH_KEY, AUTH_SECRET);
+            QBSettings.getInstance().fastConfigInit(Constants.APP_ID, Constants.AUTH_KEY, Constants.AUTH_SECRET);
             if (!QBChatService.isInitialized()) {
                 QBChatService.init(this);
             }
@@ -440,7 +436,7 @@ public class HomeActivity extends FragmentActivity
                 try {
 
                     GlobalVar.quickbloxLogin = true;
-                    chatService.startAutoSendPresence(AUTO_PRESENCE_INTERVAL_IN_SECONDS);
+                    chatService.startAutoSendPresence(Constants.AUTO_PRESENCE_INTERVAL_IN_SECONDS);
 
                 } catch (Exception e)
                 {

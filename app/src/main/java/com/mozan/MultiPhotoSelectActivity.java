@@ -15,7 +15,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -25,7 +24,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.mozan.adapter.PlaceSlidesFragmentAdapter;
-import com.mozan.util.AppConstant;
+import com.mozan.util.Constants;
 import com.mozan.util.GlobalVar;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -123,7 +122,7 @@ public class MultiPhotoSelectActivity extends Activity {
         for (int i =0; i<len; i++)
         {
             cnt++;
-            if(i < AppConstant.MAX_IMAGES){
+            if(i < Constants.MAX_IMAGES){
 
                 String path = selectedItems.get(i);
                 GlobalVar._bitmaps.add(decodeFile(path, columnWidth, columnWidth));
@@ -154,7 +153,7 @@ public class MultiPhotoSelectActivity extends Activity {
  private void InitilizeGridLayout() {
      Resources r = getResources();
      float padding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-             AppConstant.GRID_PADDING, r.getDisplayMetrics());
+             Constants.GRID_PADDING, r.getDisplayMetrics());
 
      DisplayMetrics metrics = new DisplayMetrics();
      getWindowManager().getDefaultDisplay().getMetrics(metrics);
