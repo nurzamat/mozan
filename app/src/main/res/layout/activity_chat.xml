@@ -18,7 +18,6 @@
             android:layout_alignParentBottom="true"
             android:autoText="false"
             android:layout_toStartOf="@+id/companionLabel"
-            android:layout_alignTop="@+id/chatSendButton"
             android:layout_alignParentLeft="true"
             android:layout_toLeftOf="@+id/chatSendButton"
             android:inputType="text|textCapSentences|textAutoComplete|textAutoCorrect" />
@@ -28,14 +27,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:src="@drawable/send32"
+            android:src="@drawable/send12"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="false"
             android:contentDescription="Отправить"
             android:soundEffectsEnabled="true"
             android:layout_gravity="right"
             android:layout_alignWithParentIfMissing="false"
-            android:clickable="false" />
+            android:clickable="false"
+            android:background="@android:color/transparent"
+            android:layout_alignTop="@+id/messageEdit"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:baselineAlignBottom="false" />
 
         <ListView
             android:id="@+id/messagesContainer"
