@@ -65,11 +65,6 @@ public class SplashActivity extends Activity
                 //
                 loginToChat(user);
 
-                // Push Notification
-                Intent intent = new Intent(SplashActivity.this, MessagesActivity.class);
-                startActivity(intent);
-                finish();
-
             }
 
             @Override

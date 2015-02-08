@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import trade.mozan.util.PlayServicesHelper;
 import trade.mozan.adapter.NavDrawerListAdapter;
 import trade.mozan.model.NavDrawerItem;
 import trade.mozan.util.Constants;
@@ -35,8 +36,7 @@ import com.quickblox.users.model.QBUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeActivity extends FragmentActivity
-{
+public class HomeActivity extends FragmentActivity {
     private QBChatService chatService;
     //
     //
@@ -56,13 +56,13 @@ public class HomeActivity extends FragmentActivity
 
 	private ArrayList<NavDrawerItem> navDrawerItems;
 	private NavDrawerListAdapter adapter;
+    private PlayServicesHelper playServicesHelper;
     FragmentManager fragmentManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
-
         if(!GlobalVar.quickbloxLogin && !GlobalVar.Phone.equals("") && !GlobalVar.Token.equals(""))
         {
             // Init Chat
@@ -79,7 +79,8 @@ public class HomeActivity extends FragmentActivity
             final QBUser user = new QBUser();
             user.setLogin(GlobalVar.Phone);
             user.setPassword(GlobalVar.Token);
-
+            // TODO: Проверить время действия сессии. Вроде всего на два часа сессия. А тут только при
+            // первой регистрации
             QBAuth.createSession(user, new QBEntityCallbackImpl<QBSession>() {
                 @Override
                 public void onSuccess(QBSession session, Bundle args) {
@@ -92,6 +93,10 @@ public class HomeActivity extends FragmentActivity
                     // login to Chat
                     //
                     loginToChat(user);
+
+                    // Push Notification registration
+                    playServicesHelper = new PlayServicesHelper(HomeActivity.this);
+
                 }
 
                 @Override
@@ -449,4 +454,6 @@ public class HomeActivity extends FragmentActivity
             }
         });
     }
+
+
 }

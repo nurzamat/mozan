@@ -67,16 +67,16 @@ public class GCMIntentService extends IntentService {
 
         final String messageValue = extras.getString("message");
 
-        Intent intent = new Intent(this, MessagesActivity.class);
-        intent.putExtra(Constants.EXTRA_MESSAGE, messageValue);
+    //    Intent intent = new Intent(this, MessagesActivity.class);
+     //   intent.putExtra(Constants.EXTRA_MESSAGE, messageValue);
 
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
+     //   PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this).setSmallIcon(
                 R.drawable.ic_launcher).setContentTitle(Constants.GCM_NOTIFICATION).setStyle(
                 new NotificationCompat.BigTextStyle().bigText(messageValue)).setContentText(messageValue);
 
-        mBuilder.setContentIntent(contentIntent);
+     //   mBuilder.setContentIntent(contentIntent);
         notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
 
 
