@@ -23,7 +23,7 @@
         android:layout_alignParentRight="true"/>
 
 
-    <com.mozan.lib.PullToRefreshListView xmlns:ptr="http://schemas.android.com/apk/res-auto"
+    <trade.mozan.lib.PullToRefreshListView xmlns:ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/usersList"
         android:layout_below="@+id/textView"
         android:layout_width="match_parent"

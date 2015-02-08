@@ -9,7 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/frame_add_adv"
-    tools:context="com.mozan.AddPostFragment"
+    tools:context="trade.mozan.AddPostFragment"
     android:padding="10dp">
 
     <LinearLayout android:focusable="true"
@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="150dp"
         android:layout_alignParentTop="true"/>
-    <com.mozan.lib.CirclePageIndicator
+    <trade.mozan.lib.CirclePageIndicator
         android:id="@+id/indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
