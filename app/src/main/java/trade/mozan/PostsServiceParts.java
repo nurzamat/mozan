@@ -31,14 +31,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class RestPosts extends Fragment {
+public class PostsServiceParts extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     // Log tag
     private static final String TAG =  "[post response]";
 
-    private static final String url = ApiHelper.REST_URL;
+    private static final String url = ApiHelper.SERVICE_PARTS_URL;
     private ProgressDialog pDialog;
     private List<Post> postList = new ArrayList<Post>();
     private ListView listView;
@@ -49,7 +49,7 @@ public class RestPosts extends Fragment {
     private String next = null;
     ProgressBar spin;
 
-    public RestPosts() {
+    public PostsServiceParts() {
         // Required empty public constructor
     }
 
@@ -57,8 +57,7 @@ public class RestPosts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_rest_posts, container, false);
-
+        View rootView = inflater.inflate(R.layout.fragment_posts_service, container, false);
         try
         {
             Activity context = getActivity();
@@ -81,11 +80,9 @@ public class RestPosts extends Fragment {
         {
             e.printStackTrace();
         }
-
         // Inflate the layout for this fragment
         return rootView;
     }
-
     private void VolleyRequest(String url) {
         spin.setVisibility(View.VISIBLE);
 

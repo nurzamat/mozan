@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -19,40 +18,38 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import trade.mozan.adapter.PostListAdapter;
-import trade.mozan.model.Category;
 import trade.mozan.model.Image;
 import trade.mozan.model.Post;
 import trade.mozan.util.ApiHelper;
-import trade.mozan.util.GlobalVar;
 import trade.mozan.util.JsonObjectRequest;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 
-public class AvtoPosts extends Fragment {
+public class PostsRest extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     // Log tag
     private static final String TAG =  "[post response]";
 
-    private static final String url = ApiHelper.AVTO_URL;
+    private static final String url = ApiHelper.REST_URL;
     private ProgressDialog pDialog;
     private List<Post> postList = new ArrayList<Post>();
     private ListView listView;
     private PostListAdapter adapter;
     private TextView emptyText;
-    private View rootView;
     AppController appcon;
     private int total;
     private String next = null;
     ProgressBar spin;
 
-    public AvtoPosts() {
+    public PostsRest() {
         // Required empty public constructor
     }
 
@@ -60,7 +57,8 @@ public class AvtoPosts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_avto_posts, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_posts_rest, container, false);
+
         try
         {
             Activity context = getActivity();
@@ -69,19 +67,15 @@ public class AvtoPosts extends Fragment {
             listView.setEmptyView(emptyText);
             adapter = new PostListAdapter(context, postList);
             listView.setAdapter(adapter);
-
             spin = (ProgressBar) rootView.findViewById(R.id.loading);
             // changing action bar color
             context.getActionBar().setBackgroundDrawable(
                     new ColorDrawable(Color.parseColor("#1b1b1b")));
 
-            ButtonClick();
-
             appcon = AppController.getInstance();
 
             VolleyRequest(url);
             listView.setOnScrollListener(new EndlessScrollListener(1));
-
         }
         catch (NullPointerException e)
         {
@@ -176,74 +170,6 @@ public class AvtoPosts extends Fragment {
         appcon.addToRequestQueue(jsonObjReq);
     }
 
-    public void ButtonClick()
-    {
-        try
-        {
-            ArrayList<Category> categories = new ArrayList<Category>();
-
-            for(Iterator<Category> i = GlobalVar._categories.iterator(); i.hasNext(); ) {
-                Category item = i.next();
-                if(item.getParent().equals("2")) // 1 - Авто
-                    categories.add(item);
-            }
-
-            Button btn1 = (Button) rootView.findViewById(R.id.btn1);
-            Button btn2 = (Button) rootView.findViewById(R.id.btn2);
-            Button btn3 = (Button) rootView.findViewById(R.id.btn3);
-            Button btn4 = (Button) rootView.findViewById(R.id.btn4);
-            final Category category1 = categories.get(0);
-            final Category category2 = categories.get(1);
-            final Category category3 = categories.get(2);
-            final Category category4 = categories.get(3);
-            btn1.setText(category1.getName());
-            btn2.setText(category2.getName());
-            btn3.setText(category3.getName());
-            btn4.setText(category4.getName());
-
-            btn1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    postList.clear();
-                    next = null;
-                    VolleyRequest(ApiHelper.CATEGORY_URL + category1.getId() + "/");
-                }
-            });
-
-            btn2.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    postList.clear();
-                    next = null;
-                    VolleyRequest(ApiHelper.CATEGORY_URL + category2.getId() + "/");
-                }
-            });
-            btn3.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    postList.clear();
-                    next = null;
-                    VolleyRequest(ApiHelper.CATEGORY_URL + category3.getId() + "/");
-                }
-            });
-            btn4.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    postList.clear();
-                    next = null;
-                    VolleyRequest(ApiHelper.CATEGORY_URL + category4.getId() + "/");
-                }
-            });
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-    }
-
     public class EndlessScrollListener implements AbsListView.OnScrollListener {
 
         private int visibleThreshold = 5;
@@ -268,9 +194,6 @@ public class AvtoPosts extends Fragment {
                 }
             }
             if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
-                // I load the next page of gigs using a background task,
-                // but you can call any function here.
-                //new LoadGigsTask().execute(currentPage + 1);
                 if(next != null && !next.equals("null"))
                     VolleyRequest(next);
                 loading = true;
@@ -281,4 +204,5 @@ public class AvtoPosts extends Fragment {
         public void onScrollStateChanged(AbsListView view, int scrollState) {
         }
     }
+
 }

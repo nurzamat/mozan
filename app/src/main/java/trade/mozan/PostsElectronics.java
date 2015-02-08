@@ -25,36 +25,33 @@ import trade.mozan.model.Post;
 import trade.mozan.util.ApiHelper;
 import trade.mozan.util.GlobalVar;
 import trade.mozan.util.JsonObjectRequest;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-
-public class RealtyPosts extends Fragment {
+public class PostsElectronics extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     // Log tag
     private static final String TAG =  "[post response]";
 
-    private static final String url = ApiHelper.REALTY_URL;
+    private static final String url = ApiHelper.ELECTRONICS_URL;
     private ProgressDialog pDialog;
     private List<Post> postList = new ArrayList<Post>();
     private ListView listView;
     private PostListAdapter adapter;
     private TextView emptyText;
-    View rootView;
+    private View rootView;
     AppController appcon;
     private int total;
     private String next = null;
     ProgressBar spin;
 
-    public RealtyPosts() {
+    public PostsElectronics() {
         // Required empty public constructor
     }
 
@@ -62,16 +59,16 @@ public class RealtyPosts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_realty_posts, container, false);
-
+        rootView = inflater.inflate(R.layout.fragment_posts_electronics, container, false);
         try
         {
             Activity context = getActivity();
             listView = (ListView) rootView.findViewById(R.id.list);
-            emptyText = (TextView)rootView.findViewById(android.R.id.empty);
+            emptyText = (TextView) rootView.findViewById(android.R.id.empty);
             listView.setEmptyView(emptyText);
             adapter = new PostListAdapter(context, postList);
             listView.setAdapter(adapter);
+
             spin = (ProgressBar) rootView.findViewById(R.id.loading);
             // changing action bar color
             context.getActionBar().setBackgroundDrawable(
@@ -83,12 +80,14 @@ public class RealtyPosts extends Fragment {
 
             VolleyRequest(url);
             listView.setOnScrollListener(new EndlessScrollListener(1));
+
         }
         catch (NullPointerException e)
         {
             e.printStackTrace();
         }
 
+        // Inflate the layout for this fragment
         return rootView;
     }
 
@@ -184,7 +183,7 @@ public class RealtyPosts extends Fragment {
 
             for(Iterator<Category> i = GlobalVar._categories.iterator(); i.hasNext(); ) {
                 Category item = i.next();
-                if(item.getParent().equals("1")) // 1 - Недвижимость
+                if(item.getParent().equals("6")) // 6 - Электроника и техника
                     categories.add(item);
             }
 
@@ -254,4 +253,5 @@ public class RealtyPosts extends Fragment {
         public void onScrollStateChanged(AbsListView view, int scrollState) {
         }
     }
+
 }

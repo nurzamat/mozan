@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="trade.mozan.RealtyPosts"
+    tools:context="trade.mozan.PostsElectronics"
     android:background="#e5e5e5">
     <ProgressBar
         android:id="@+id/loading"

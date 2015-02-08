@@ -81,32 +81,32 @@ public class HomeFragment extends Fragment {
                 switch (position) {
                     case 0:
                     {
-                        fragment = new ElectronicsPosts();
+                        fragment = new PostsElectronics();
                         break;
                     }
                     case 1:
                     {
-                        fragment = new BuildingsPosts();
+                        fragment = new PostsRepairConstruction();
                         break;
                     }
                     case 2:
                     {
-                        fragment = new RealtyPosts();
+                        fragment = new PostsRealty();
                         break;
                     }
                     case 3:
                     {
-                        fragment = new ServicePartsPosts();
+                        fragment = new PostsServiceParts();
                         break;
                     }
                     case 4:
                     {
-                        fragment = new AvtoPosts();
+                        fragment = new PostsVehicles();
                         break;
                     }
                     case 5:
                     {
-                        fragment = new RestPosts();
+                        fragment = new PostsRest();
                         break;
                     }
 
