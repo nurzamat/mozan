@@ -34,6 +34,11 @@ public class StartActivity extends Activity {
         setContentView(R.layout.activity_start);
         etText = (TextView) findViewById(R.id.no_internet);
 
+        Intent intent = getIntent();
+        if(intent.hasExtra("qid") && !intent.getStringExtra("qid").equals(""))
+            GlobalVar.quickbloxID = intent.getStringExtra("qid");
+        else GlobalVar.quickbloxID = "";
+
         SharedPreferences sp = this.getSharedPreferences(GlobalVar.MOZAN,0);
         GlobalVar.Phone = sp.getString(GlobalVar.MOZAN_PHONE, "");
         GlobalVar.Token = sp.getString(GlobalVar.MOZAN_TOKEN, "");

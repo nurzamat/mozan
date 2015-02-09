@@ -117,8 +117,8 @@ public class PostsRealty extends Fragment {
                             Post post = new Post();
                             post.setId(obj.getString("id"));
                             post.setContent(obj.getString("content"));
-                            post.setHitcount(obj.getJSONObject("hitcount").getString("counter"));
-                            post.setHitcountId(obj.getJSONObject("hitcount").getString("id"));
+                            post.setHitcount(obj.getJSONObject("hitcount_pk").getString("counter"));
+                            post.setHitcountId(obj.getJSONObject("hitcount_pk").getString("id"));
                             post.setPrice(obj.getString("price"));
                             post.setPriceCurrency(obj.getString("price_currency"));
                             owner = obj.getJSONObject("owner");

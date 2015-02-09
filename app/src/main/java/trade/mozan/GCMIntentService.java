@@ -62,23 +62,22 @@ public class GCMIntentService extends IntentService {
     // Put the message into a notification and post it.
     // This is just one simple example of what you might choose to do with
     // a GCM message.
-    private void processNotification(String type, Bundle extras) {
+    private void processNotification(String type, Bundle extras)
+    {
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
         final String messageValue = extras.getString("message");
 
-    //    Intent intent = new Intent(this, MessagesActivity.class);
-     //   intent.putExtra(Constants.EXTRA_MESSAGE, messageValue);
+        Intent intent = new Intent(this, StartActivity.class);
+        intent.putExtra(Constants.EXTRA_MESSAGE, messageValue);
+        intent.putExtra("qid", "2273049");
 
-     //   PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this).setSmallIcon(
                 R.drawable.ic_launcher).setContentTitle(Constants.GCM_NOTIFICATION).setStyle(
-                new NotificationCompat.BigTextStyle().bigText(messageValue)).setContentText(messageValue);
+                new NotificationCompat.BigTextStyle().bigText(messageValue)).setContentText(messageValue).setContentIntent(contentIntent);
 
-     //   mBuilder.setContentIntent(contentIntent);
+     // mBuilder.setContentIntent(contentIntent);
         notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
-
-
     }
 }
