@@ -432,14 +432,12 @@ public class HomeActivity extends FragmentActivity {
 
     private void loginToChat(final QBUser user)
     {
-
         chatService.login(user, new QBEntityCallbackImpl() {
             @Override
             public void onSuccess() {
                 // Start sending presences
                 //
                 try {
-
                     GlobalVar.quickbloxLogin = true;
                     chatService.startAutoSendPresence(Constants.AUTO_PRESENCE_INTERVAL_IN_SECONDS);
 
@@ -457,13 +455,18 @@ public class HomeActivity extends FragmentActivity {
                                 }
                             }
                         }
-
+                        /*
                         Bundle bundle = new Bundle();
                         bundle.putSerializable(ChatActivity.EXTRA_MODE, ChatActivity.Mode.PRIVATE);
                         bundle.putSerializable(ChatActivity.EXTRA_DIALOG, dialog);
                         ChatActivity.start(context, bundle);
-                    }
+                        */
+                        Intent in = new Intent(HomeActivity.this, ChatActivity.class);
+                        in.putExtra(ChatActivity.EXTRA_MODE, ChatActivity.Mode.PRIVATE);
+                        in.putExtra(ChatActivity.EXTRA_DIALOG, dialog);
+                        startActivity(in);
 
+                    }
                 } catch (Exception e)
                 {
                     e.printStackTrace();

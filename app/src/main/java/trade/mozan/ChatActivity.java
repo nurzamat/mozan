@@ -64,7 +64,6 @@ public class ChatActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-
         Intent intent = getIntent();
         // Get chat dialog
         //
@@ -138,8 +137,15 @@ public class ChatActivity extends Activity {
                     }
                     else
                     {
-                        opponentID = ((AppController)getApplication()).getOpponentIDForPrivateDialog(dialog);
-                        companionLabel.setText(((AppController)getApplication()).getDialogsUsers().get(opponentID).getLogin());
+                        if(!GlobalVar.quickbloxID.equals(""))
+                        {
+                            opponentID = Integer.parseInt(GlobalVar.quickbloxID);
+                            companionLabel.setText("test");
+                        }
+                        else {
+                            opponentID = ((AppController) getApplication()).getOpponentIDForPrivateDialog(dialog);
+                            companionLabel.setText(((AppController) getApplication()).getDialogsUsers().get(opponentID).getLogin());
+                        }
                     }
 
                     chat = new PrivateChatManagerImpl(this, opponentID);
