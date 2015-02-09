@@ -462,8 +462,6 @@ public class HomeActivity extends FragmentActivity {
                         bundle.putSerializable(ChatActivity.EXTRA_MODE, ChatActivity.Mode.PRIVATE);
                         bundle.putSerializable(ChatActivity.EXTRA_DIALOG, dialog);
                         ChatActivity.start(context, bundle);
-                        //reset
-                        GlobalVar.quickbloxID = "";
                     }
 
                 } catch (Exception e)

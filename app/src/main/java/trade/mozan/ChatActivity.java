@@ -146,6 +146,10 @@ public class ChatActivity extends Activity {
                     // Load CHat history
                     //
                     loadChatHistory();
+
+                    //reset
+                    GlobalVar.quickbloxID = "";
+
                     break;
                 }
                 catch (Exception ex)

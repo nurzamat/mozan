@@ -127,7 +127,7 @@ public class PostsRest extends Fragment {
                             jimages = obj.getJSONArray("images");
                             if(jimages.length() > 0)
                             {
-                                post.setThumbnailUrl(ApiHelper.MEDIA_URL + jimages.getJSONObject(0).getString("original_image"));
+                                post.setThumbnailUrl(jimages.getJSONObject(0).getString("original_image"));
                                 // Images
                                 ArrayList<Image> images = new ArrayList<Image>();
                                 JSONObject img;
@@ -135,7 +135,7 @@ public class PostsRest extends Fragment {
                                 for (int j = 0; j < jimages.length(); j++)
                                 {
                                     img = jimages.getJSONObject(j);
-                                    image = new Image(img.getString("id"), ApiHelper.MEDIA_URL + img.getString("original_image"));
+                                    image = new Image(img.getString("id"), img.getString("original_image"));
                                     images.add(image);
                                 }
                                 post.setImages(images);
