@@ -97,9 +97,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".MessagesActivity"
-            android:screenOrientation="portrait" />
 
         <!-- GCM (Push Notifications) setup: http://developer.android.com/google/gcm/gs.html#android-app -->
 
