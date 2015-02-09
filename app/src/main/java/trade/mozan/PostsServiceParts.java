@@ -116,7 +116,7 @@ public class PostsServiceParts extends Fragment {
                             post.setUsername(owner.getString("username"));
                             post.setUserId(owner.getString("id"));
                             post.setDisplayedName(owner.getJSONObject("profile").getString("displayed_name"));
-                            post.setAvatarUrl(ApiHelper.MOZAN_URL + owner.getJSONObject("profile").getString("avatar_30"));
+                            post.setAvatarUrl(owner.getJSONObject("profile").getString("avatar_30"));
                             post.setQuickbloxId(owner.getJSONObject("profile").getString("quick_blox_id"));
                             category_id = obj.getString("category");
                             post.setCategory(category_id);

@@ -80,7 +80,7 @@ public class MyProfileFragment extends Fragment {
 
                         dname.setText(displayed_name);
                         phone.setText(user);
-                        avatar.setImageUrl(ApiHelper.MOZAN_URL + avatar_30, imageLoader);
+                        avatar.setImageUrl(avatar_30, imageLoader);
                         if(avatar.getDrawable() != null)
                            spin.setVisibility(View.GONE);
 
