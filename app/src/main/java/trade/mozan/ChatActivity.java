@@ -52,6 +52,7 @@ public class ChatActivity extends Activity {
     private QBDialog dialog = null;
     private ArrayList<QBChatMessage> messages;
     private ArrayList<QBChatMessage> history;
+    private Integer opponentID;
 
     public static void start(Context context, Bundle bundle) {
         Intent intent = new Intent(context, ChatActivity.class);
@@ -129,7 +130,6 @@ public class ChatActivity extends Activity {
             case PRIVATE:
                 try
                 {
-                    Integer opponentID;
                     if(GlobalVar._Post != null)
                     {
                         opponentID = Integer.parseInt(GlobalVar._Post.getQuickbloxId());
@@ -169,9 +169,12 @@ public class ChatActivity extends Activity {
                 chatMessage.setProperty(PROPERTY_SAVE_TO_HISTORY, "1");
                 chatMessage.setDateSent(new Date().getTime()/1000);
 
-                try {
+                try
+                {
+                    GlobalVar.quickbloxID = opponentID.toString();
                     chat.sendMessage(chatMessage);
-                } catch (XMPPException e) {
+                }
+                catch (XMPPException e) {
                     Log.e(TAG, "failed to send a message", e);
                 } catch (SmackException sme){
                     Log.e(TAG, "failed to send a message", sme);
@@ -245,7 +248,9 @@ public class ChatActivity extends Activity {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("type", 3);
                 jsonObject.put("name", "test");
+                if(GlobalVar._Post != null)
                 jsonObject.put("occupants_ids", GlobalVar._Post.getQuickbloxId());
+                else jsonObject.put("occupants_ids", GlobalVar.quickbloxID);
 
                 ApiHelper api = new ApiHelper();
                 JSONObject result = api.createDialog(urls[0], jsonObject, GlobalVar.quickbloxToken);

@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import trade.mozan.util.Constants;
+import trade.mozan.util.GlobalVar;
 
 public class GCMIntentService extends IntentService {
 
@@ -68,8 +69,8 @@ public class GCMIntentService extends IntentService {
         final String messageValue = extras.getString("message");
 
         Intent intent = new Intent(this, StartActivity.class);
-        intent.putExtra(Constants.EXTRA_MESSAGE, messageValue);
-        intent.putExtra("qid", "2273049");
+        //intent.putExtra(Constants.EXTRA_MESSAGE, messageValue);
+        intent.putExtra("qid", GlobalVar.quickbloxID);
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
 

@@ -29,6 +29,7 @@ import trade.mozan.util.GlobalVar;
 import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.model.QBSession;
 import com.quickblox.chat.QBChatService;
+import com.quickblox.chat.model.QBDialog;
 import com.quickblox.core.QBEntityCallbackImpl;
 import com.quickblox.core.QBSettings;
 import com.quickblox.users.model.QBUser;
@@ -441,6 +442,29 @@ public class HomeActivity extends FragmentActivity {
 
                     GlobalVar.quickbloxLogin = true;
                     chatService.startAutoSendPresence(Constants.AUTO_PRESENCE_INTERVAL_IN_SECONDS);
+
+                    if(!GlobalVar.quickbloxID.equals(""))
+                    {
+                        QBDialog dialog = null;
+                        if(GlobalVar.quickbloxDialogs.size() > 0)
+                        {
+                            for (QBDialog qdialog : GlobalVar.quickbloxDialogs)
+                            {
+
+                                if(qdialog.getOccupants().contains(Integer.parseInt(GlobalVar.quickbloxID)))
+                                {
+                                    dialog = qdialog;
+                                }
+                            }
+                        }
+
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable(ChatActivity.EXTRA_MODE, ChatActivity.Mode.PRIVATE);
+                        bundle.putSerializable(ChatActivity.EXTRA_DIALOG, dialog);
+                        ChatActivity.start(context, bundle);
+                        //reset
+                        GlobalVar.quickbloxID = "";
+                    }
 
                 } catch (Exception e)
                 {
