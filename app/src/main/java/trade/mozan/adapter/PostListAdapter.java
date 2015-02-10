@@ -28,7 +28,7 @@ import trade.mozan.CodeActivity;
 import trade.mozan.FullScreenViewActivity;
 import trade.mozan.R;
 import trade.mozan.RegisterActivity;
-import trade.mozan.SplashActivity;
+import trade.mozan.StartActivity;
 import trade.mozan.model.Post;
 import trade.mozan.util.GlobalVar;
 import com.quickblox.chat.model.QBDialog;
@@ -204,7 +204,8 @@ public class PostListAdapter extends BaseAdapter {
 
                         if(!GlobalVar.quickbloxLogin)
                         {
-                            Intent in = new Intent(activity, SplashActivity.class);
+                            GlobalVar.quickbloxID = "";
+                            Intent in = new Intent(activity, StartActivity.class);
                             activity.startActivity(in);
                         }
                         else
