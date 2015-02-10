@@ -38,6 +38,9 @@ public class GlobalVar {
     public static boolean profile_edit = false;
     public static String DisplayedName = "";
     public static Category SelectedCategory = null;
+    public static String postContent = "";
+    public static String postPrice = "";
+    public static String postPriceCurrency = "";
     public static String quickbloxToken = "";
     public static boolean quickbloxLogin = false;
     public static String quickbloxID = "";

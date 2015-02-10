@@ -41,10 +41,10 @@ public class AddPostFragment extends Fragment {
     PagerAdapter mAdapter;
     View rootView;
     CirclePageIndicator mIndicator;
-    String content;
+    String content = "";
     String category = "";
     String category_name = "";
-    String price;
+    String price = "";
     String price_currency;
     String result;
     Activity context;
@@ -89,6 +89,22 @@ public class AddPostFragment extends Fragment {
                 this.price = "";
             }
         }
+
+        if(!GlobalVar.postContent.equals(""))
+        {
+            this.content = GlobalVar.postContent;
+            GlobalVar.postContent = "";
+        }
+        if(!GlobalVar.postPrice.equals(""))
+        {
+            this.price = GlobalVar.postPrice;
+            GlobalVar.postPrice = "";
+        }
+        if(!GlobalVar.postPriceCurrency.equals(""))
+        {
+            this.price_currency = GlobalVar.postPriceCurrency;
+            GlobalVar.postPriceCurrency = "";
+        }
     }
 
     @Override
@@ -124,16 +140,13 @@ public class AddPostFragment extends Fragment {
         }
 
         if(!mode) //edit
-        {
-            etContent.setText(content);
-            etPrice.setText(price);
-            spinner.setSelection(adapter.getPosition(price_currency));
             postBtn.setText(R.string.save);
-        }
         else
-        {
             postBtn.setText(R.string.add);
-        }
+
+        etContent.setText(content);
+        etPrice.setText(price);
+        spinner.setSelection(adapter.getPosition(price_currency));
 
         spinner.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
@@ -175,7 +188,10 @@ public class AddPostFragment extends Fragment {
         categoryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GlobalVar.SelectedCategory = null;
+                GlobalVar.postContent = etContent.getText().toString().trim();
+                GlobalVar.postPrice = etPrice.getText().toString().trim();
+                GlobalVar.postPriceCurrency = price_currency;
+                GlobalVar.SelectedCategory = null; //main
                 Intent in = new Intent(context, HomeActivity.class);
                 in.putExtra("case", 8); //categories
                 startActivity(in);
