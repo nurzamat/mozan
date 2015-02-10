@@ -31,7 +31,7 @@
     <string name="call">Позвонить</string>
     <string name="select">Выбрать</string>
     <string name="loading">Загрузка...</string>
-    <string name="connection_problem">Check Internet connection</string>
+    <string name="connection_problem">Проверьте соединение с интернетом</string>
     <string name="phone_text">Введите пожалуйста Ваш номер телефона в международном формате</string>
     <string name="displayed_name">Имя</string>
     <string name="phone_number">Номер телефона</string>
