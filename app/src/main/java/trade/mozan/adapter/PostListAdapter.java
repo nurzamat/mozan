@@ -32,7 +32,15 @@ import trade.mozan.StartActivity;
 import trade.mozan.model.Post;
 import trade.mozan.util.GlobalVar;
 import com.quickblox.chat.model.QBDialog;
+import com.quickblox.core.QBEntityCallbackImpl;
+import com.quickblox.core.helper.StringifyArrayList;
+import com.quickblox.messages.QBMessages;
+import com.quickblox.messages.model.QBEnvironment;
+import com.quickblox.messages.model.QBEvent;
+import com.quickblox.messages.model.QBNotificationType;
+import com.quickblox.messages.model.QBPushType;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class PostListAdapter extends BaseAdapter {
@@ -202,6 +210,35 @@ public class PostListAdapter extends BaseAdapter {
                     {
                         GlobalVar._Post = _m;
 
+                        // recipients
+                        StringifyArrayList<Integer> userIds = new StringifyArrayList<Integer>();
+                        userIds.add(Integer.parseInt(_m.getQuickbloxId()));
+
+                        QBEvent event = new QBEvent();
+                        event.setUserIds(userIds);
+                        event.setEnvironment(QBEnvironment.DEVELOPMENT);
+                        event.setNotificationType(QBNotificationType.PUSH);
+                        event.setPushType(QBPushType.GCM);
+                        HashMap<String, String> data = new HashMap<String, String>();
+                        data.put("data.message", "Hello");
+                        data.put("data.type", "welcome message");
+                        event.setMessage(data);
+
+                        QBMessages.createEvent(event, new QBEntityCallbackImpl<QBEvent>() {
+                            @Override
+                            public void onSuccess(QBEvent qbEvent, Bundle args) {
+                                // sent
+                                Toast.makeText(activity, "Sent push", Toast.LENGTH_LONG).show();
+
+                            }
+
+                            @Override
+                            public void onError(List<String> errors) {
+
+                            }
+                        });
+
+/*
                         if(!GlobalVar.quickbloxLogin)
                         {
                             GlobalVar.quickbloxID = "";
@@ -228,6 +265,7 @@ public class PostListAdapter extends BaseAdapter {
                             bundle.putSerializable(ChatActivity.EXTRA_DIALOG, dialog);
                             ChatActivity.start(activity, bundle);
                         }
+                        */
                     }
                     else
                     {
