@@ -98,13 +98,19 @@ public class RegisterActivity extends Activity {
                 Ed.putString(GlobalVar.MOZAN_QID,GlobalVar.Qid);
                 Ed.commit();
 
-                Intent in = new Intent(RegisterActivity.this, HomeActivity.class);
-                if(GlobalVar.adv_position)
-                    in.putExtra("case", 6);
-                if(GlobalVar.profile_position)
-                    in.putExtra("case", 2);
-                if(GlobalVar.messages_position)
-                    in.putExtra("case", 3);
+                Intent in;
+                if(GlobalVar.quickbloxID.equals(""))
+                {
+                    in = new Intent(RegisterActivity.this, HomeActivity.class);
+                    if(GlobalVar.adv_position)
+                        in.putExtra("case", 6);
+                    if(GlobalVar.profile_position)
+                        in.putExtra("case", 2);
+                    if(GlobalVar.messages_position)
+                        in.putExtra("case", 3);
+                }
+                else in = new Intent(RegisterActivity.this, StartActivity.class);
+
                 startActivity(in);
                 GlobalVar.isCodeSent = false;
                 CodeActivity.fa.finish();

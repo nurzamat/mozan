@@ -39,9 +39,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends FragmentActivity {
-    private QBChatService chatService;
-    //
-    //
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
@@ -58,56 +55,13 @@ public class HomeActivity extends FragmentActivity {
 
 	private ArrayList<NavDrawerItem> navDrawerItems;
 	private NavDrawerListAdapter adapter;
-    private PlayServicesHelper playServicesHelper;
     FragmentManager fragmentManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
-        if(!GlobalVar.quickbloxLogin && !GlobalVar.Phone.equals("") && !GlobalVar.Token.equals(""))
-        {
-            // Init Chat
-            //
-            QBChatService.setDebugEnabled(true);
-            QBSettings.getInstance().fastConfigInit(Constants.APP_ID, Constants.AUTH_KEY, Constants.AUTH_SECRET);
-            if (!QBChatService.isInitialized()) {
-                QBChatService.init(this);
-            }
-            chatService = QBChatService.getInstance();
-
-            // create QB user
-            //
-            final QBUser user = new QBUser();
-            user.setLogin(GlobalVar.Phone);
-            user.setPassword(GlobalVar.Token);
-            // TODO: Проверить время действия сессии. Вроде всего на два часа сессия. А тут только при
-            // первой регистрации
-            QBAuth.createSession(user, new QBEntityCallbackImpl<QBSession>() {
-                @Override
-                public void onSuccess(QBSession session, Bundle args) {
-                    // save current user
-                    //
-                    user.setId(session.getUserId());
-                    GlobalVar.quickbloxToken = session.getToken();
-                    ((AppController) getApplication()).setCurrentUser(user);
-
-                    // login to Chat
-                    //
-                    loginToChat(user);
-
-                    // Push Notification registration
-                    playServicesHelper = new PlayServicesHelper(HomeActivity.this);
-
-                }
-
-                @Override
-                public void onError(List<String> errors) {
-                    Toast.makeText(HomeActivity.this, errors.toString(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-        //end messages
+        GlobalVar.onFirstHome = true;
         Intent i = getIntent();
         context = getApplicationContext();
 		mTitle = mDrawerTitle = getTitle();
@@ -430,50 +384,4 @@ public class HomeActivity extends FragmentActivity {
             startActivity(intent);
         }
     }
-
-    private void loginToChat(final QBUser user)
-    {
-        chatService.login(user, new QBEntityCallbackImpl() {
-            @Override
-            public void onSuccess() {
-                // Start sending presences
-                //
-                try {
-                    GlobalVar.quickbloxLogin = true;
-                    chatService.startAutoSendPresence(Constants.AUTO_PRESENCE_INTERVAL_IN_SECONDS);
-
-                    if(!GlobalVar.quickbloxID.equals(""))
-                    {
-                        QBDialog dialog = null;
-                        if(GlobalVar.quickbloxDialogs.size() > 0)
-                        {
-                            for (QBDialog qdialog : GlobalVar.quickbloxDialogs)
-                            {
-
-                                if(qdialog.getOccupants().contains(Integer.parseInt(GlobalVar.quickbloxID)))
-                                {
-                                    dialog = qdialog;
-                                }
-                            }
-                        }
-
-                        Intent in = new Intent(HomeActivity.this, ChatActivity.class);
-                        in.putExtra(ChatActivity.EXTRA_MODE, ChatActivity.Mode.PRIVATE);
-                        in.putExtra(ChatActivity.EXTRA_DIALOG, dialog);
-                        startActivity(in);
-                    }
-                } catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onError(List errors) {
-                Toast.makeText(HomeActivity.this, errors.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-
 }

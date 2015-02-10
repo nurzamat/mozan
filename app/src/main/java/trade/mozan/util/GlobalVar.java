@@ -31,6 +31,7 @@ public class GlobalVar {
     public static boolean messages_position;
     public static String query = "";
     public static boolean isHomeFragment;
+    public static boolean onFirstHome = false;
     public static boolean isCodeSent = false;
     public static SparseBooleanArray mSparseBooleanArray = new SparseBooleanArray();
     public static Post _Post = null;

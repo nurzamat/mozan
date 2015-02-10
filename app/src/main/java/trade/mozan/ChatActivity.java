@@ -84,6 +84,11 @@ public class ChatActivity extends Activity {
     public void onBackPressed() {
         try {
             chat.release();
+            if(!GlobalVar.onFirstHome)
+            {
+                Intent in = new Intent(ChatActivity.this, HomeActivity.class);
+                startActivity(in);
+            }
         } catch (XMPPException e) {
             Log.e(TAG, "failed to release chat", e);
         }
@@ -140,7 +145,7 @@ public class ChatActivity extends Activity {
                         if(!GlobalVar.quickbloxID.equals(""))
                         {
                             opponentID = Integer.parseInt(GlobalVar.quickbloxID);
-                            companionLabel.setText("test");
+                            companionLabel.setText("");
                         }
                         else {
                             opponentID = ((AppController) getApplication()).getOpponentIDForPrivateDialog(dialog);

@@ -26,7 +26,6 @@ import trade.mozan.AppController;
 import trade.mozan.ChatActivity;
 import trade.mozan.CodeActivity;
 import trade.mozan.FullScreenViewActivity;
-import trade.mozan.MyProfileFragment;
 import trade.mozan.R;
 import trade.mozan.RegisterActivity;
 import trade.mozan.SplashActivity;
@@ -231,6 +230,7 @@ public class PostListAdapter extends BaseAdapter {
                     }
                     else
                     {
+                        GlobalVar.quickbloxID = _m.getQuickbloxId();
                         Intent in;
                         if(GlobalVar.isCodeSent)
                             in = new Intent(activity, RegisterActivity.class);
