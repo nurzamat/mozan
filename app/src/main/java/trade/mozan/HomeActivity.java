@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -455,17 +456,11 @@ public class HomeActivity extends FragmentActivity {
                                 }
                             }
                         }
-                        /*
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable(ChatActivity.EXTRA_MODE, ChatActivity.Mode.PRIVATE);
-                        bundle.putSerializable(ChatActivity.EXTRA_DIALOG, dialog);
-                        ChatActivity.start(context, bundle);
-                        */
+
                         Intent in = new Intent(HomeActivity.this, ChatActivity.class);
                         in.putExtra(ChatActivity.EXTRA_MODE, ChatActivity.Mode.PRIVATE);
                         in.putExtra(ChatActivity.EXTRA_DIALOG, dialog);
                         startActivity(in);
-
                     }
                 } catch (Exception e)
                 {

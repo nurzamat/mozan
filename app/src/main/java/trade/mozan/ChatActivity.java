@@ -181,7 +181,6 @@ public class ChatActivity extends Activity {
 
                 try
                 {
-                    GlobalVar.quickbloxID = opponentID.toString();
                     chat.sendMessage(chatMessage);
                 }
                 catch (XMPPException e) {
