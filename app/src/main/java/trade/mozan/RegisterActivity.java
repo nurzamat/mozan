@@ -109,7 +109,12 @@ public class RegisterActivity extends Activity {
                     if(GlobalVar.messages_position)
                         in.putExtra("case", 3);
                 }
-                else in = new Intent(RegisterActivity.this, StartActivity.class);
+                else
+                {
+                    if(!GlobalVar.quickbloxID.equals(GlobalVar.Qid))
+                    in = new Intent(RegisterActivity.this, StartActivity.class);
+                    else in = new Intent(RegisterActivity.this, HomeActivity.class);
+                }
 
                 startActivity(in);
                 GlobalVar.isCodeSent = false;
