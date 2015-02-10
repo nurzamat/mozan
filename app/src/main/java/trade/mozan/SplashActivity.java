@@ -44,7 +44,6 @@ public class SplashActivity extends Activity
         }
         chatService = QBChatService.getInstance();
 
-
         // create QB user
         //
         final QBUser user = new QBUser();
@@ -85,7 +84,7 @@ public class SplashActivity extends Activity
                 try {
 
                     GlobalVar.quickbloxLogin = true;
-                    chatService.startAutoSendPresence(Constants.AUTO_PRESENCE_INTERVAL_IN_SECONDS);
+                    //chatService.startAutoSendPresence(Constants.AUTO_PRESENCE_INTERVAL_IN_SECONDS);
 
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("type", 3);

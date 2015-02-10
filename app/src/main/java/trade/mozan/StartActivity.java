@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.SearchRecentSuggestions;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -60,6 +61,10 @@ public class StartActivity extends Activity {
         GlobalVar.Qid = sp.getString(GlobalVar.MOZAN_QID, "");
 
         Log.d("StartActivity", "Phone/token/uid: " + GlobalVar.Phone  + " / " + GlobalVar.Token + " / " + GlobalVar.Uid);
+
+        SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
+                MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
+        suggestions.clearHistory();
 
         if(!ApiHelper.isConnected(StartActivity.this)){
             Toast.makeText(StartActivity.this, "No Internet connection!", Toast.LENGTH_LONG).show();

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.SearchRecentSuggestions;
 
 import trade.mozan.util.GlobalVar;
 
@@ -41,6 +42,9 @@ public class SearchResultsActivity extends Activity {
             try
             {
                 GlobalVar.query = URLEncoder.encode(query, "UTF-8");
+                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
+                        MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
+                suggestions.saveRecentQuery(query, null);
             }
             catch (UnsupportedEncodingException ex)
             {
