@@ -76,7 +76,7 @@ public class MyProfileFragment extends Fragment {
                         avatar_original_image = response.getString("avatar_original_image");
                         displayed_name = response.getString("displayed_name");
                         user = response.getString("user");
-                        avatar_30 = response.getString("avatar_30");
+                        avatar_30 = response.getString("avatar_original_image");
 
                         dname.setText(displayed_name);
                         phone.setText(user);
@@ -201,9 +201,13 @@ public class MyProfileFragment extends Fragment {
                 jsonObject.put("displayed_name", dname.getText());
                 //jsonObject.put("user", phone.getText());
                 JSONObject obj = api.editProfile(url, jsonObject); // will be checked for status ok
+                Log.d("Edit profile", obj.toString());
 
                 if(GlobalVar.image_paths.size() > 0)
-                   obj = api.sendImage(url, GlobalVar.image_paths.get(0), false); // will be checked for status ok
+                {
+                    obj = api.sendImage(url, GlobalVar.image_paths.get(0), false); // will be checked for status ok
+                    Log.d("Edit image", obj.toString());
+                }
             }
             catch (Exception ex)
             {

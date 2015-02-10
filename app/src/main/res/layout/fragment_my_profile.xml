@@ -11,7 +11,7 @@
         android:id="@+id/layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dip">
+        android:layout_marginTop="40dip">
         <ProgressBar
             android:id="@+id/spinAvatar"
             android:layout_width="wrap_content"
@@ -19,8 +19,8 @@
             android:layout_centerInParent="true"/>
         <trade.mozan.util.CustomNetworkImageView
             android:id="@+id/avatar"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:scaleType="centerCrop"
             android:layout_centerInParent="true"/>
         <ImageView

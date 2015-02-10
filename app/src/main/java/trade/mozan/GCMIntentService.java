@@ -1,10 +1,14 @@
 package trade.mozan;
 
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -65,20 +69,25 @@ public class GCMIntentService extends IntentService {
     // a GCM message.
     private void processNotification(String type, Bundle extras)
     {
+        //shared preferences
+        SharedPreferences sp = this.getSharedPreferences(GlobalVar.MOZAN,0);
+
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         final String messageValue = extras.getString("message");
+        // define sound URI, the sound to be played when there's a notification
+        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         Intent intent = new Intent(this, StartActivity.class);
         //intent.putExtra(Constants.EXTRA_MESSAGE, messageValue);
-        intent.putExtra("qid", GlobalVar.quickbloxID);
-
+        intent.putExtra("qid", sp.getString(GlobalVar.MOZAN_QID, ""));
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this).setSmallIcon(
                 R.drawable.ic_launcher).setContentTitle(Constants.GCM_NOTIFICATION).setStyle(
-                new NotificationCompat.BigTextStyle().bigText(messageValue)).setContentText(messageValue).setContentIntent(contentIntent);
+                new NotificationCompat.BigTextStyle().bigText(messageValue)).setContentText(messageValue).setContentIntent(contentIntent).setSound(soundUri);
 
-     // mBuilder.setContentIntent(contentIntent);
-        notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+        Notification n = mBuilder.build();
+        n.flags |= Notification.FLAG_AUTO_CANCEL;
+        notificationManager.notify(NOTIFICATION_ID, n);
     }
 }
