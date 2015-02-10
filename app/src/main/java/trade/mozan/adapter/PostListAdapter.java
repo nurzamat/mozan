@@ -234,7 +234,7 @@ public class PostListAdapter extends BaseAdapter {
 
                             @Override
                             public void onError(List<String> errors) {
-
+                                Toast.makeText(activity, errors.toString(), Toast.LENGTH_LONG).show();
                             }
                         });
 
